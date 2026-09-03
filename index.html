@@ -86,45 +86,21 @@
             border-color: #fff;
         }
 
-        /* ギャラリー（一覧）セクション用の簡易スタイル */
-        .gallery-section {
-            display: none; /* 初期状態は非表示（ボタンやページ切り替えで出す用） */
-            margin-top: 20px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .grid img {
-            width: 100%;
-            border: 1px solid #222;
-            display: block;
-        }
-
-        .back-btn {
-            font-size: 0.75rem;
-            color: #666;
-            cursor: pointer;
-            text-decoration: underline;
-            background: none;
-            border: none;
-            color: #888;
-            margin-top: 10px;
-        }
-        .back-btn:hover {
-            color: #fff;
+        /* 準備中（押せない）ボタン用のスタイル */
+        .btn.disabled {
+            color: #444;
+            border-color: #1a1a1a;
+            cursor: default;
+            pointer-events: none; /* クリックを完全に無効化 */
         }
     </style>
 </head>
 <body>
 
     <div class="container" id="main-view">
+        <!-- ホゲシィのアイコン画像（hogeshy.png） -->
         <div class="image-wrapper">
-            <img src="Hogeshy.png" alt="Hogeshy">
+            <img src="hogeshy.png" alt="Hogeshy">
         </div>
 
         <h1>Hogeshy</h1>
@@ -137,7 +113,9 @@
         <div class="links">
             <a href="wallpapers.html" class="btn">WALLPAPERS</a>
             <a href="icons.html" class="btn">ICONS</a>
-            <a href="https://www.instagram.com/hogeshy_ai/" class="btn" target="_blank">INSTAGRAM</a>
+            <!-- 押せないLINEスタンプのCOMING SOONボタン -->
+            <a href="#" class="btn disabled">LINE STAMP (COMING SOON)</a>
+            <a href="https://instagram.com/your_account" class="btn" target="_blank">INSTAGRAM</a>
         </div>
     </div>
 

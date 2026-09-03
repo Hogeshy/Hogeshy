@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallpapers - Hogeshy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #050505;
+            color: #d0d0d0;
+            font-family: 'Courier New', Courier, monospace, sans-serif;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            letter-spacing: 0.3em;
+            color: #fff;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        /* 2列のカラムグリッド */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .item {
+            border: 1px solid #222;
+            background: #0a0a0a;
+            padding: 10px;
+            transition: border-color 0.3s;
+        }
+
+        .item:hover {
+            border-color: #555;
+        }
+
+        .item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+            filter: grayscale(20%) contrast(110%);
+        }
+
+        .download-btn {
+            display: block;
+            padding: 8px 0;
+            background: transparent;
+            color: #aaa;
+            border: 1px solid #333;
+            text-decoration: none;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        .back-link {
+            font-size: 0.75rem;
+            color: #666;
+            text-decoration: none;
+            letter-spacing: 0.15em;
+            border-bottom: 1px solid #444;
+            padding-bottom: 2px;
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #fff;
+            border-color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Wallpapers</h1>
+
+        <div class="grid">
+            <!-- 壁紙を増やすときはこのブロックをコピーして増やす -->
+            <div class="item">
+                <img src="wallpaper1.png" alt="Wallpaper 01">
+                <a href="wallpaper1.png" download class="download-btn" target="_blank">DOWNLOAD</a>
+            </div>
+            <!-- ここまで -->
+
+            <!-- 例（2枚目を追加したいときは下のコメントアウトを外すか、上のブロックを複製する）
+            <div class="item">
+                <img src="wallpaper2.png" alt="Wallpaper 02">
+                <a href="wallpaper2.png" download class="download-btn" target="_blank">DOWNLOAD</a>
+            </div>
+            -->
+        </div>
+
+        <a href="index.html" class="back-link">&larr; BACK TO HOME</a>
+    </div>
+
+</body>
+</html>

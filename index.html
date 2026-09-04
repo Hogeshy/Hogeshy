@@ -21,17 +21,50 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            transition: background-color 1s ease;
         }
 
-        /* 環境音スイッチ（最初からONの見た目） */
+        /* 深夜帯（0時〜4時）の変貌クラス */
+        body.midnight-mode {
+            background-color: #0b0202; /* わずかに血走った暗赤色 */
+            color: #e0bcbc;
+        }
+
+        body.midnight-mode .ambient-control {
+            border-color: #511;
+            color: #c88;
+        }
+
+        body.midnight-mode h1 {
+            color: #ffcccc;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
+
+        body.midnight-mode .image-wrapper {
+            border-color: #411;
+            box-shadow: 0 0 35px rgba(100, 0, 0, 0.6);
+        }
+
+        body.midnight-mode .btn {
+            border-color: #411;
+            color: #c99;
+        }
+
+        body.midnight-mode .btn:hover {
+            background: #ffcccc;
+            color: #000;
+            border-color: #ffcccc;
+        }
+
+        /* 環境音スイッチ */
         .ambient-control {
             position: absolute;
             top: 20px;
             right: 20px;
             font-size: 0.65rem;
-            color: #fff;
+            color: #555;
             background: transparent;
-            border: 1px solid #666;
+            border: 1px solid #222;
             padding: 6px 10px;
             cursor: pointer;
             letter-spacing: 0.15em;
@@ -39,7 +72,8 @@
         }
 
         .ambient-control:hover {
-            border-color: #fff;
+            color: #fff;
+            border-color: #666;
         }
 
         .container {
@@ -210,7 +244,7 @@
             <img src="Hogeshy.png" alt="Hogeshy">
         </div>
 
-        <h1>Hogeshy</h1>
+        <h1 id="site-title">Hogeshy</h1>
         <div class="flavor-text" id="flavor-text">
             Hoge × Munashy = Hogeshy<br>
             Eats nothingness, eats canned cat food, and thinks about nothing.<br>
@@ -226,19 +260,29 @@
         </div>
 
         <div class="guestbook">
-            <div style="margin-bottom: 6px; letter-spacing: 0.1em;">Leave a trace...</div>
+            <div style="margin-bottom: 6px; letter-spacing: 0.1em;" id="trace-label">Leave a trace...</div>
             <form id="trace-form">
                 <input type="text" id="trace-input" placeholder="..." maxlength="20" autocomplete="off">
                 <button type="submit">SEND</button>
             </form>
             <div class="log-list" id="log-list">...</div>
-            <div class="copyright">&copy; Hogeshy</div>
+            <div class="copyright" id="copyright-text">&copy; Hogeshy</div>
         </div>
     </div>
 
     <script>
+        // --- 深夜変貌モードの判定 (0時〜4時) ---
+       const isMidnight = true;
+
+        if (isMidnight) {
+            document.body.classList.add('midnight-mode');
+            document.getElementById('site-title').textContent = "Hogeshy [WITCHING HOUR]";
+            document.getElementById('copyright-text').textContent = "© Hogeshy // DEEP NIGHT";
+        }
+
+        // --- 環境音 ---
         let audioCtx = null;
-        let isPlaying = true; // 最初からONの状態として扱う
+        let isPlaying = true;
         let noiseNode = null;
         let gainNode = null;
 
@@ -259,7 +303,8 @@
 
             const filter = audioCtx.createBiquadFilter();
             filter.type = 'lowpass';
-            filter.frequency.value = 250;
+            // 深夜帯のときは少し音をこもらせる（演出）
+            filter.frequency.value = isMidnight ? 180 : 250;
 
             gainNode = audioCtx.createGain();
             gainNode.gain.value = 0.04;
@@ -271,16 +316,12 @@
             noiseNode.start();
         }
 
-        // ページ読み込み時に自動再生をトライ（ブロックされた場合は最初のクリックで解除）
         window.addEventListener('load', () => {
             try {
                 startAmbientSound();
-            } catch(e) {
-                // ブロックされた場合は初回クリックに備える
-            }
+            } catch(e) {}
         });
 
-        // ユーザーが最初に画面のどこかを触った瞬間に音をアンロックして鳴らす
         document.body.addEventListener('click', function unlockAudio() {
             if (isPlaying && (!audioCtx || audioCtx.state === 'suspended')) {
                 startAmbientSound();
@@ -290,7 +331,6 @@
             }
         }, { once: true });
 
-        // サウンドボタンの手動切り替え
         document.getElementById('sound-btn').addEventListener('click', function(e) {
             e.stopPropagation();
             if (isPlaying) {
@@ -313,12 +353,12 @@
                 }
                 isPlaying = true;
                 this.textContent = "SOUND: ON";
-                this.style.borderColor = "#666";
-                this.style.color = "#fff";
+                this.style.borderColor = isMidnight ? "#511" : "#666";
+                this.style.color = isMidnight ? "#c88" : "#fff";
             }
         });
 
-        // イースターエッグ
+        // --- イースターエッグ ---
         let clickCount = 0;
         const targetImg = document.getElementById('easter-egg-target');
         const flavorText = document.getElementById('flavor-text');
@@ -326,35 +366,36 @@
         targetImg.addEventListener('click', () => {
             clickCount++;
             if (clickCount === 5) {
-                flavorText.style.color = "#fff";
+                flavorText.style.color = isMidnight ? "#ff9999" : "#fff";
                 flavorText.innerHTML = 
-                    "ACCESS DETECTED.<br>Coordinates: 33.8833° N, 130.8833° E<br>Everything is transient.";
+                    "ACCESS DETECTED.<br>Coordinates: 33.8833° N, 130.8833° E<br>" + 
+                    (isMidnight ? "WITCHING HOUR ACTIVE. THE VEIL IS THIN." : "Everything is transient.");
                 setTimeout(() => {
                     clickCount = 0;
                 }, 6000);
             }
         });
 
-        // 多彩なランダム足跡
+        // --- ランダム足跡（通常 ＆ 深夜専用） ---
         const traceForm = document.getElementById('trace-form');
         const traceInput = document.getElementById('trace-input');
         const logList = document.getElementById('log-list');
 
-        const initialTraces = [
-            "Midnight echo...", 
-            "Nothing here.", 
-            "Cold floor.", 
-            "A cat meowed somewhere.", 
-            "Just passing through.",
-            "Darkness is quiet.",
-            "Can't sleep.",
-            "Canned food was delicious.",
-            "Where is this?",
-            "3:42 AM.",
-            "Staring at the screen.",
-            "Void."
+        const normalTraces = [
+            "Midnight echo...", "Nothing here.", "Cold floor.", 
+            "A cat meowed somewhere.", "Just passing through.",
+            "Darkness is quiet.", "Can't sleep.", "Where is this?",
+            "Staring at the screen.", "Void."
         ];
-        let currentTrace = initialTraces[Math.floor(Math.random() * initialTraces.length)];
+
+        const midnightTraces = [
+            "Why are you awake?", "The world has stopped.", 
+            "Something is watching.", "3:14 AM. The deepest dark.", 
+            "Don't look behind you.", "Empty room, empty mind."
+        ];
+
+        const activeTraces = isMidnight ? midnightTraces : normalTraces;
+        let currentTrace = activeTraces[Math.floor(Math.random() * activeTraces.length)];
         logList.textContent = `> "${currentTrace}"`;
 
         traceForm.addEventListener('submit', (e) => {

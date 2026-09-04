@@ -50,6 +50,20 @@
             width: 100%;
         }
 
+        /* 訪問時の文字・全体アニメーション */
+        @keyframes reveal {
+            0% {
+                opacity: 0;
+                letter-spacing: 0.6em;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                letter-spacing: 0.3em;
+                transform: translateY(0);
+            }
+        }
+
         .image-wrapper {
             width: 220px;
             height: 220px;
@@ -59,7 +73,7 @@
             border: 1px solid #222;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
             cursor: pointer;
-            transition: filter 0.3s;
+            animation: reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .image-wrapper img {
@@ -75,6 +89,7 @@
             color: #fff;
             margin-bottom: 12px;
             text-transform: uppercase;
+            animation: reveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .flavor-text {
@@ -83,7 +98,8 @@
             line-height: 1.7;
             margin-bottom: 28px;
             letter-spacing: 0.05em;
-            transition: color 0.3s;
+            opacity: 0;
+            animation: reveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
         }
 
         .links {
@@ -91,6 +107,8 @@
             flex-direction: column;
             gap: 12px;
             margin-bottom: 30px;
+            opacity: 0;
+            animation: reveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
         }
 
         .btn {
@@ -124,6 +142,8 @@
             padding-top: 15px;
             font-size: 0.7rem;
             color: #555;
+            opacity: 0;
+            animation: reveal 2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
         }
 
         .guestbook input {
@@ -160,15 +180,22 @@
             min-height: 20px;
             letter-spacing: 0.1em;
         }
+
+        /* コピーライト表記 */
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.6rem;
+            color: #444;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
 
-    <!-- 環境音スイッチ -->
     <button class="ambient-control" id="sound-btn">SOUND: OFF</button>
 
     <div class="container">
-        <!-- イースターエッグ用クリック対象のアイコン -->
         <div class="image-wrapper" id="easter-egg-target" title="...?">
             <img src="Hogeshy.png" alt="Hogeshy">
         </div>
@@ -188,7 +215,6 @@
             <a href="https://www.instagram.com/hogeshy_ai/" class="btn" target="_blank">INSTAGRAM</a>
         </div>
 
-        <!-- 匿名の一言を残す小さな足跡 -->
         <div class="guestbook">
             <div style="margin-bottom: 6px; letter-spacing: 0.1em;">Leave a trace...</div>
             <form id="trace-form">
@@ -196,11 +222,11 @@
                 <button type="submit">SEND</button>
             </form>
             <div class="log-list" id="log-list">...</div>
+            <div class="copyright">&copy; Hogeshy</div>
         </div>
     </div>
 
     <script>
-        // 1. 環境音ジェネレーター（外部ファイル不要のWeb Audio APIによるホワイトノイズ＆低音ドローン）
         let audioCtx = null;
         let isPlaying = false;
         let noiseNode = null;
@@ -209,8 +235,10 @@
         document.getElementById('sound-btn').addEventListener('click', function() {
             if (!isPlaying) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // ホワイトノイズ生成
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
                 const bufferSize = audioCtx.sampleRate * 2;
                 const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
                 const data = buffer.getChannelData(0);
@@ -222,13 +250,12 @@
                 noiseNode.buffer = buffer;
                 noiseNode.loop = true;
 
-                // 籠もった音にするためのローパスフィルター
                 const filter = audioCtx.createBiquadFilter();
                 filter.type = 'lowpass';
-                filter.frequency.value = 300;
+                filter.frequency.value = 250;
 
                 gainNode = audioCtx.createGain();
-                gainNode.gain.value = 0.03; // 音量を控えめに
+                gainNode.gain.value = 0.04;
 
                 noiseNode.connect(filter);
                 filter.connect(gainNode);
@@ -240,8 +267,13 @@
                 this.style.borderColor = "#666";
                 this.style.color = "#fff";
             } else {
-                if (noiseNode) noiseNode.stop();
-                if (audioCtx) audioCtx.close();
+                if (noiseNode) {
+                    noiseNode.stop();
+                    noiseNode.disconnect();
+                }
+                if (audioCtx) {
+                    audioCtx.close();
+                }
                 isPlaying = false;
                 this.textContent = "SOUND: OFF";
                 this.style.borderColor = "#222";
@@ -249,7 +281,6 @@
             }
         });
 
-        // 2. シークレット・イースターエッグ（アイコンを5回連打するとフレーバーテキストが変化）
         let clickCount = 0;
         const targetImg = document.getElementById('easter-egg-target');
         const flavorText = document.getElementById('flavor-text');
@@ -266,7 +297,6 @@
             }
         });
 
-        // 3. 匿名メッセージ（ブラウザ内だけで一時的に表示される足跡ログ）
         const traceForm = document.getElementById('trace-form');
         const traceInput = document.getElementById('trace-input');
         const logList = document.getElementById('log-list');

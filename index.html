@@ -19,9 +19,13 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
+            /* overflow: hidden; を削除し、縦方向のみスクロールを許可 */
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
             transition: background-color 1s ease;
+            /* スマホで上下に余裕を持たせるためのパディング */
+            padding: 40px 0;
         }
 
         /* 深夜帯（0時〜4時）の変貌クラス */
@@ -103,12 +107,12 @@
 
         /* 環境音スイッチ */
         .ambient-control {
-            position: absolute;
+            position: fixed; /* absoluteからfixedに変えて、スクロールしても常に見えるように */
             top: 20px;
             right: 20px;
             font-size: 0.65rem;
             color: #555;
-            background: transparent;
+            background: rgba(5, 5, 5, 0.8);
             border: 1px solid #222;
             padding: 6px 10px;
             cursor: pointer;
@@ -317,9 +321,8 @@
 
     <script>
         // --- 深夜変貌モードの判定 (0時〜4時) ---
-        // テスト用： const isMidnight = true; に書き換えるといつでも強制テストできます
         const currentHour = new Date().getHours();
-const isMidnight = currentHour >= 0 && currentHour < 4;
+        const isMidnight = currentHour >= 0 && currentHour < 4;
 
         if (isMidnight) {
             document.body.classList.add('midnight-mode');
@@ -382,7 +385,6 @@ const isMidnight = currentHour >= 0 && currentHour < 4;
                 audioCtx.resume();
             }
 
-            // 既存の音源があれば止めて掃除する
             if (noiseSource) {
                 try { noiseSource.stop(); } catch(e) {}
                 noiseSource = null;
@@ -471,13 +473,13 @@ const isMidnight = currentHour >= 0 && currentHour < 4;
 
         const midnightTraces = [
             "Why are you awake?", "The world has stopped.", 
-            "Something is watching...", "3:14 AM. The deep dark.", 
+            "Something is watching...", "3:14 AM. The dark deep.", 
             "Don't look behind you.", "Empty room, empty mind.",
             "The hour of shadows.", "They know you are here."
         ];
 
         const activeTraces = isMidnight ? midnightTraces : normalTraces;
-        let currentTrace = activeTraces[Math.floor(Math.random() * activeTraces.length)] ?? activeTraces[0];
+        let currentTrace = activeTraces[Math.floor(Math.random() * activeTraces.length)] ?? activeTrops[0];
         logList.textContent = `> "${currentTrace}"`;
 
         traceForm.addEventListener('submit', (e) => {
@@ -497,7 +499,7 @@ const isMidnight = currentHour >= 0 && currentHour < 4;
                             clearInterval(fadeOutInterval);
                             setTimeout(() => {
                                 logList.textContent = `> "..."`;
-                                logList.style.filter = "blur(0px)";
+                                logList.style.filter = "blurpx)";
                             }, 1500);
                         }
                     }, 200);

@@ -34,11 +34,6 @@
             color: #e0bcbc;
         }
 
-        body.midnight-mode .ambient-control {
-            border-color: #511;
-            color: #c88;
-        }
-
         body.midnight-mode h1 {
             color: #ffcccc;
             text-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
@@ -145,28 +140,6 @@
         @keyframes particleFade {
             0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
             100% { opacity: 0; transform: translate(-50%, -50%) scale(2.5); }
-        }
-
-        /* 環境音スイッチ */
-        .ambient-control {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-size: 0.65rem;
-            color: #555;
-            background: rgba(5, 5, 5, 0.8);
-            border: 1px solid #222;
-            padding: 8px 12px;
-            cursor: pointer;
-            letter-spacing: 0.15em;
-            transition: all 0.3s;
-            z-index: 100;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .ambient-control:hover {
-            color: #fff;
-            border-color: #666;
         }
 
         .container {
@@ -345,8 +318,6 @@
 </head>
 <body>
 
-    <button class="ambient-control" id="sound-btn">SOUND: OFF</button>
-
     <div class="container">
         <div class="image-wrapper" id="easter-egg-target" title="...?">
             <img src="Hogeshy.png" alt="Hogeshy">
@@ -486,87 +457,6 @@
                 }, route * 600);
             }
         }
-
-        // --- iPad / iOS 完全対応サウンドシステム ---
-        let audioCtx = null;
-        let noiseSource = null;
-        let isPlaying = false;
-        const soundBtn = document.getElementById('sound-btn');
-
-        function initAudioContext() {
-            if (!audioCtx) {
-                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-                audioCtx = new AudioContextClass();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-        }
-
-        function playNoise() {
-            initAudioContext();
-
-            if (noiseSource) {
-                try { noiseSource.stop(); } catch(e) {}
-                noiseSource = null;
-            }
-
-            const dummyBuffer = audioCtx.createBuffer(1, 1, audioCtx.sampleRate);
-            const dummySource = audioCtx.createBufferSource();
-            dummySource.buffer = dummyBuffer;
-            dummySource.connect(audioCtx.destination);
-            dummySource.start(0);
-
-            const bufferSize = audioCtx.sampleRate * 2;
-            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-                data[i] = Math.random() * 2 - 1;
-            }
-
-            noiseSource = audioCtx.createBufferSource();
-            noiseSource.buffer = buffer;
-            noiseSource.loop = true;
-
-            const filter = audioCtx.createBiquadFilter();
-            filter.type = 'lowpass';
-            filter.frequency.value = isMidnight ? 200 : 350;
-
-            const gainNode = audioCtx.createGain();
-            gainNode.gain.value = 0.15;
-
-            noiseSource.connect(filter);
-            filter.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-
-            noiseSource.start();
-            isPlaying = true;
-
-            soundBtn.textContent = "SOUND: ON";
-            soundBtn.style.borderColor = isMidnight ? "#511" : "#666";
-            soundBtn.style.color = isMidnight ? "#c88" : "#fff";
-        }
-
-        function stopNoise() {
-            if (noiseSource) {
-                try { noiseSource.stop(); } catch(e) {}
-                noiseSource = null;
-            }
-            isPlaying = false;
-
-            soundBtn.textContent = "SOUND: OFF";
-            soundBtn.style.borderColor = "#222";
-            soundBtn.style.color = "#555";
-        }
-
-        soundBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (isPlaying) {
-                stopNoise();
-            } else {
-                playNoise();
-            }
-        });
 
         // --- イースターエッグ ---
         let clickCount = 0;

@@ -222,6 +222,48 @@
             animation: strangeAppear 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards;
         }
 
+        /* 日記セクションのスタイル */
+        .diary-container {
+            margin-bottom: 2px;
+        }
+
+        .diary-post {
+            padding: 10px 0;
+            border: 1px solid #1a1a1a;
+            background: rgba(10, 10, 10, 0.5);
+            text-align: center;
+        }
+
+        .diary-header {
+            font-size: 0.65rem;
+            color: #777;
+            letter-spacing: 0.2em;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .diary-date {
+            font-size: 0.65rem;
+            color: #555;
+            letter-spacing: 0.15em;
+        }
+
+        .secret-text {
+            font-size: 0.75rem;
+            color: #050505; /* 背景と同化させて一見白紙に見せる */
+            user-select: text;
+            -webkit-user-select: text;
+            transition: color 0.3s;
+            letter-spacing: 0.1em;
+            margin-top: 4px;
+        }
+
+        /* マウスでドラッグして選択した瞬間だけ文字が浮かび上がる */
+        .secret-text::selection {
+            background-color: #ff4444;
+            color: #000000;
+        }
+
         .btn {
             display: block;
             padding: 12px 0;
@@ -330,13 +372,14 @@
             But, probably happy.
         </div>
 
-        <div class="links">
-            <a href="wallpapers.html" class="btn">WALLPAPERS</a>
-            <a href="icons.html" class="btn">ICONS</a>
-            <a href="gallery.html" class="btn">GALLERY</a>
-            <a href="#" class="btn disabled">LINE STAMP (COMING SOON)</a>
-            <a href="https://www.instagram.com/hogeshy_ai/" class="btn" target="_blank">INSTAGRAM</a>
-        </div>
+       <div class="links">
+    <a href="diary.html" class="btn">DIARY ARCHIVE</a>
+    <a href="wallpapers.html" class="btn">WALLPAPERS</a>
+    <a href="icons.html" class="btn">ICONS</a>
+    <a href="gallery.html" class="btn">GALLERY</a>
+    <a href="#" class="btn disabled">LINE STAMP (COMING SOON)</a>
+    <a href="https://www.instagram.com/hogeshy_ai/" class="btn" target="_blank">INSTAGRAM</a>
+</div>
 
         <div class="guestbook">
             <div style="margin-bottom: 6px; letter-spacing: 0.1em;" id="trace-label">Leave a trace...</div>

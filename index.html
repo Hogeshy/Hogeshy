@@ -19,11 +19,13 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
             transition: background-color 1s ease;
             -webkit-user-select: none;
             user-select: none;
+            padding: 40px 0;
         }
 
         /* 深夜帯（0時〜4時）の変貌クラス */
@@ -72,7 +74,7 @@
             animation: glitchFlash 0.6s steps(2, start) forwards;
         }
 
-        /* 1. タイトルの常時＆ランダム・テキストグリッチ */
+        /* タイトルのランダム・テキストグリッチ */
         @keyframes textGlitch {
             0% { transform: translate(0); filter: none; }
             20% { transform: translate(-1px, 1px); filter: contrast(200%); }
@@ -122,7 +124,7 @@
             100% { opacity: 0; transform: scale(1.15); }
         }
 
-        /* 2. タップ・マウス軌跡のノイズ粒子 */
+        /* タップ・マウス軌跡のノイズ粒子 */
         .touch-particle {
             position: absolute;
             width: 6px;
@@ -147,18 +149,18 @@
 
         /* 環境音スイッチ */
         .ambient-control {
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
             font-size: 0.65rem;
             color: #555;
-            background: transparent;
+            background: rgba(5, 5, 5, 0.8);
             border: 1px solid #222;
             padding: 8px 12px;
             cursor: pointer;
             letter-spacing: 0.15em;
             transition: all 0.3s;
-            z-index: 20;
+            z-index: 100;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -173,6 +175,7 @@
             padding: 20px;
             width: 100%;
             z-index: 20;
+            margin: auto;
         }
 
         @keyframes strangeAppear {
@@ -280,26 +283,41 @@
             animation: strangeAppear 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.8s forwards;
         }
 
+        .guestbook form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
         .guestbook input {
             background: #0a0a0a;
             border: 1px solid #222;
             color: #aaa;
-            padding: 6px;
+            padding: 8px;
             font-family: inherit;
-            font-size: 0.7rem;
-            width: 70%;
-            margin-right: 5px;
+            font-size: 0.75rem;
+            width: 72%;
             outline: none;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .guestbook input:focus {
+            border-color: #555;
+            color: #fff;
         }
 
         .guestbook button {
             background: transparent;
             border: 1px solid #333;
             color: #888;
-            padding: 6px 10px;
+            padding: 8px 12px;
             font-family: inherit;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             cursor: pointer;
+            transition: all 0.3s;
         }
 
         .guestbook button:hover {
@@ -390,7 +408,6 @@
             const glitchChars = ['#', '3', '%', 'x', '7', '_', 'sh', '0', '~'];
             if (Math.random() > 0.4) {
                 titleSpan.classList.add('glitching-active');
-                // 瞬間的に文字の一部を化けさせる
                 if (Math.random() > 0.5) {
                     titleSpan.textContent = "H0g3sh" + glitchChars[Math.floor(Math.random() * glitchChars.length)];
                 }
@@ -399,7 +416,6 @@
                     titleSpan.textContent = originalTitleText;
                 }, Math.random() * 250 + 100);
             }
-            // ランダムな間隔で再度発動
             setTimeout(triggerTextGlitch, Math.random() * 4000 + 2000);
         }
         setTimeout(triggerTextGlitch, 2000);
@@ -418,14 +434,12 @@
             }, 800);
         }
 
-        // PC（マウス）
         window.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.7) { // 頻度を調整して軽快に
+            if (Math.random() > 0.7) {
                 createParticle(e.clientX, e.clientY);
             }
         });
 
-        // スマホ・iPad（タッチ操作）
         window.addEventListener('touchmove', (e) => {
             const touch = e.touches[0];
             if (touch && Math.random() > 0.5) {

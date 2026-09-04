@@ -23,15 +23,15 @@
             position: relative;
         }
 
-        /* 画面右上の環境音スイッチ */
+        /* 環境音スイッチ（最初からONの見た目） */
         .ambient-control {
             position: absolute;
             top: 20px;
             right: 20px;
             font-size: 0.65rem;
-            color: #555;
+            color: #fff;
             background: transparent;
-            border: 1px solid #222;
+            border: 1px solid #666;
             padding: 6px 10px;
             cursor: pointer;
             letter-spacing: 0.15em;
@@ -39,8 +39,7 @@
         }
 
         .ambient-control:hover {
-            color: #fff;
-            border-color: #666;
+            border-color: #fff;
         }
 
         .container {
@@ -50,17 +49,27 @@
             width: 100%;
         }
 
-        /* 訪問時の文字・全体アニメーション */
-        @keyframes reveal {
+        /* 奇妙に揺らぎながら現れるアニメーション */
+        @keyframes strangeAppear {
             0% {
                 opacity: 0;
-                letter-spacing: 0.6em;
-                transform: translateY(10px);
+                transform: translateY(15px) scale(0.98);
+                filter: blur(6px);
+            }
+            40% {
+                opacity: 0.4;
+                transform: translateY(-3px) scale(1.01);
+                filter: blur(2px);
+            }
+            70% {
+                opacity: 0.8;
+                transform: translateY(1px) scale(1);
+                filter: blur(0.5px);
             }
             100% {
                 opacity: 1;
-                letter-spacing: 0.3em;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
+                filter: blur(0);
             }
         }
 
@@ -73,7 +82,7 @@
             border: 1px solid #222;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
             cursor: pointer;
-            animation: reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: strangeAppear 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
         .image-wrapper img {
@@ -89,7 +98,8 @@
             color: #fff;
             margin-bottom: 12px;
             text-transform: uppercase;
-            animation: reveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: strangeAppear 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+            opacity: 0;
         }
 
         .flavor-text {
@@ -99,7 +109,7 @@
             margin-bottom: 28px;
             letter-spacing: 0.05em;
             opacity: 0;
-            animation: reveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+            animation: strangeAppear 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards;
         }
 
         .links {
@@ -108,7 +118,7 @@
             gap: 12px;
             margin-bottom: 30px;
             opacity: 0;
-            animation: reveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+            animation: strangeAppear 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards;
         }
 
         .btn {
@@ -136,14 +146,14 @@
             pointer-events: none;
         }
 
-        /* 匿名メッセージ（小さな足跡掲示板） */
+        /* 匿名メッセージ */
         .guestbook {
             border-top: 1px solid #1a1a1a;
             padding-top: 15px;
             font-size: 0.7rem;
             color: #555;
             opacity: 0;
-            animation: reveal 2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+            animation: strangeAppear 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.8s forwards;
         }
 
         .guestbook input {
@@ -193,7 +203,7 @@
 </head>
 <body>
 
-    <button class="ambient-control" id="sound-btn">SOUND: OFF</button>
+    <button class="ambient-control" id="sound-btn">SOUND: ON</button>
 
     <div class="container">
         <div class="image-wrapper" id="easter-egg-target" title="...?">
@@ -228,59 +238,87 @@
 
     <script>
         let audioCtx = null;
-        let isPlaying = false;
+        let isPlaying = true; // 最初からONの状態として扱う
         let noiseNode = null;
         let gainNode = null;
 
-        document.getElementById('sound-btn').addEventListener('click', function() {
-            if (!isPlaying) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                if (audioCtx.state === 'suspended') {
+        function startAmbientSound() {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            const bufferSize = audioCtx.sampleRate * 2;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+
+            noiseNode = audioCtx.createBufferSource();
+            noiseNode.buffer = buffer;
+            noiseNode.loop = true;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 250;
+
+            gainNode = audioCtx.createGain();
+            gainNode.gain.value = 0.04;
+
+            noiseNode.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            noiseNode.start();
+        }
+
+        // ページ読み込み時に自動再生をトライ（ブロックされた場合は最初のクリックで解除）
+        window.addEventListener('load', () => {
+            try {
+                startAmbientSound();
+            } catch(e) {
+                // ブロックされた場合は初回クリックに備える
+            }
+        });
+
+        // ユーザーが最初に画面のどこかを触った瞬間に音をアンロックして鳴らす
+        document.body.addEventListener('click', function unlockAudio() {
+            if (isPlaying && (!audioCtx || audioCtx.state === 'suspended')) {
+                startAmbientSound();
+                if (audioCtx && audioCtx.state === 'suspended') {
                     audioCtx.resume();
                 }
+            }
+        }, { once: true });
 
-                const bufferSize = audioCtx.sampleRate * 2;
-                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                const data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = Math.random() * 2 - 1;
-                }
-
-                noiseNode = audioCtx.createBufferSource();
-                noiseNode.buffer = buffer;
-                noiseNode.loop = true;
-
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.value = 250;
-
-                gainNode = audioCtx.createGain();
-                gainNode.gain.value = 0.04;
-
-                noiseNode.connect(filter);
-                filter.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-
-                noiseNode.start();
-                isPlaying = true;
-                this.textContent = "SOUND: ON";
-                this.style.borderColor = "#666";
-                this.style.color = "#fff";
-            } else {
+        // サウンドボタンの手動切り替え
+        document.getElementById('sound-btn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (isPlaying) {
                 if (noiseNode) {
                     noiseNode.stop();
                     noiseNode.disconnect();
                 }
                 if (audioCtx) {
                     audioCtx.close();
+                    audioCtx = null;
                 }
                 isPlaying = false;
                 this.textContent = "SOUND: OFF";
                 this.style.borderColor = "#222";
                 this.style.color = "#555";
+            } else {
+                startAmbientSound();
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                isPlaying = true;
+                this.textContent = "SOUND: ON";
+                this.style.borderColor = "#666";
+                this.style.color = "#fff";
             }
         });
 
+        // イースターエッグ
         let clickCount = 0;
         const targetImg = document.getElementById('easter-egg-target');
         const flavorText = document.getElementById('flavor-text');
@@ -297,11 +335,25 @@
             }
         });
 
+        // 多彩なランダム足跡
         const traceForm = document.getElementById('trace-form');
         const traceInput = document.getElementById('trace-input');
         const logList = document.getElementById('log-list');
 
-        const initialTraces = ["Midnight echo...", "Nothing here.", "Cold floor."];
+        const initialTraces = [
+            "Midnight echo...", 
+            "Nothing here.", 
+            "Cold floor.", 
+            "A cat meowed somewhere.", 
+            "Just passing through.",
+            "Darkness is quiet.",
+            "Can't sleep.",
+            "Canned food was delicious.",
+            "Where is this?",
+            "3:42 AM.",
+            "Staring at the screen.",
+            "Void."
+        ];
         let currentTrace = initialTraces[Math.floor(Math.random() * initialTraces.length)];
         logList.textContent = `> "${currentTrace}"`;
 

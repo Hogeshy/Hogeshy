@@ -51,7 +51,6 @@
             text-transform: uppercase;
         }
 
-        /* ギャラリー用のグリッドレイアウト */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -69,19 +68,18 @@
         .gallery-video {
             width: 100%;
             height: auto;
-            aspect-ratio: 9/16; /* スマホ比率 */
+            aspect-ratio: 9/16;
             object-fit: cover;
             display: block;
             border: 1px solid #1a1a1a;
         }
 
-        /* 動画の上に被せて、長押しや保存メニューを防ぐ透明な壁 */
         .video-guard {
             position: absolute;
             top: 15px;
             left: 15px;
             right: 15px;
-            bottom: 50px; /* タイトル分の余地を空ける */
+            bottom: 50px;
             z-index: 10;
             background: transparent;
         }
@@ -94,7 +92,7 @@
         }
     </style>
 </head>
-<body oncontextmenu="return false;"> <!-- ページ全体の右クリックを禁止 -->
+<body oncontextmenu="return false;">
 
     <div class="container">
         <div class="header">
@@ -104,26 +102,43 @@
         </div>
 
         <div class="grid">
-            <!-- 作品1：動く映像展示 -->
             <div class="gallery-card">
-                <video src="animation1.mp4" autoplay loop muted playsinline class="gallery-video"></video>
+                <video src="animation1.mp4" loop muted playsinline preload="none" class="gallery-video"></video>
                 <div class="video-guard"></div>
                 <div class="card-title">UNTITLED_01</div>
             </div>
+
             <div class="gallery-card">
-                <video src="animation2.mp4" autoplay loop muted playsinline class="gallery-video"></video>
+                <video src="animation2.mp4" loop muted playsinline preload="none" class="gallery-video"></video>
                 <div class="video-guard"></div>
                 <div class="card-title">UNTITLED_02</div>
             </div>
-                        <div class="gallery-card">
-                <video src="animation3.mp4" autoplay loop muted playsinline class="gallery-video"></video>
+
+            <div class="gallery-card">
+                <video src="animation3.mp4" loop muted playsinline preload="none" class="gallery-video"></video>
                 <div class="video-guard"></div>
                 <div class="card-title">UNTITLED_03</div>
             </div>
-            <!-- （今後作品を増やすときは、この .gallery-card ごとコピーして追加できます） -->
-            
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const videos = document.querySelectorAll(".gallery-video");
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.play().catch(() => {});
+                    } else {
+                        entry.target.pause();
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            videos.forEach(video => observer.observe(video));
+        });
+    </script>
 
 </body>
 </html>

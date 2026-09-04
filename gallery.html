@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Hogeshy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #050505;
+            color: #d0d0d0;
+            font-family: 'Courier New', Courier, monospace, sans-serif;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 20px;
+        }
+
+        .back-btn {
+            color: #777;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            letter-spacing: 0.3em;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        /* ギャラリー用のグリッドレイアウト */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .gallery-card {
+            position: relative;
+            background: #0a0a0a;
+            border: 1px solid #222;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .gallery-video {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 9/16; /* スマホ比率 */
+            object-fit: cover;
+            display: block;
+            border: 1px solid #1a1a1a;
+        }
+
+        /* 動画の上に被せて、長押しや保存メニューを防ぐ透明な壁 */
+        .video-guard {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 50px; /* タイトル分の余地を空ける */
+            z-index: 10;
+            background: transparent;
+        }
+
+        .card-title {
+            margin-top: 15px;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: #777;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;"> <!-- ページ全体の右クリックを禁止 -->
+
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">&larr; BACK</a>
+            <h1>Gallery</h1>
+            <div style="width: 50px;"></div>
+        </div>
+
+        <div class="grid">
+            <!-- 作品1：動く映像展示 -->
+            <div class="gallery-card">
+                <video src="animation1.mp4" autoplay loop muted playsinline class="gallery-video"></video>
+                <div class="video-guard"></div>
+                <div class="card-title">UNTITLED_01</div>
+            </div>
+
+            <!-- （今後作品を増やすときは、この .gallery-card ごとコピーして追加できます） -->
+        </div>
+    </div>
+
+</body>
+</html>

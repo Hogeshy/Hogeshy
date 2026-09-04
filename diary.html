@@ -6,104 +6,98 @@
     <title>Hogeshy Diary Archive</title>
     <style>
         body {
-            background-color: #0d0d0d;
-            color: #e0e0e0;
+            background-color: #0a0a0a;
+            color: #888;
             font-family: 'Courier New', Courier, monospace;
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 60px;
+            /* 真ん中に寄せる設定を外し、左上に配置 */
+            display: block;
             min-height: 100vh;
+            overflow-x: hidden;
         }
         .container {
             width: 100%;
-            max-width: 800px;
-            background: #161616;
-            border: 1px solid #333;
-            padding: 30px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            max-width: 700px;
         }
         h1 {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-            margin-top: 0;
-            color: #aaa;
+            font-size: 1rem;
+            letter-spacing: 4px;
+            color: #444;
+            margin-bottom: 40px;
+            text-transform: uppercase;
         }
         .archive-layout {
             display: flex;
-            gap: 20px;
-            margin-top: 20px;
+            flex-direction: column;
+            gap: 40px;
         }
-        /* 左側：縦スクロールする日付リスト */
+        @media (min-width: 600px) {
+            .archive-layout {
+                flex-direction: row;
+                gap: 80px;
+            }
+        }
+        /* 左側：日付の羅列 */
         .date-list {
-            flex: 1;
-            max-height: 400px;
-            overflow-y: auto;
-            border-right: 1px solid #222;
-            padding-right: 15px;
-        }
-        .date-item {
-            padding: 10px;
-            cursor: pointer;
-            border-bottom: 1px dashed #222;
-            transition: background 0.2s, color 0.2s;
-            font-size: 0.9rem;
-        }
-        .date-item:hover, .date-item.active {
-            background: #222;
-            color: #fff;
-            padding-left: 15px;
-        }
-        /* 右側：選んだ日記の内容が表示される場所 */
-        .diary-viewer {
-            flex: 2;
-            background: #111;
-            padding: 20px;
-            border: 1px solid #222;
-            min-height: 200px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            gap: 12px;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        .date-item {
+            cursor: pointer;
+            color: #555;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: color 0.2s;
+        }
+        .date-item:hover {
+            color: #aaa;
+        }
+        .date-item.active {
+            color: #fff;
+            text-decoration: underline;
+        }
+        /* 右側：選択した日記の表示エリア */
+        .diary-viewer {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 150px;
+            max-width: 400px;
         }
         .viewer-date {
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 10px;
+            font-size: 0.75rem;
+            color: #333;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
         }
-        /* 普段は黒に馴染んで見えないが、マウスで選択（ドラッグ）すると浮かび上がる仕掛け */
+        /* 普段は闇に溶けて見えないが、ドラッグ（選択）すると浮かび上がる仕掛け */
         .viewer-content {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #111;
-            background-color: #111;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #0a0a0a;
+            background-color: #0a0a0a;
             user-select: text;
-            transition: color 0.3s ease;
         }
-        /* ドラッグしている最中や、マウスを乗せたときにうっすら見える演出（または選択で浮き出る） */
         .viewer-content::selection {
             background: #333;
             color: #fff;
         }
-        .viewer-content:hover {
-            color: #222; /* ホバーするだけでは見えにくく、ドラッグ（選択）すると読める */
-        }
-        .hint {
-            font-size: 0.75rem;
-            color: #444;
-            margin-top: 15px;
-        }
         .back-link {
             display: inline-block;
-            margin-top: 20px;
-            color: #666;
+            margin-top: 60px;
+            color: #444;
             text-decoration: none;
-            font-size: 0.8rem;
+5            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: color 0.2s;
         }
         .back-link:hover {
-            color: #fff;
+            color: #aaa;
         }
         /* 自動挿入用の非表示エリア（JSで読み取る用） */
         .raw-posts {
@@ -114,20 +108,20 @@
 <body>
 
     <div class="container">
-        <h1>DIARY ARCHIVE</h1>
+        <h1>Archive</h1>
         
         <div class="archive-layout">
+            <!-- 左側：日付リスト -->
             <div class="date-list" id="dateList"></div>
+
+            <!-- 右側：テキストビューア -->
             <div class="diary-viewer">
-                <div>
-                    <div class="viewer-date" id="viewerDate">日付を選んでください</div>
-                    <div class="viewer-content" id="viewerContent">ここにその日の記録が浮かび上がります。</div>
-                    <!--<div class="hint">※ ドラッグして選択すると文字が浮かび上がります</div>-->
-                </div>
+                <div class="viewer-date" id="viewerDate">----.--.--</div>
+                <div class="viewer-content" id="viewerContent">...</div>
             </div>
         </div>
 
-        <a href="index.html" class="back-link">← TOPに戻る</a>
+        <a href="index.html" class="back-link">&larr; return</a>
     </div>
 
     <!-- 自動更新プログラムが新しい日記をこの目印の直下に挿入します -->

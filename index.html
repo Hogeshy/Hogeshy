@@ -20,6 +20,27 @@
             align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 画面右上の環境音スイッチ */
+        .ambient-control {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.65rem;
+            color: #555;
+            background: transparent;
+            border: 1px solid #222;
+            padding: 6px 10px;
+            cursor: pointer;
+            letter-spacing: 0.15em;
+            transition: all 0.3s;
+        }
+
+        .ambient-control:hover {
+            color: #fff;
+            border-color: #666;
         }
 
         .container {
@@ -37,6 +58,8 @@
             overflow: hidden;
             border: 1px solid #222;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+            cursor: pointer;
+            transition: filter 0.3s;
         }
 
         .image-wrapper img {
@@ -60,12 +83,14 @@
             line-height: 1.7;
             margin-bottom: 28px;
             letter-spacing: 0.05em;
+            transition: color 0.3s;
         }
 
         .links {
             display: flex;
             flex-direction: column;
             gap: 12px;
+            margin-bottom: 30px;
         }
 
         .btn {
@@ -86,24 +111,70 @@
             border-color: #fff;
         }
 
-        /* 準備中（押せない）ボタン用のスタイル */
         .btn.disabled {
             color: #444;
             border-color: #1a1a1a;
             cursor: default;
             pointer-events: none;
         }
+
+        /* 匿名メッセージ（小さな足跡掲示板） */
+        .guestbook {
+            border-top: 1px solid #1a1a1a;
+            padding-top: 15px;
+            font-size: 0.7rem;
+            color: #555;
+        }
+
+        .guestbook input {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            color: #aaa;
+            padding: 6px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            width: 70%;
+            margin-right: 5px;
+            outline: none;
+        }
+
+        .guestbook button {
+            background: transparent;
+            border: 1px solid #333;
+            color: #888;
+            padding: 6px 10px;
+            font-family: inherit;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .guestbook button:hover {
+            color: #fff;
+            border-color: #666;
+        }
+
+        .log-list {
+            margin-top: 10px;
+            color: #444;
+            font-size: 0.65rem;
+            min-height: 20px;
+            letter-spacing: 0.1em;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container" id="main-view">
-        <div class="image-wrapper">
+    <!-- 環境音スイッチ -->
+    <button class="ambient-control" id="sound-btn">SOUND: OFF</button>
+
+    <div class="container">
+        <!-- イースターエッグ用クリック対象のアイコン -->
+        <div class="image-wrapper" id="easter-egg-target" title="...?">
             <img src="Hogeshy.png" alt="Hogeshy">
         </div>
 
         <h1>Hogeshy</h1>
-        <div class="flavor-text">
+        <div class="flavor-text" id="flavor-text">
             Hoge × Munashy = Hogeshy<br>
             Eats nothingness, eats canned cat food, and thinks about nothing.<br>
             But, probably happy.
@@ -116,7 +187,103 @@
             <a href="#" class="btn disabled">LINE STAMP (COMING SOON)</a>
             <a href="https://www.instagram.com/hogeshy_ai/" class="btn" target="_blank">INSTAGRAM</a>
         </div>
+
+        <!-- 匿名の一言を残す小さな足跡 -->
+        <div class="guestbook">
+            <div style="margin-bottom: 6px; letter-spacing: 0.1em;">Leave a trace...</div>
+            <form id="trace-form">
+                <input type="text" id="trace-input" placeholder="..." maxlength="20" autocomplete="off">
+                <button type="submit">SEND</button>
+            </form>
+            <div class="log-list" id="log-list">...</div>
+        </div>
     </div>
+
+    <script>
+        // 1. 環境音ジェネレーター（外部ファイル不要のWeb Audio APIによるホワイトノイズ＆低音ドローン）
+        let audioCtx = null;
+        let isPlaying = false;
+        let noiseNode = null;
+        let gainNode = null;
+
+        document.getElementById('sound-btn').addEventListener('click', function() {
+            if (!isPlaying) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // ホワイトノイズ生成
+                const bufferSize = audioCtx.sampleRate * 2;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                noiseNode = audioCtx.createBufferSource();
+                noiseNode.buffer = buffer;
+                noiseNode.loop = true;
+
+                // 籠もった音にするためのローパスフィルター
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = 300;
+
+                gainNode = audioCtx.createGain();
+                gainNode.gain.value = 0.03; // 音量を控えめに
+
+                noiseNode.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                noiseNode.start();
+                isPlaying = true;
+                this.textContent = "SOUND: ON";
+                this.style.borderColor = "#666";
+                this.style.color = "#fff";
+            } else {
+                if (noiseNode) noiseNode.stop();
+                if (audioCtx) audioCtx.close();
+                isPlaying = false;
+                this.textContent = "SOUND: OFF";
+                this.style.borderColor = "#222";
+                this.style.color = "#555";
+            }
+        });
+
+        // 2. シークレット・イースターエッグ（アイコンを5回連打するとフレーバーテキストが変化）
+        let clickCount = 0;
+        const targetImg = document.getElementById('easter-egg-target');
+        const flavorText = document.getElementById('flavor-text');
+
+        targetImg.addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 5) {
+                flavorText.style.color = "#fff";
+                flavorText.innerHTML = 
+                    "ACCESS DETECTED.<br>Coordinates: 33.8833° N, 130.8833° E<br>Everything is transient.";
+                setTimeout(() => {
+                    clickCount = 0;
+                }, 6000);
+            }
+        });
+
+        // 3. 匿名メッセージ（ブラウザ内だけで一時的に表示される足跡ログ）
+        const traceForm = document.getElementById('trace-form');
+        const traceInput = document.getElementById('trace-input');
+        const logList = document.getElementById('log-list');
+
+        const initialTraces = ["Midnight echo...", "Nothing here.", "Cold floor."];
+        let currentTrace = initialTraces[Math.floor(Math.random() * initialTraces.length)];
+        logList.textContent = `> "${currentTrace}"`;
+
+        traceForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const val = traceInput.value.trim();
+            if (val) {
+                logList.textContent = `> "${val}"`;
+                traceInput.value = "";
+            }
+        });
+    </script>
 
 </body>
 </html>

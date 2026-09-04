@@ -19,16 +19,22 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow: hidden;
             position: relative;
             transition: background-color 1s ease;
-            overflow-y: auto;
-            overflow-x: hidden;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         /* 深夜帯（0時〜4時）の変貌クラス */
         body.midnight-mode {
             background-color: #0b0202;
             color: #e0bcbc;
+        }
+
+        body.midnight-mode .ambient-control {
+            border-color: #511;
+            color: #c88;
         }
 
         body.midnight-mode h1 {
@@ -52,7 +58,7 @@
             border-color: #ffcccc;
         }
 
-        /* グリッチ演出 */
+        /* グリッチ演出（全体） */
         @keyframes glitchFlash {
             0% { opacity: 1; filter: none; }
             10% { opacity: 0.3; filter: invert(80%) hue-rotate(90deg); transform: translateX(-2px); }
@@ -66,7 +72,26 @@
             animation: glitchFlash 0.6s steps(2, start) forwards;
         }
 
-        /* 赤い猫の足跡（深夜モード時のみ出現） */
+        /* 1. タイトルの常時＆ランダム・テキストグリッチ */
+        @keyframes textGlitch {
+            0% { transform: translate(0); filter: none; }
+            20% { transform: translate(-1px, 1px); filter: contrast(200%); }
+            40% { transform: translate(-2px, -1px); filter: blur(0.5px); }
+            60% { transform: translate(1px, 1px); filter: none; }
+            80% { transform: translate(1px, -1px); filter: invert(20%); }
+            100% { transform: translate(0); filter: none; }
+        }
+
+        .glitch-text {
+            display: inline-block;
+        }
+
+        .glitching-active {
+            animation: textGlitch 0.2s steps(2, start) infinite;
+            color: #ff4444 !important;
+        }
+
+        /* 赤い猫の足跡（深夜モード時のみ自動出現） */
         .paw-print {
             position: absolute;
             width: 15px;
@@ -97,10 +122,55 @@
             100% { opacity: 0; transform: scale(1.15); }
         }
 
+        /* 2. タップ・マウス軌跡のノイズ粒子 */
+        .touch-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: rgba(180, 180, 180, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            animation: particleFade 0.8s ease-out forwards;
+            z-index: 99;
+        }
+
+        body.midnight-mode .touch-particle {
+            background-color: rgba(200, 30, 30, 0.7);
+            box-shadow: 0 0 6px rgba(255, 0, 0, 0.8);
+        }
+
+        @keyframes particleFade {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(2.5); }
+        }
+
+        /* 環境音スイッチ */
+        .ambient-control {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.65rem;
+            color: #555;
+            background: transparent;
+            border: 1px solid #222;
+            padding: 8px 12px;
+            cursor: pointer;
+            letter-spacing: 0.15em;
+            transition: all 0.3s;
+            z-index: 20;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ambient-control:hover {
+            color: #fff;
+            border-color: #666;
+        }
+
         .container {
             text-align: center;
             max-width: 440px;
-            padding: 40px 20px;
+            padding: 20px;
             width: 100%;
             z-index: 20;
         }
@@ -257,12 +327,14 @@
 </head>
 <body>
 
+    <button class="ambient-control" id="sound-btn">SOUND: OFF</button>
+
     <div class="container">
         <div class="image-wrapper" id="easter-egg-target" title="...?">
             <img src="Hogeshy.png" alt="Hogeshy">
         </div>
 
-        <h1 id="site-title">Hogeshy</h1>
+        <h1 id="site-title"><span class="glitch-text" id="title-text">Hogeshy</span></h1>
         <div class="flavor-text" id="flavor-text">
             Hoge × Munashy = Hogeshy<br>
             Eats nothingness, eats canned cat food, and thinks about nothing.<br>
@@ -297,7 +369,7 @@
             document.body.classList.add('midnight-mode');
             
             const titles = ["Hogeshy [3:03 AM]", "Hogeshy [WITCHING HOUR]", "Hog...sh..."];
-            document.getElementById('site-title').textContent = titles[Math.floor(Math.random() * titles.length)];
+            document.getElementById('title-text').textContent = titles[Math.floor(Math.random() * titles.length)];
             document.getElementById('copyright-text').textContent = "© Hogeshy // THE VEIL IS THIN";
 
             window.addEventListener('load', () => {
@@ -309,6 +381,67 @@
                 setTimeout(spawnMassivePawPrints, 3200);
             });
         }
+
+        // --- 1. ランダム・テキストグリッチ（不意に文字が歪む） ---
+        const titleSpan = document.getElementById('title-text');
+        const originalTitleText = titleSpan.textContent;
+
+        function triggerTextGlitch() {
+            const glitchChars = ['#', '3', '%', 'x', '7', '_', 'sh', '0', '~'];
+            if (Math.random() > 0.4) {
+                titleSpan.classList.add('glitching-active');
+                // 瞬間的に文字の一部を化けさせる
+                if (Math.random() > 0.5) {
+                    titleSpan.textContent = "H0g3sh" + glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                }
+                setTimeout(() => {
+                    titleSpan.classList.remove('glitching-active');
+                    titleSpan.textContent = originalTitleText;
+                }, Math.random() * 250 + 100);
+            }
+            // ランダムな間隔で再度発動
+            setTimeout(triggerTextGlitch, Math.random() * 4000 + 2000);
+        }
+        setTimeout(triggerTextGlitch, 2000);
+
+
+        // --- 2. タップ・マウス軌跡のノイズ粒子（スマホ・iPad・PC完全対応） ---
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.className = 'touch-particle';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 800);
+        }
+
+        // PC（マウス）
+        window.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.7) { // 頻度を調整して軽快に
+                createParticle(e.clientX, e.clientY);
+            }
+        });
+
+        // スマホ・iPad（タッチ操作）
+        window.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            if (touch && Math.random() > 0.5) {
+                createParticle(touch.clientX, touch.clientY);
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            if (touch) {
+                for (let i = 0; i < 2; i++) {
+                    createParticle(touch.clientX + (Math.random() * 20 - 10), touch.clientY + (Math.random() * 20 - 10));
+                }
+            }
+        }, { passive: true });
+
 
         function spawnMassivePawPrints() {
             for (let route = 0; route < 3; route++) {
@@ -339,6 +472,87 @@
                 }, route * 600);
             }
         }
+
+        // --- iPad / iOS 完全対応サウンドシステム ---
+        let audioCtx = null;
+        let noiseSource = null;
+        let isPlaying = false;
+        const soundBtn = document.getElementById('sound-btn');
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContextClass();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playNoise() {
+            initAudioContext();
+
+            if (noiseSource) {
+                try { noiseSource.stop(); } catch(e) {}
+                noiseSource = null;
+            }
+
+            const dummyBuffer = audioCtx.createBuffer(1, 1, audioCtx.sampleRate);
+            const dummySource = audioCtx.createBufferSource();
+            dummySource.buffer = dummyBuffer;
+            dummySource.connect(audioCtx.destination);
+            dummySource.start(0);
+
+            const bufferSize = audioCtx.sampleRate * 2;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+
+            noiseSource = audioCtx.createBufferSource();
+            noiseSource.buffer = buffer;
+            noiseSource.loop = true;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = isMidnight ? 200 : 350;
+
+            const gainNode = audioCtx.createGain();
+            gainNode.gain.value = 0.15;
+
+            noiseSource.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            noiseSource.start();
+            isPlaying = true;
+
+            soundBtn.textContent = "SOUND: ON";
+            soundBtn.style.borderColor = isMidnight ? "#511" : "#666";
+            soundBtn.style.color = isMidnight ? "#c88" : "#fff";
+        }
+
+        function stopNoise() {
+            if (noiseSource) {
+                try { noiseSource.stop(); } catch(e) {}
+                noiseSource = null;
+            }
+            isPlaying = false;
+
+            soundBtn.textContent = "SOUND: OFF";
+            soundBtn.style.borderColor = "#222";
+            soundBtn.style.color = "#555";
+        }
+
+        soundBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isPlaying) {
+                stopNoise();
+            } else {
+                playNoise();
+            }
+        });
 
         // --- イースターエッグ ---
         let clickCount = 0;

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hogeshy - Diary Archive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #050505;
+            color: #d0d0d0;
+            font-family: 'Courier New', Courier, monospace, sans-serif;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 60px 20px;
+            overflow-y: auto;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            letter-spacing: 0.3em;
+            color: #fff;
+            margin-bottom: 30px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .diary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .diary-post {
+            padding: 14px 16px;
+            border: 1px solid #1a1a1a;
+            background: rgba(10, 10, 10, 0.5);
+        }
+
+        .diary-date {
+            font-size: 0.65rem;
+            color: #555;
+            letter-spacing: 0.15em;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .secret-text {
+            font-size: 0.75rem;
+            color: #050505; /* 一見白紙（ドラッグで浮かび上がる） */
+            user-select: text;
+            -webkit-user-select: text;
+            transition: color 0.3s;
+            letter-spacing: 0.1em;
+        }
+
+        .secret-text::selection {
+            background-color: #ff4444;
+            color: #000000;
+        }
+
+        .back-btn {
+            display: block;
+            text-align: center;
+            padding: 12px 0;
+            background: transparent;
+            color: #888;
+            border: 1px solid #333;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>- DIARY ARCHIVE -</h2>
+        
+        <div class="diary-list">
+            <div class="diary-post">
+                <span class="diary-date">2026-09-04</span>
+                <p class="secret-text">（すべて白紙）</p>
+            </div>
+            </div>
+
+        <a href="index.html" class="back-btn">← BACK TO HOME</a>
+    </div>
+
+</body>
+</html>

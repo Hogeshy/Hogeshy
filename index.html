@@ -19,14 +19,14 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
             transition: background-color 1s ease;
         }
 
         /* 深夜帯（0時〜4時）の変貌クラス */
         body.midnight-mode {
-            background-color: #0b0202; /* わずかに血走った暗赤色 */
+            background-color: #0b0202;
             color: #e0bcbc;
         }
 
@@ -37,12 +37,12 @@
 
         body.midnight-mode h1 {
             color: #ffcccc;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
         }
 
         body.midnight-mode .image-wrapper {
             border-color: #411;
-            box-shadow: 0 0 35px rgba(100, 0, 0, 0.6);
+            box-shadow: 0 0 35px rgba(100, 0, 0, 0.7);
         }
 
         body.midnight-mode .btn {
@@ -54,6 +54,51 @@
             background: #ffcccc;
             color: #000;
             border-color: #ffcccc;
+        }
+
+        /* グリッチ演出 */
+        @keyframes glitchFlash {
+            0% { opacity: 1; filter: none; }
+            10% { opacity: 0.3; filter: invert(80%) hue-rotate(90deg); transform: translateX(-2px); }
+            20% { opacity: 1; filter: none; transform: translateX(2px); }
+            30% { opacity: 0.6; filter: blur(2px); }
+            50% { opacity: 1; filter: none; }
+            100% { opacity: 1; filter: none; }
+        }
+
+        body.midnight-mode.glitching {
+            animation: glitchFlash 0.6s steps(2, start) forwards;
+        }
+
+        /* 赤い猫の足跡（深夜モード時のみ出現） */
+        .paw-print {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: rgba(200, 10, 10, 0.75);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: pawFade 4s ease forwards;
+            z-index: 10;
+        }
+
+        .paw-print::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 2px;
+            width: 9px;
+            height: 7px;
+            background-color: inherit;
+            border-radius: 50%;
+            box-shadow: -4px 5px 0 inherit, 4px 5px 0 inherit;
+        }
+
+        @keyframes pawFade {
+            0% { opacity: 0.85; transform: scale(0.8); }
+            30% { opacity: 0.6; }
+            100% { opacity: 0; transform: scale(1.15); }
         }
 
         /* 環境音スイッチ */
@@ -69,6 +114,7 @@
             cursor: pointer;
             letter-spacing: 0.15em;
             transition: all 0.3s;
+            z-index: 20;
         }
 
         .ambient-control:hover {
@@ -81,9 +127,9 @@
             max-width: 440px;
             padding: 20px;
             width: 100%;
+            z-index: 20;
         }
 
-        /* 奇妙に揺らぎながら現れるアニメーション */
         @keyframes strangeAppear {
             0% {
                 opacity: 0;
@@ -180,7 +226,6 @@
             pointer-events: none;
         }
 
-        /* 匿名メッセージ */
         .guestbook {
             border-top: 1px solid #1a1a1a;
             padding-top: 15px;
@@ -223,9 +268,9 @@
             font-size: 0.65rem;
             min-height: 20px;
             letter-spacing: 0.1em;
+            transition: filter 0.5s ease;
         }
 
-        /* コピーライト表記 */
         .copyright {
             margin-top: 20px;
             font-size: 0.6rem;
@@ -272,12 +317,56 @@
 
     <script>
         // --- 深夜変貌モードの判定 (0時〜4時) ---
-       const isMidnight = true;
+        // テスト用： const isMidnight = true; に書き換えるといつでも強制テストできます
+  const currentHour = new Date().getHours();
+const isMidnight = currentHour >= 0 && currentHour < 4;
 
         if (isMidnight) {
             document.body.classList.add('midnight-mode');
-            document.getElementById('site-title').textContent = "Hogeshy [WITCHING HOUR]";
-            document.getElementById('copyright-text').textContent = "© Hogeshy // DEEP NIGHT";
+            
+            const titles = ["Hogeshy [3:03 AM]", "Hogeshy [WITCHING HOUR]", "Hog...sh..."];
+            document.getElementById('site-title').textContent = titles[Math.floor(Math.random() * titles.length)];
+            document.getElementById('copyright-text').textContent = "© Hogeshy // THE VEIL IS THIN";
+
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    document.body.classList.add('glitching');
+                }, 800);
+
+                // --- 魔女の時間（深夜帯）だけ足跡が画面中を這い回る ---
+                setTimeout(spawnMassivePawPrints, 1200);
+                setTimeout(spawnMassivePawPrints, 3200);
+            });
+        }
+
+        function spawnMassivePawPrints() {
+            for (let route = 0; route < 3; route++) {
+                setTimeout(() => {
+                    let x = Math.random() * (window.innerWidth - 200) + 100;
+                    let y = Math.random() * (window.innerHeight - 200) + 100;
+
+                    for (let i = 0; i < 12; i++) {
+                        setTimeout(() => {
+                            const paw = document.createElement('div');
+                            paw.className = 'paw-print';
+                            
+                            x += (Math.random() * 120 - 60);
+                            y += (Math.random() * 90 - 45);
+
+                            if (x < 10) x = 30;
+                            if (x > window.innerWidth - 10) x = window.innerWidth - 30;
+                            if (y < 10) y = 30;
+                            if (y > window.innerHeight - 10) y = window.innerHeight - 30;
+
+                            paw.style.left = x + 'px';
+                            paw.style.top = y + 'px';
+                            document.body.appendChild(paw);
+                            
+                            setTimeout(() => paw.remove(), 4500);
+                        }, i * 120);
+                    }
+                }, route * 600);
+            }
         }
 
         // --- 環境音 ---
@@ -303,11 +392,10 @@
 
             const filter = audioCtx.createBiquadFilter();
             filter.type = 'lowpass';
-            // 深夜帯のときは少し音をこもらせる（演出）
-            filter.frequency.value = isMidnight ? 180 : 250;
+            filter.frequency.value = isMidnight ? 200 : 350;
 
             gainNode = audioCtx.createGain();
-            gainNode.gain.value = 0.04;
+            gainNode.gain.value = 0.15;
 
             noiseNode.connect(filter);
             filter.connect(gainNode);
@@ -369,14 +457,14 @@
                 flavorText.style.color = isMidnight ? "#ff9999" : "#fff";
                 flavorText.innerHTML = 
                     "ACCESS DETECTED.<br>Coordinates: 33.8833° N, 130.8833° E<br>" + 
-                    (isMidnight ? "WITCHING HOUR ACTIVE. THE VEIL IS THIN." : "Everything is transient.");
+                    (isMidnight ? "WITCHING HOUR ACTIVE. DO NOT LOOK BEHIND YOU." : "Everything is transient.");
                 setTimeout(() => {
                     clickCount = 0;
                 }, 6000);
             }
         });
 
-        // --- ランダム足跡（通常 ＆ 深夜専用） ---
+        // --- ランダム足跡（ゲストブック） ---
         const traceForm = document.getElementById('trace-form');
         const traceInput = document.getElementById('trace-input');
         const logList = document.getElementById('log-list');
@@ -390,12 +478,13 @@
 
         const midnightTraces = [
             "Why are you awake?", "The world has stopped.", 
-            "Something is watching.", "3:14 AM. The deepest dark.", 
-            "Don't look behind you.", "Empty room, empty mind."
+            "Something is watching...", "3:14 AM. The deep dark.", 
+            "Don't look behind you.", "Empty room, empty mind.",
+            "The hour of shadows.", "They know you are here."
         ];
 
         const activeTraces = isMidnight ? midnightTraces : normalTraces;
-        let currentTrace = activeTraces[Math.floor(Math.random() * activeTraces.length)];
+        let currentTrace = activeTraces[Math.floor(Math.random() * activeTraces.length)] ?? activeTraces[0];
         logList.textContent = `> "${currentTrace}"`;
 
         traceForm.addEventListener('submit', (e) => {
@@ -404,6 +493,22 @@
             if (val) {
                 logList.textContent = `> "${val}"`;
                 traceInput.value = "";
+
+                if (isMidnight) {
+                    logList.style.filter = "blur(0px)";
+                    let blurVal = 0;
+                    const fadeOutInterval = setInterval(() => {
+                        blurVal += 0.2;
+                        logList.style.filter = `blur(${blurVal}px)`;
+                        if (blurVal > 4) {
+                            clearInterval(fadeOutInterval);
+                            setTimeout(() => {
+                                logList.textContent = `> "..."`;
+                                logList.style.filter = "blur(0px)";
+                            }, 1500);
+                        }
+                    }, 200);
+                }
             }
         });
     </script>

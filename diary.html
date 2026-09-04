@@ -1,118 +1,180 @@
-
-            <div class="diary-post">
-                <span class="diary-date">2026-09-04</span>
-                <p class="secret-text">今日もうまく何も考えられなかった。</p>
-            </div>
-            <div class="diary-post">
-                <span class="diary-date">2026-09-04</span>
-                <p class="secret-text">日付が変わった。だから何だというのか。</p>
-            </div><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hogeshy - Diary Archive</title>
+    <title>Hogeshy Diary Archive</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            background-color: #050505;
-            color: #d0d0d0;
-            font-family: 'Courier New', Courier, monospace, sans-serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
+            align-items: center;
             min-height: 100vh;
-            padding: 60px 20px;
-            overflow-y: auto;
         }
-
         .container {
-            max-width: 500px;
             width: 100%;
+            max-width: 800px;
+            background: #161616;
+            border: 1px solid #333;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
         }
-
-        h2 {
-            font-size: 1.1rem;
-            letter-spacing: 0.3em;
+        h1 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-top: 0;
+            color: #aaa;
+        }
+        .archive-layout {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        /* 左側：縦スクロールする日付リスト */
+        .date-list {
+            flex: 1;
+            max-height: 400px;
+            overflow-y: auto;
+            border-right: 1px solid #222;
+            padding-right: 15px;
+        }
+        .date-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px dashed #222;
+            transition: background 0.2s, color 0.2s;
+            font-size: 0.9rem;
+        }
+        .date-item:hover, .date-item.active {
+            background: #222;
             color: #fff;
-            margin-bottom: 30px;
-            text-align: center;
-            text-transform: uppercase;
+            padding-left: 15px;
         }
-
-        .diary-list {
+        /* 右側：選んだ日記の内容が表示される場所 */
+        .diary-viewer {
+            flex: 2;
+            background: #111;
+            padding: 20px;
+            border: 1px solid #222;
+            min-height: 200px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            margin-bottom: 40px;
+            justify-content: center;
         }
-
-        .diary-post {
-            padding: 14px 16px;
-            border: 1px solid #1a1a1a;
-            background: rgba(10, 10, 10, 0.5);
+        .viewer-date {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 10px;
         }
-
-        .diary-date {
-            font-size: 0.65rem;
-            color: #555;
-            letter-spacing: 0.15em;
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        .secret-text {
-            font-size: 0.75rem;
-            color: #050505; /* 一見白紙（ドラッグで浮かび上がる） */
+        /* 普段は黒に馴染んで見えないが、マウスで選択（ドラッグ）すると浮かび上がる仕掛け */
+        .viewer-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #111;
+            background-color: #111;
             user-select: text;
-            -webkit-user-select: text;
-            transition: color 0.3s;
-            letter-spacing: 0.1em;
+            transition: color 0.3s ease;
         }
-
-        .secret-text::selection {
-            background-color: #ff4444;
-            color: #000000;
+        /* ドラッグしている最中や、マウスを乗せたときにうっすら見える演出（または選択で浮き出る） */
+        .viewer-content::selection {
+            background: #333;
+            color: #fff;
         }
-
-        .back-btn {
-            display: block;
-            text-align: center;
-            padding: 12px 0;
-            background: transparent;
-            color: #888;
-            border: 1px solid #333;
+        .viewer-content:hover {
+            color: #222; /* ホバーするだけでは見えにくく、ドラッグ（選択）すると読める */
+        }
+        .hint {
+            font-size: 0.75rem;
+            color: #444;
+            margin-top: 15px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #666;
             text-decoration: none;
             font-size: 0.8rem;
-            letter-spacing: 0.2em;
-            transition: all 0.3s ease;
         }
-
-        .back-btn:hover {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
+        .back-link:hover {
+            color: #fff;
+        }
+        /* 自動挿入用の非表示エリア（JSで読み取る用） */
+        .raw-posts {
+            display: none;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>- DIARY ARCHIVE -</h2>
+        <h1>DIARY ARCHIVE</h1>
         
-        <div class="diary-list">
-            <div class="diary-post">
-                <span class="diary-date">2026-09-04</span>
-                <p class="secret-text">（すべて白紙）</p>
+        <div class="archive-layout">
+            <div class="date-list" id="dateList"></div>
+            <div class="diary-viewer">
+                <div>
+                    <div class="viewer-date" id="viewerDate">日付を選んでください</div>
+                    <div class="viewer-content" id="viewerContent">ここにその日の記録が浮かび上がります。</div>
+                    <!--<div class="hint">※ ドラッグして選択すると文字が浮かび上がります</div>-->
+                </div>
             </div>
-            </div>
+        </div>
 
-        <a href="index.html" class="back-btn">← BACK TO HOME</a>
+        <a href="index.html" class="back-link">← TOPに戻る</a>
     </div>
 
+    <!-- 自動更新プログラムが新しい日記をこの目印の直下に挿入します -->
+    <div class="raw-posts" id="rawPosts">
+        <!-- AUTO_ARCHIVE_START -->
+        <div class="diary-post">
+            <span class="diary-date">2026-09-05</span>
+            <p class="secret-text">床が冷たい。ずっと床でいい気がする。</p>
+        </div>
+        <div class="diary-post">
+            <span class="diary-date">2026-09-04</span>
+            <p class="secret-text">虚無味の缶詰を食べた。味がしなかった。</p>
+        </div>
+    </div>
+
+    <script>
+        const postElements = document.querySelectorAll('.raw-posts .diary-post');
+        const dateListEl = document.getElementById('dateList');
+        const viewerDateEl = document.getElementById('viewerDate');
+        const viewerContentEl = document.getElementById('viewerContent');
+
+        const posts = [];
+
+        postElements.forEach((el, index) => {
+            const date = el.querySelector('.diary-date').textContent.trim();
+            const text = el.querySelector('.secret-text').innerHTML;
+            posts.push({ date, text });
+
+            const item = document.createElement('div');
+            item.className = 'date-item';
+            item.textContent = date;
+            
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.date-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                viewerDateEl.textContent = date;
+                viewerContentEl.innerHTML = text;
+            });
+
+            dateListEl.appendChild(item);
+
+            if (index === 0) {
+                item.classList.add('active');
+                viewerDateEl.textContent = date;
+                viewerContentEl.innerHTML = text;
+            }
+        });
+    </script>
 </body>
 </html>

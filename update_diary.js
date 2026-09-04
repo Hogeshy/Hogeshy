@@ -13,7 +13,14 @@ const diaryTemplates = [
 ];
 
 const randomText = diaryTemplates[Math.floor(Math.random() * diaryTemplates.length)];
-const today = new Date().toISOString().split('T')[0];
+
+// 常に日本時間（JST）の今日の日付（YYYY-MM-DD）を取得する
+const today = new Date().toLocaleDateString('ja-JP', {
+    timeZone: 'Asia/Tokyo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+}).replace(/\//g, '-');
 
 // diary.html を読み込む
 let diaryHtmlContent = fs.readFileSync('diary.html', 'utf8');
@@ -25,10 +32,10 @@ const newPostHtml = `
                 <p class="secret-text">${randomText}</p>
             </div>`;
 
-// の直後に新しい日記を挿入する（上へ上へと溜まっていく）
+// <!-- AUTO_ARCHIVE_START --> の直後に新しい日記を挿入する
 diaryHtmlContent = diaryHtmlContent.replace(
-    '',
-    '' + newPostHtml
+    '<!-- AUTO_ARCHIVE_START -->',
+    '<!-- AUTO_ARCHIVE_START -->' + newPostHtml
 );
 
 // 書き換えた diary.html を保存

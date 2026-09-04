@@ -282,7 +282,7 @@
 </head>
 <body>
 
-    <button class="ambient-control" id="sound-btn">SOUND: ON</button>
+    <button class="ambient-control" id="sound-btn">SOUND: OFF</button>
 
     <div class="container">
         <div class="image-wrapper" id="easter-egg-target" title="...?">
@@ -318,7 +318,7 @@
     <script>
         // --- 深夜変貌モードの判定 (0時〜4時) ---
         // テスト用： const isMidnight = true; に書き換えるといつでも強制テストできます
-  const currentHour = new Date().getHours();
+        const currentHour = new Date().getHours();
 const isMidnight = currentHour >= 0 && currentHour < 4;
 
         if (isMidnight) {
@@ -333,7 +333,6 @@ const isMidnight = currentHour >= 0 && currentHour < 4;
                     document.body.classList.add('glitching');
                 }, 800);
 
-                // --- 魔女の時間（深夜帯）だけ足跡が画面中を這い回る ---
                 setTimeout(spawnMassivePawPrints, 1200);
                 setTimeout(spawnMassivePawPrints, 3200);
             });
@@ -369,16 +368,26 @@ const isMidnight = currentHour >= 0 && currentHour < 4;
             }
         }
 
-        // --- 環境音 ---
+        // --- ブラウザブロックを完全突破するサウンドシステム ---
         let audioCtx = null;
-        let isPlaying = true;
-        let noiseNode = null;
-        let gainNode = null;
+        let noiseSource = null;
+        let isPlaying = false;
+        const soundBtn = document.getElementById('sound-btn');
 
-        function startAmbientSound() {
-            if (audioCtx) return;
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            
+        function playNoise() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            // 既存の音源があれば止めて掃除する
+            if (noiseSource) {
+                try { noiseSource.stop(); } catch(e) {}
+                noiseSource = null;
+            }
+
             const bufferSize = audioCtx.sampleRate * 2;
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const data = buffer.getChannelData(0);
@@ -386,63 +395,47 @@ const isMidnight = currentHour >= 0 && currentHour < 4;
                 data[i] = Math.random() * 2 - 1;
             }
 
-            noiseNode = audioCtx.createBufferSource();
-            noiseNode.buffer = buffer;
-            noiseNode.loop = true;
+            noiseSource = audioCtx.createBufferSource();
+            noiseSource.buffer = buffer;
+            noiseSource.loop = true;
 
             const filter = audioCtx.createBiquadFilter();
             filter.type = 'lowpass';
             filter.frequency.value = isMidnight ? 200 : 350;
 
-            gainNode = audioCtx.createGain();
+            const gainNode = audioCtx.createGain();
             gainNode.gain.value = 0.15;
 
-            noiseNode.connect(filter);
+            noiseSource.connect(filter);
             filter.connect(gainNode);
             gainNode.connect(audioCtx.destination);
 
-            noiseNode.start();
+            noiseSource.start();
+            isPlaying = true;
+
+            soundBtn.textContent = "SOUND: ON";
+            soundBtn.style.borderColor = isMidnight ? "#511" : "#666";
+            soundBtn.style.color = isMidnight ? "#c88" : "#fff";
         }
 
-        window.addEventListener('load', () => {
-            try {
-                startAmbientSound();
-            } catch(e) {}
-        });
-
-        document.body.addEventListener('click', function unlockAudio() {
-            if (isPlaying && (!audioCtx || audioCtx.state === 'suspended')) {
-                startAmbientSound();
-                if (audioCtx && audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
+        function stopNoise() {
+            if (noiseSource) {
+                try { noiseSource.stop(); } catch(e) {}
+                noiseSource = null;
             }
-        }, { once: true });
+            isPlaying = false;
 
-        document.getElementById('sound-btn').addEventListener('click', function(e) {
+            soundBtn.textContent = "SOUND: OFF";
+            soundBtn.style.borderColor = "#222";
+            soundBtn.style.color = "#555";
+        }
+
+        soundBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (isPlaying) {
-                if (noiseNode) {
-                    noiseNode.stop();
-                    noiseNode.disconnect();
-                }
-                if (audioCtx) {
-                    audioCtx.close();
-                    audioCtx = null;
-                }
-                isPlaying = false;
-                this.textContent = "SOUND: OFF";
-                this.style.borderColor = "#222";
-                this.style.color = "#555";
+                stopNoise();
             } else {
-                startAmbientSound();
-                if (audioCtx && audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-                isPlaying = true;
-                this.textContent = "SOUND: ON";
-                this.style.borderColor = isMidnight ? "#511" : "#666";
-                this.style.color = isMidnight ? "#c88" : "#fff";
+                playNoise();
             }
         });
 

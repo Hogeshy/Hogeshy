@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hogeshy - The First Ten Days</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #888;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 60px 20px;
+            display: block;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        /* 冒頭のプロローグ部分 */
+        .prologue {
+            margin-bottom: 80px;
+            line-height: 1.8;
+        }
+        .prologue h1 {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            color: #fff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .prologue .subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .prologue p {
+            font-size: 0.95rem;
+            color: #777;
+            margin: 0 0 15px 0;
+            white-space: pre-line;
+        }
+
+        /* 日記グリッド（PCでは2カラム、スマホでは1カラム） */
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
+        @media (min-width: 768px) {
+            .story-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 60px 40px;
+            }
+        }
+
+        /* 個別のDAYカード */
+        .day-card {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .day-title {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: #444;
+        }
+        /* インスタ風画像フレーム */
+        .day-image-frame {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #111;
+            border: 1px solid #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .day-image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(110%);
+            transition: filter 0.3s ease;
+        }
+        .day-image-frame img:hover {
+            filter: grayscale(0%) contrast(100%);
+        }
+        /* 画像がない場合のプレースホルダー文字 */
+        .placeholder-text {
+            color: #333;
+            font-size: 0.8rem;
+        }
+
+        .day-caption {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #777;
+        }
+
+        /* 戻るリンク */
+        .back-link {
+            display: inline-block;
+            margin-top: 100px;
+            color: #444;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- プロローグ -->
+        <div class="prologue">
+            <h1>THE FIRST TEN DAYS</h1>
+            <div class="subtitle">A quiet beginning.</div>
+            <p>Hogeshy eats nothingness,
+eats canned cat food,
+and thinks about nothing.
+
+But, probably happy.</p>
+        </div>
+
+        <!-- 10日間のストーリーグリッド -->
+        <div class="story-grid">
+
+            <!-- DAY 01 -->
+            <div class="day-card">
+                <div class="day-title">DAY 01</div>
+                <div class="day-image-frame">
+                    <!-- 画像を入れるときは下のコメントを外し、srcに画像パスを入れてね -->
+                    <img src="Hogeshy_day1.png" alt="Day 01">
+                    <span class="placeholder-text">[Day 1]</span>
+                </div>
+                <div class="day-caption">Just another day...</div>
+            </div>
+
+            <!-- DAY 02 -->
+            <div class="day-card">
+                <div class="day-title">DAY 02</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day2.png" alt="Day 02">
+                    <span class="placeholder-text">[Day 2]</span>
+                </div>
+                <div class="day-caption">Nothing special happened today.<br>Just me, cat food,<br>and a strange sense of peace.<br>I think that's enough.
+            </div>
+            </div>
+
+            <!-- DAY 03 -->
+            <div class="day-card">
+                <div class="day-title">DAY 03</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day3.png" alt="Day 03"> 
+                    <span class="placeholder-text">[Day 3]</span>
+                </div>
+                <div class="day-caption">It’s night again.<br>I ate some cat food and watched the void for a while.<br>The city was still awake.<br>I wasn’t.
+
+Maybe tomorrow will be different.
+
+...probably not.</div>
+            </div>
+
+            <!-- DAY 04 -->
+            <div class="day-card">
+                <div class="day-title">DAY 04</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day4.png" alt="Day 04"> 
+                    <span class="placeholder-text">[Day 4]</span>
+                </div>
+                <div class="day-caption">Nothing left.<br>It was enough.</div>
+            </div>
+
+            <!-- DAY 05 -->
+            <div class="day-card">
+                <div class="day-title">DAY 05</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day5.png" alt="Day 05">
+                    <span class="placeholder-text">[Day 5]</span>
+                </div>
+                <div class="day-caption">The window was looking back.</div>
+            </div>
+
+            <!-- DAY 06 -->
+            <div class="day-card">
+                <div class="day-title">DAY 06</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day6.png" alt="Day 06">
+                    <span class="placeholder-text">[Day 6]</span>
+                </div>
+                <div class="day-caption">Dinner.<br>Still waiting.</div>
+            </div>
+
+            <!-- DAY 07 -->
+            <div class="day-card">
+                <div class="day-title">DAY 07</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day7.png" alt="Day 07">
+                    <span class="placeholder-text">[Day 7]</span>
+                </div>
+                <div class="day-caption">You can keep this one.</div>
+            </div>
+
+            <!-- DAY 08 -->
+            <div class="day-card">
+                <div class="day-title">DAY 08</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day8.png" alt="Day 08">
+                    <span class="placeholder-text">[Day 8]</span>
+                </div>
+                <div class="day-caption">Almost asleep.<br>The tail disagrees.</div>
+            </div>
+
+            <!-- DAY 09 -->
+            <div class="day-card">
+                <div class="day-title">DAY 09</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day9.png" alt="Day 09">
+                    <span class="placeholder-text">[Day 9]</span>
+                </div>
+                <div class="day-caption">They are still awake.<br>Not my problem.</div>
+            </div>
+
+            <!-- DAY 10 -->
+            <div class="day-card">
+                <div class="day-title">DAY 10</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day10.png" alt="Day 10">
+                    <span class="placeholder-text">[Day 10]</span>
+                </div>
+                <div class="day-caption">Something is missing.</div>
+            </div>
+
+            <!-- DAY 11 -->
+            <div class="day-card">
+                <div class="day-title">DAY 11</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day11.png" alt="Day 11">
+                    <span class="placeholder-text">[Day 11]</span>
+                </div>
+                <div class="day-caption">The night ended. I remained.</div>
+            </div>
+
+            <!-- DAY 12 -->
+            <div class="day-card">
+                <div class="day-title">DAY 12</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day12.png" alt="Day 12">
+                    <span class="placeholder-text">[Day 12]</span>
+                </div>
+                <div class="day-caption">I went outside for a minute.</div>
+            </div>
+
+            <!-- DAY 13 -->
+            <div class="day-card">
+                <div class="day-title">DAY 13</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day13.png" alt="Day 13">
+                    <span class="placeholder-text">[Day 13]</span>
+                </div>
+                <div class="day-caption">The outside had lights.</div>
+            </div>
+
+            <!-- DAY 14 -->
+            <div class="day-card">
+                <div class="day-title">DAY 14</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day14.png" alt="Day 14">
+                    <span class="placeholder-text">[Day 14]</span>
+                </div>
+                <div class="day-caption">Something was awake.</div>
+            </div>
+
+            <!-- DAY 15 -->
+            <div class="day-card">
+                <div class="day-title">DAY 15</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day15.png" alt="Day 15">
+                    <span class="placeholder-text">[Day 15]</span>
+                </div>
+                <div class="day-caption">It was not important.</div>
+            </div>
+
+            <!-- DAY 16 -->
+            <div class="day-card">
+                <div class="day-title">DAY 16</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day16.png" alt="Day 16">
+                    <span class="placeholder-text">[Day 16]</span>
+                </div>
+                <div class="day-caption">Someone tried to reach me.</div>
+            </div>
+
+            <!-- DAY 17 -->
+            <div class="day-card">
+                <div class="day-title">DAY 17</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day17.png" alt="Day 17">
+                    <span class="placeholder-text">[Day 17]</span>
+                </div>
+                <div class="day-caption">I think.</div>
+            </div>
+
+            <!-- DAY 18 -->
+            <div class="day-card">
+                <div class="day-title">DAY 18</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day18.png" alt="Day 18">
+                    <span class="placeholder-text">[Day 18]</span>
+                </div>
+                <div class="day-caption">The rain was doing something.</div>
+            </div>
+
+            <!-- DAY 19 -->
+            <div class="day-card">
+                <div class="day-title">DAY 19</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day19.png" alt="Day 19">
+                    <span class="placeholder-text">[Day 19]</span>
+                </div>
+                <div class="day-caption">I did not open it.</div>
+            </div>
+
+            <!-- DAY 20 -->
+            <div class="day-card">
+                <div class="day-title">DAY 20</div>
+                <div class="day-image-frame">
+                    <img src="Hogeshy_day20.png" alt="Day 20">
+                    <span class="placeholder-text">[Day 20]</span>
+                </div>
+                <div class="day-caption">Nothing was solved.<br>It was enough.</div>
+            </div>
+
+        </div>
+
+        <a href="index.html" class="back-link">&larr; return</a>
+    </div>
+<script>
+    // 右クリックを禁止する
+    document.addEventListener('contextmenu', event => event.preventDefault());
+</script>
+</body>
+</html>

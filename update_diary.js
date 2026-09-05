@@ -1,14 +1,14 @@
 const fs = require('fs');
 
 const diaryTemplates = [
-    "（すべて白紙）",
-    "今日もうまく何も考えられなかった。",
-    "虚無味の缶詰を食べた。味がしなかった。",
-    "画面の向こうで誰かがマウスを動かしている気がする。",
-    "Hoge × Munashy = Hogeshy. それ以外は何も無い。",
+    "(completely blank)",
+    "Managed to think about nothing again today.",
+    "Ate a can of nothingness. Tasted like nothing.",
+    "Someone is moving the cursor on the other side of the screen.",
+    "Hoge × Munashy = Hogeshy. Nothing else matters.",
     "...",
-    "床が冷たい。ずっと床でいい気がする。",
-    "日付が変わった。だから何だというのか。"
+    "The floor is cold. I feel like staying on the floor forever.",
+    "The date changed. So what?"
 ];
 
 const randomText = diaryTemplates[Math.floor(Math.random() * diaryTemplates.length)];

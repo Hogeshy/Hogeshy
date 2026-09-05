@@ -1,16 +1,15 @@
-name: Daily Hogeshy Archive Update
+name: Auto Update Diary
 
 on:
   schedule:
-    - cron: '0 15 * * *' # 日本時間 0:00 (UTC 15:00)
-  workflow_dispatch:
-
-permissions:
-  contents: write
+    - cron: '5 0 * * *' # 毎日UTC 0:05（日本時間 9:05）に実行
+  workflow_dispatch: # GitHubの画面から手動でも実行できるようにする
 
 jobs:
-  update-archive:
+  update-diary:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,13 +19,12 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Run update script
+      - name: Run script to add diary
         run: node update_diary.js
 
-      - name: Commit and push changes
+      - name: Commit and push if changed
         run: |
-          git config --global user.name "Hogeshy Bot"
-          git config --global user.email "bot@hogeshy.local"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.io"
           git add diary.html
-          git commit -m "Auto-add new surreal diary to archive [skip ci]" || exit 0
-          git push
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generate diary for today" && git push)

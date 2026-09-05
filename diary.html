@@ -179,5 +179,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
         });
     </script>
+<script>
+        // 既存の右クリック禁止コード
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // テキストが選択（ドラッグ）されたときにGTMへ信号を送る
+        let hasSentReveal = false;
+        document.addEventListener('selectionchange', () => {
+            const selection = window.getSelection();
+            // 何かしらの文字が選択されていて、まだこのセッションで送信していなかったら
+            if (selection && selection.toString().trim().length > 0 && !hasSentReveal) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({ event: 'reveal_secret' });
+                hasSentReveal = true;
+            }
+            // 選択が解除されたらフラグを戻す（必要に応じて）
+            if (selection && selection.toString().trim().length === 0) {
+                hasSentReveal = false;
+            }
+        });
+    </script>
+    
 </body>
 </html>

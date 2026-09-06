@@ -392,16 +392,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="https://www.instagram.com/hogeshy_ai/" class="btn" target="_blank">INSTAGRAM</a>
 </div>
 
-        <div class="guestbook">
+<div class="guestbook">
             <div style="margin-bottom: 6px; letter-spacing: 0.1em;" id="trace-label">Leave a trace...</div>
             <form id="trace-form">
                 <input type="text" id="trace-input" placeholder="..." maxlength="20" autocomplete="off">
                 <button type="submit">SEND</button>
             </form>
             <div class="log-list" id="log-list">...</div>
-            <div class="copyright" id="copyright-text">&copy; Hogeshy</div>
+            
+            <!-- コピーライトとプライバシーポリシーを横並びにする -->
+            <div style="margin-top: 20px; font-size: 0.6rem; color: #444; letter-spacing: 0.2em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; padding: 0 10px;">
+                <span id="copyright-text">&copy; Hogeshy</span>
+                <a href="privacy.html" style="color: #444; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='#444'">privacy policy</a>
+            </div>
         </div>
-    </div>
 
     <script>
         // --- 深夜変貌モードの判定 (0時〜4時) ---

@@ -2,11 +2,12 @@ name: Auto Update Diary
 
 on:
   schedule:
-    - cron: '5 0 * * *' # 毎日UTC 0:05（日本時間 9:05）に実行
-  workflow_dispatch: # GitHubの画面から手動でも実行できるようにする
+    # 毎日 日本時間の朝9:00 (UTC 0:00) に自動実行する例
+    - cron: '0 0 * * *'
+  workflow_dispatch: // 手動でも動かせるようにするボタン
 
 jobs:
-  update-diary:
+  update:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -19,12 +20,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Run script to add diary
-        run: node update_diary.js
+      - name: Run diary script
+        run: update_diary.js
 
-      - name: Commit and push if changed
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.io"
-          git add diary.html
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generate diary for today" && git push)
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-generate daily diary [skip ci]"
+          branch: main

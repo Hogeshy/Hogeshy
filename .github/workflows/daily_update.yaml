@@ -2,9 +2,8 @@ name: Auto Update Diary
 
 on:
   schedule:
-    # 毎日 日本時間の朝9:00 (UTC 0:00) に自動実行する例
     - cron: '0 0 * * *'
-  workflow_dispatch: // 手動でも動かせるようにするボタン
+  workflow_dispatch:
 
 jobs:
   update:
@@ -21,7 +20,7 @@ jobs:
           node-version: '20'
 
       - name: Run diary script
-        run: update_diary.js
+        run: node update.js
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5

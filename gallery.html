@@ -30,6 +30,50 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             margin: 0 auto;
         }
 
+        .site-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px 18px;
+            margin: 0 auto 28px;
+            padding: 0 4px 18px;
+            border-bottom: 1px solid #222;
+            font-size: 0.68rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .site-nav a {
+            color: #777;
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+
+        .site-nav a:hover,
+        .site-nav a:focus-visible {
+            color: #fff;
+            outline: none;
+        }
+
+        .site-nav .nav-current {
+            color: #d0d0d0;
+        }
+
+        .gallery-intro {
+            margin: -18px 0 28px;
+            color: #777;
+            font-size: 0.72rem;
+            line-height: 1.7;
+            letter-spacing: 0.08em;
+        }
+
+        @media (max-width: 520px) {
+            .site-nav {
+                gap: 8px 12px;
+                font-size: 0.62rem;
+            }
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -105,11 +149,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <div class="container">
+        <nav class="site-nav" aria-label="Primary navigation">
+            <a href="index.html">START</a>
+            <a href="thefirsttendays.html">STORY</a>
+            <a href="diary.html">DIARY</a>
+            <a href="wallpapers.html">FREE</a>
+            <a href="gallery.html" class="nav-current" aria-current="page">GALLERY</a>
+            <a href="https://www.instagram.com/hogeshy_ai/" target="_blank" rel="noopener">INSTAGRAM</a>
+        </nav>
+
         <div class="header">
             <a href="index.html" class="back-btn">&larr; BACK</a>
             <h1>Gallery</h1>
             <div style="width: 50px;"></div>
         </div>
+
+        <p class="gallery-intro">A small collection of things Hogeshy noticed.<br>They move when they feel like it.</p>
 
         <div class="grid">
             <div class="gallery-card">

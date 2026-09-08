@@ -99,7 +99,6 @@ function generateText() {
     return selectedLines.join('<br>\n');
 }
 
-// 9/4 から 9/8 までの日付リスト
 const targetDates = [
     "2026-09-08",
     "2026-09-07",
@@ -108,7 +107,7 @@ const targetDates = [
     "2026-09-04"
 ];
 
-let allNewPostsHtml = "\n";
+let allNewPostsHtml = "\n        <!-- AUTO_ARCHIVE_START -->\n";
 targetDates.forEach(date => {
     const randomText = generateText();
     allNewPostsHtml += `        <div class="diary-post">
@@ -119,26 +118,16 @@ targetDates.forEach(date => {
 
 let diaryHtmlContent = fs.readFileSync('diary.html', 'utf8');
 
-// <!-- AUTO_ARCHIVE_START --> とその下の既存の古い投稿ブロックをまるごと置き換える
-// （<!-- AUTO_ARCHIVE_START --> から最後の </div> までの古いリストをクリアする）
-const startIndex = diaryHtmlContent.indexOf('<!-- AUTO_ARCHIVE_START -->');
-if (startIndex !== -1) {
-    const insertPoint = startIndex + '<!-- AUTO_ARCHIVE_START -->'.length;
-    // 既存の raw-posts の中身を新しい5日分で綺麗に置き換え
-    const endIndex = diaryHtmlContent.indexOf('</div>\n    </div>', insertPoint); // フッター付近の閉じタグを目安にするか、単純に置換
-    
-    // 安全に <!-- AUTO_ARCHIVE_START --> の後ろを今回の5日分だけに書き換える
-    // 既存の <div class="raw-posts" id="rawPosts"> の中身を一旦綺麗にするアプローチ
-    const rawPostsStart = diaryHtmlContent.indexOf('<div class="raw-posts" id="rawPosts">');
-    const rawPostsEnd = diaryHtmlContent.indexOf('</div>', rawPostsStart); // うまく調整
+// <div class="raw-posts" id="rawPosts"> から </div> までをごっそり新しい投稿に書き換える
+const rawPostsRegex = /<div class="raw-posts" id="rawPosts">[\s\S]*?<\/div>/;
+
+const newRawPostsBlock = `<div class="raw-posts" id="rawPosts">` + allNewPostsHtml + `    </div>`;
+
+if (rawPostsRegex.test(diaryHtmlContent)) {
+    diaryHtmlContent = diaryHtmlContent.replace(rawPostsRegex, newRawPostsBlock);
+} else {
+    console.error("Could not find rawPosts div in diary.html");
 }
 
-// シンプルかつ確実に、<!-- AUTO_ARCHIVE_START --> から次の終了タグまでをごっそり入れ替える正規表現または文字列置換にするよ
-// 一度diary.htmlの該当部分をスッキリさせるため、<!-- AUTO_ARCHIVE_START --> 以降の <div class="raw-posts"...> の中身を丸ごと生成し直す形にします。
-
-const newRawPostsBlock = `<div class="raw-posts" id="rawPosts">
-        <!-- AUTO_ARCHIVE_START -->
-${allNewPostsHtml}    </div>`;
-
-// 既存の raw-posts ブロック全体を新しいブロックで置換
-const rawPostsRegex = /<div class="raw-posts" id="rawPosts">[\s\S]*?<\/div>\s*<\/div>/; // ※構造に合わせて調整
+fs.writeFileSync('diary.html', diaryHtmlContent, 'utf8');
+console.log("Past diaries generated and rawPosts updated successfully!");

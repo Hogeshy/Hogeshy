@@ -1,50 +1,70 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M7TXH22M');</script>
-<!-- End Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-M7TXH22M');
+    </script>
+    <!-- End Google Tag Manager -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hogeshy Diary Archive</title>
+
     <style>
+        :root {
+            --void: #0a0a0a;
+            --muted: #66615a;
+            --soft: #a7a097;
+            --bright: #d9d1c5;
+            --line: #242321;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #0a0a0a;
-            color: #888;
+            background-color: var(--void);
+            color: var(--muted);
             font-family: 'Courier New', Courier, monospace;
             margin: 0;
             padding: 60px;
-            display: block;
             min-height: 100vh;
             overflow-x: hidden;
         }
+
         .container {
             width: 100%;
             max-width: 700px;
         }
+
         h1 {
             font-size: 1rem;
             letter-spacing: 4px;
-            color: #444;
-            margin-bottom: 40px;
+            color: #55504a;
+            margin: 0 0 40px;
             text-transform: uppercase;
+            font-weight: normal;
         }
+
         .archive-layout {
             display: flex;
             flex-direction: column;
             gap: 40px;
         }
+
         @media (min-width: 600px) {
             .archive-layout {
                 flex-direction: row;
                 gap: 80px;
             }
         }
-        /* 左側：日付の羅列 */
+
         .date-list {
             display: flex;
             flex-direction: column;
@@ -53,21 +73,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             overflow-y: auto;
             padding-right: 10px;
         }
+
         .date-item {
+            appearance: none;
+            border: 0;
+            background: transparent;
             cursor: pointer;
-            color: #555;
+            color: #55504a;
+            font: inherit;
             font-size: 0.9rem;
             letter-spacing: 1px;
-            transition: color 0.2s;
+            padding: 0;
+            text-align: left;
+            transition: color 0.25s ease;
         }
-        .date-item:hover {
-            color: #aaa;
+
+        .date-item:hover,
+        .date-item:focus-visible {
+            color: var(--bright);
+            outline: none;
         }
+
         .date-item.active {
             color: #fff;
             text-decoration: underline;
+            text-underline-offset: 4px;
         }
-        /* 右側：選択した日記の表示エリア */
+
         .diary-viewer {
             display: flex;
             flex-direction: column;
@@ -75,65 +107,85 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             min-height: 150px;
             max-width: 400px;
         }
+
         .viewer-date {
             font-size: 0.75rem;
-            color: #333;
+            color: #45413d;
             margin-bottom: 15px;
             letter-spacing: 2px;
         }
-        /* 普段は闇に溶けて見えないが、ドラッグ（選択）すると浮かび上がる仕掛け */
+
+        /* The diary is quietly visible instead of requiring text selection. */
         .viewer-content {
+            color: var(--muted);
+            background: transparent;
             font-size: 1rem;
             line-height: 1.8;
-            color: #0a0a0a;
-            background-color: #0a0a0a;
+            min-height: 90px;
+            outline: none;
+            transition: color 0.4s ease, text-shadow 0.4s ease;
             user-select: text;
         }
+
+        .viewer-content:hover,
+        .viewer-content:focus,
+        .viewer-content.is-focused {
+            color: var(--bright);
+            text-shadow: 0 0 12px rgba(217, 209, 197, 0.08);
+        }
+
         .viewer-content::selection {
-            background: #333;
+            background: #3a3733;
             color: #fff;
         }
+
         .back-link {
             display: inline-block;
             margin-top: 60px;
-            color: #444;
+            color: #4d4944;
             text-decoration: none;
             font-size: 0.8rem;
             letter-spacing: 1px;
-            transition: color 0.2s;
+            transition: color 0.25s ease;
         }
-        .back-link:hover {
-            color: #aaa;
+
+        .back-link:hover,
+        .back-link:focus-visible {
+            color: var(--bright);
+            outline: none;
         }
-        /* 自動挿入用の非表示エリア（JSで読み取る用） */
+
+        /* Hidden source archive used by the daily GitHub Actions update. */
         .raw-posts {
             display: none;
         }
     </style>
 </head>
-<body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M7TXH22M"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-    <div class="container">
-        <h1>Diary Archive</h1>
-        
-        <div class="archive-layout">
-            <!-- 左側：日付リスト -->
-            <div class="date-list" id="dateList"></div>
 
-            <!-- 右側：テキストビューア -->
-            <div class="diary-viewer">
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M7TXH22M"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <main class="container">
+        <h1>Diary Archive</h1>
+
+        <div class="archive-layout">
+            <nav class="date-list" id="dateList" aria-label="Diary dates"></nav>
+
+            <section class="diary-viewer" aria-live="polite">
                 <div class="viewer-date" id="viewerDate">----.--.--</div>
-                <div class="viewer-content" id="viewerContent">...</div>
-            </div>
+                <div class="viewer-content" id="viewerContent" tabindex="0">...</div>
+            </section>
         </div>
 
         <a href="index.html" class="back-link">&larr; return</a>
-    </div>
+    </main>
 
-<!-- 自動更新プログラムが新しい日記をこの目印の間に挿入します -->
+    <!-- The GitHub Actions script replaces only the content between these markers. -->
     <div class="raw-posts" id="rawPosts">
         <!-- AUTO_ARCHIVE_START -->
         <div class="diary-post">
@@ -158,44 +210,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <!-- AUTO_ARCHIVE_END -->
     </div>
+
     <script>
         const postElements = document.querySelectorAll('.raw-posts .diary-post');
         const dateListEl = document.getElementById('dateList');
         const viewerDateEl = document.getElementById('viewerDate');
         const viewerContentEl = document.getElementById('viewerContent');
 
-        const posts = [];
+        function showPost(item, date, text) {
+            document.querySelectorAll('.date-item').forEach((dateItem) => {
+                dateItem.classList.remove('active');
+            });
+            item.classList.add('active');
+            viewerDateEl.textContent = date;
+            viewerContentEl.innerHTML = text;
+            viewerContentEl.classList.remove('is-focused');
+        }
 
         postElements.forEach((el, index) => {
             const date = el.querySelector('.diary-date').textContent.trim();
             const text = el.querySelector('.secret-text').innerHTML;
-            posts.push({ date, text });
+            const item = document.createElement('button');
 
-            const item = document.createElement('div');
+            item.type = 'button';
             item.className = 'date-item';
             item.textContent = date;
-            
-            item.addEventListener('click', () => {
-                document.querySelectorAll('.date-item').forEach(i => i.classList.remove('active'));
-                item.classList.add('active');
-                viewerDateEl.textContent = date;
-                viewerContentEl.innerHTML = text;
-            });
-
+            item.addEventListener('click', () => showPost(item, date, text));
             dateListEl.appendChild(item);
 
             if (index === 0) {
-                item.classList.add('active');
-                viewerDateEl.textContent = date;
-                viewerContentEl.innerHTML = text;
+                showPost(item, date, text);
             }
         });
-    </script>
-    <script>
-        // 既存の右クリック禁止コード
-        document.addEventListener('contextmenu', event => event.preventDefault());
 
-        // マウスを離したときに、何かしらのテキストが選択されていたら1回だけ送る
+        // On touch devices, a tap gently reveals the text without requiring dragging.
+        viewerContentEl.addEventListener('click', () => {
+            viewerContentEl.classList.toggle('is-focused');
+        });
+
+        // Preserve the existing analytics event when a visitor selects diary text.
         document.addEventListener('mouseup', () => {
             const selection = window.getSelection();
             if (selection && selection.toString().trim().length > 0) {

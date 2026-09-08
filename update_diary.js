@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 const weatherList = [
     "Pellets of hail struck the windowpane.",
@@ -99,35 +100,39 @@ function generateText() {
     return selectedLines.join('<br>\n');
 }
 
-const targetDates = [
-    "2026-09-08",
-    "2026-09-07",
-    "2026-09-06",
-    "2026-09-05",
-    "2026-09-04"
-];
+const targetPath = path.join(__dirname, 'diary.html');
+console.log("Target file path:", targetPath);
 
-let allNewPostsHtml = "\n        <!-- AUTO_ARCHIVE_START -->\n";
-targetDates.forEach(date => {
-    const randomText = generateText();
-    allNewPostsHtml += `        <div class="diary-post">
+if (!fs.existsSync(targetPath)) {
+    console.error("ERROR: diary.html does not exist in this directory!");
+    process.exit(1);
+}
+
+const dates = ["2026-09-08", "2026-09-07", "2026-09-06", "2026-09-05", "2026-09-04"];
+let postsHtml = "\n";
+
+dates.forEach(date => {
+    postsHtml += `        <div class="diary-post">
             <span class="diary-date">${date}</span>
-            <p class="secret-text">${randomText}</p>
+            <p class="secret-text">${generateText()}</p>
         </div>\n`;
 });
 
-let diaryHtmlContent = fs.readFileSync('diary.html', 'utf8');
+let html = fs.readFileSync(targetPath, 'utf8');
 
-// <div class="raw-posts" id="rawPosts"> から </div> までをごっそり新しい投稿に書き換える
-const rawPostsRegex = /<div class="raw-posts" id="rawPosts">[\s\S]*?<\/div>/;
+const startMarker = '<!-- AUTO_ARCHIVE_START -->';
+const endMarker = '<!-- AUTO_ARCHIVE_END -->';
 
-const newRawPostsBlock = `<div class="raw-posts" id="rawPosts">` + allNewPostsHtml + `    </div>`;
+const startIndex = html.indexOf(startMarker);
+const endIndex = html.indexOf(endMarker);
 
-if (rawPostsRegex.test(diaryHtmlContent)) {
-    diaryHtmlContent = diaryHtmlContent.replace(rawPostsRegex, newRawPostsBlock);
+console.log("startIndex:", startIndex, "endIndex:", endIndex);
+
+if (startIndex !== -1 && endIndex !== -1) {
+    const insertPos = startIndex + startMarker.length;
+    html = html.substring(0, insertPos) + postsHtml + "    " + html.substring(endIndex);
+    fs.writeFileSync(targetPath, html, 'utf8');
+    console.log("SUCCESS: File successfully written!");
 } else {
-    console.error("Could not find rawPosts div in diary.html");
+    console.error("ERROR: Markers not found in the file!");
 }
-
-fs.writeFileSync('diary.html', diaryHtmlContent, 'utf8');
-console.log("Past diaries generated and rawPosts updated successfully!");

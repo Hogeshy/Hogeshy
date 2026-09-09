@@ -84,6 +84,7 @@ function generateText(dateString) {
   return lines.join('<br>\n');
 }
 
+// Diary Archive is the live archive page. Keep this filename in sync with the site navigation.
 const targetPath = path.join(__dirname, 'diaryarchive.html');
 if (!fs.existsSync(targetPath)) {
   console.error(`ERROR: ${targetPath} does not exist.`);

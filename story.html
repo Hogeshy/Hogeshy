@@ -51,6 +51,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             margin: 0 0 15px 0;
             white-space: pre-line;
         }
+        .story-jump {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 0 0 60px;
+            padding: 14px 0;
+            border-top: 1px solid rgba(150, 150, 150, .12);
+            border-bottom: 1px solid rgba(150, 150, 150, .12);
+        }
+        .story-jump a {
+            display: inline-block;
+            padding: 9px 12px;
+            border: 1px solid #292929;
+            color: #666;
+            text-decoration: none;
+            font-size: .72rem;
+            letter-spacing: .1em;
+            transition: color .2s ease, border-color .2s ease, background .2s ease;
+        }
+        .story-jump a:hover,
+        .story-jump a:focus-visible {
+            color: #ddd;
+            border-color: #777;
+            background: #151515;
+            outline: none;
+        }
+        html { scroll-behavior: smooth; }
+        .day-card { scroll-margin-top: 28px; }
 
         /* 日記グリッド（PCでは2カラム、スマホでは1カラム） */
         .story-grid {
@@ -173,6 +201,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="diaryarchive.html">DIARY</a>
     <a href="free.html">FREE</a>
     <a href="gallery.html">GALLERY</a>
+    <a href="shop.html">SHOP</a>
     <a href="https://www.instagram.com/hogeshy_ai/" target="_blank" rel="noopener">INSTAGRAM</a>
   </div>
 </nav>
@@ -189,11 +218,17 @@ and thinks about nothing.
 But, probably happy.</p>
         </div>
 
-        <!-- 10日間のストーリーグリッド -->
+        <!-- Story内の読み始め位置 -->
+        <nav class="story-jump" aria-label="Story sections">
+            <a href="#day-01">BEGINNING · DAYS 01–10</a>
+            <a href="#day-11">THE NEXT DAYS · 11–20</a>
+        </nav>
+
+        <!-- 20日間のストーリーグリッド -->
         <div class="story-grid">
 
             <!-- DAY 01 -->
-            <div class="day-card">
+            <div class="day-card" id="day-01">
                 <div class="day-title">DAY 01</div>
                 <div class="day-image-frame">
                     <!-- 画像を入れるときは下のコメントを外し、srcに画像パスを入れてね -->
@@ -299,7 +334,7 @@ Maybe tomorrow will be different.
             </div>
 
             <!-- DAY 11 -->
-            <div class="day-card">
+            <div class="day-card" id="day-11">
                 <div class="day-title">DAY 11</div>
                 <div class="day-image-frame">
                     <img src="Hogeshy_day11.png" alt="Day 11">

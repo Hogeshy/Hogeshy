@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Downloads - Hogeshy</title>
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-M7TXH22M');
+    </script>
+    <!-- End Google Tag Manager -->
+<style>
+:root { color-scheme: dark; } body { margin:0; min-height:100vh; padding:40px 20px; background:#050505; color:#d0d0d0; font-family:'Courier New',monospace; } .container { max-width:900px; margin:0 auto; } h1 { margin:30px 0 10px; color:#fff; font-size:1.4rem; letter-spacing:.28em; text-transform:uppercase; } .intro { color:#777; font-size:.78rem; line-height:1.7; letter-spacing:.08em; margin-bottom:32px; } .free-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; } .free-card { display:block; padding:26px 20px; border:1px solid #292929; color:#aaa; text-decoration:none; transition:all .2s ease; } .free-card:hover,.free-card:focus-visible { color:#fff; border-color:#888; background:#111; outline:none; } .free-card strong { display:block; margin-bottom:10px; color:#ddd; font-size:.9rem; letter-spacing:.16em; } .free-card span { font-size:.7rem; line-height:1.6; color:#666; } .back { display:inline-block; margin-top:45px; color:#666; text-decoration:none; font-size:.72rem; letter-spacing:.12em; } .back:hover { color:#fff; } @media(max-width:600px) { body { padding:24px 16px; } .free-grid { grid-template-columns:1fr; } }
+
+/* Hogeshy shared navigation: desktop map, compact menu for phones/tablets. */
+.site-nav {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 960px;
+  margin: 0 auto 28px;
+  padding: 0 4px 18px;
+  border-bottom: 1px solid rgba(150, 150, 150, .18);
+  font-family: 'Courier New', Courier, monospace;
+  text-transform: uppercase;
+}
+.site-brand { color: #aaa; text-decoration: none; font-size: .72rem; letter-spacing: .18em; white-space: nowrap; }
+.nav-links { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px 18px; font-size: .68rem; letter-spacing: .14em; }
+.site-nav a { color: #777; text-decoration: none; transition: color .2s ease; }
+.site-nav a:hover, .site-nav a:focus-visible { color: #fff; outline: none; }
+.nav-toggle { display: none; appearance: none; border: 1px solid #333; background: transparent; color: #aaa; padding: 9px 12px; font: inherit; font-size: .68rem; letter-spacing: .14em; cursor: pointer; }
+.nav-toggle:hover, .nav-toggle:focus-visible { color: #fff; border-color: #777; outline: none; }
+@media (max-width: 1023px) {
+  .site-nav { justify-content: flex-end; }
+  .site-brand { margin-right: auto; }
+  .nav-toggle { display: block; }
+  .nav-links { display: none; position: absolute; top: calc(100% - 10px); right: 4px; min-width: 200px; padding: 10px 14px; border: 1px solid #333; background: rgba(5,5,5,.98); box-shadow: 0 14px 30px rgba(0,0,0,.45); }
+  .site-nav.is-open .nav-links { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .site-nav.is-open .nav-links a { display: block; padding: 11px 2px; border-bottom: 1px solid #1c1c1c; text-align: right; }
+  .site-nav.is-open .nav-links a:last-child { border-bottom: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .site-nav a { transition: none; } }
+</style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M7TXH22M"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+<main class="container">
+<nav class="site-nav" aria-label="Primary navigation">
+  <a class="site-brand" href="index.html" aria-label="Hogeshy home">HOGESHY</a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-links">
+    <span aria-hidden="true">☰</span> MENU
+  </button>
+  <div class="nav-links" id="primary-links">
+    <a href="index.html">START</a>
+    <a href="story.html">STORY</a>
+    <a href="diaryarchive.html">DIARY</a>
+    <a href="free.html">FREE</a>
+    <a href="gallery.html">GALLERY</a>
+    <a href="https://www.instagram.com/hogeshy_ai/" target="_blank" rel="noopener">INSTAGRAM</a>
+  </div>
+</nav>
+<h1>Free</h1><p class="intro">Small things Hogeshy left behind.<br>Free phone wallpapers and icons. Take one if you want.</p><div class="free-grid"><a class="free-card" href="wallpapers.html"><strong>WALLPAPERS</strong><span>Dark screens for quiet nights. Tap an image to download.</span></a><a class="free-card" href="icons.html"><strong>ICONS</strong><span>Small circular faces for wherever you decide to place them.</span></a></div><a class="back" href="index.html">&larr; RETURN TO START</a></main>
+<script>
+(() => {
+  const nav = document.querySelector('.site-nav');
+  const toggle = document.querySelector('.nav-toggle');
+  if (!nav || !toggle) return;
+  const close = () => {
+    nav.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+  toggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  nav.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', close));
+  document.addEventListener('click', event => { if (!nav.contains(event.target)) close(); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-M7TXH22M');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hogeshy Diary Archive</title>
+
+    <style>
+        :root {
+            --void: #0a0a0a;
+            --muted: #66615a;
+            --soft: #a7a097;
+            --bright: #d9d1c5;
+            --line: #242321;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--void);
+            color: var(--muted);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 60px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        h1 {
+            font-size: 1rem;
+            letter-spacing: 4px;
+            color: #55504a;
+            margin: 0 0 40px;
+            text-transform: uppercase;
+            font-weight: normal;
+        }
+
+        .archive-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        @media (min-width: 600px) {
+            .archive-layout {
+                flex-direction: row;
+                gap: 80px;
+            }
+        }
+
+        .date-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .date-item {
+            appearance: none;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            color: #55504a;
+            font: inherit;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            padding: 0;
+            text-align: left;
+            transition: color 0.25s ease;
+        }
+
+        .date-item:hover,
+        .date-item:focus-visible {
+            color: var(--bright);
+            outline: none;
+        }
+
+        .date-item.active {
+            color: #fff;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .diary-viewer {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 150px;
+            max-width: 400px;
+        }
+
+        .viewer-date {
+            font-size: 0.75rem;
+            color: #45413d;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        /* The diary is quietly visible instead of requiring text selection. */
+        .viewer-content {
+            color: var(--muted);
+            background: transparent;
+            font-size: 1rem;
+            line-height: 1.8;
+            min-height: 90px;
+            outline: none;
+            transition: color 0.4s ease, text-shadow 0.4s ease;
+            user-select: text;
+        }
+
+        .viewer-content:hover,
+        .viewer-content:focus,
+        .viewer-content.is-focused {
+            color: var(--bright);
+            text-shadow: 0 0 12px rgba(217, 209, 197, 0.08);
+        }
+
+        .viewer-content::selection {
+            background: #3a3733;
+            color: #fff;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 60px;
+            color: #4d4944;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: color 0.25s ease;
+        }
+
+        .back-link:hover,
+        .back-link:focus-visible {
+            color: var(--bright);
+            outline: none;
+        }
+
+        /* Hidden source archive used by the daily GitHub Actions update. */
+        .raw-posts {
+            display: none;
+        }
+    </style>
+<style>
+/* Hogeshy shared navigation: desktop map, compact menu for phones/tablets. */
+.site-nav {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 960px;
+  margin: 0 auto 28px;
+  padding: 0 4px 18px;
+  border-bottom: 1px solid rgba(150, 150, 150, .18);
+  font-family: 'Courier New', Courier, monospace;
+  text-transform: uppercase;
+}
+.site-brand { color: #aaa; text-decoration: none; font-size: .72rem; letter-spacing: .18em; white-space: nowrap; }
+.nav-links { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px 18px; font-size: .68rem; letter-spacing: .14em; }
+.site-nav a { color: #777; text-decoration: none; transition: color .2s ease; }
+.site-nav a:hover, .site-nav a:focus-visible { color: #fff; outline: none; }
+.nav-toggle { display: none; appearance: none; border: 1px solid #333; background: transparent; color: #aaa; padding: 9px 12px; font: inherit; font-size: .68rem; letter-spacing: .14em; cursor: pointer; }
+.nav-toggle:hover, .nav-toggle:focus-visible { color: #fff; border-color: #777; outline: none; }
+@media (max-width: 1023px) {
+  .site-nav { justify-content: flex-end; }
+  .site-brand { margin-right: auto; }
+  .nav-toggle { display: block; }
+  .nav-links { display: none; position: absolute; top: calc(100% - 10px); right: 4px; min-width: 200px; padding: 10px 14px; border: 1px solid #333; background: rgba(5,5,5,.98); box-shadow: 0 14px 30px rgba(0,0,0,.45); }
+  .site-nav.is-open .nav-links { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .site-nav.is-open .nav-links a { display: block; padding: 11px 2px; border-bottom: 1px solid #1c1c1c; text-align: right; }
+  .site-nav.is-open .nav-links a:last-child { border-bottom: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .site-nav a { transition: none; } }
+</style>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M7TXH22M"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+<nav class="site-nav" aria-label="Primary navigation">
+  <a class="site-brand" href="index.html" aria-label="Hogeshy home">HOGESHY</a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-links">
+    <span aria-hidden="true">☰</span> MENU
+  </button>
+  <div class="nav-links" id="primary-links">
+    <a href="index.html">START</a>
+    <a href="story.html">STORY</a>
+    <a href="diaryarchive.html">DIARY</a>
+    <a href="free.html">FREE</a>
+    <a href="gallery.html">GALLERY</a>
+    <a href="https://www.instagram.com/hogeshy_ai/" target="_blank" rel="noopener">INSTAGRAM</a>
+  </div>
+</nav>
+
+
+    <main class="container">
+        <h1>Diary Archive</h1>
+
+        <div class="archive-layout">
+            <nav class="date-list" id="dateList" aria-label="Diary dates"></nav>
+
+            <section class="diary-viewer" aria-live="polite">
+                <div class="viewer-date" id="viewerDate">----.--.--</div>
+                <div class="viewer-content" id="viewerContent" tabindex="0">...</div>
+            </section>
+        </div>
+
+        <a href="index.html" class="back-link">&larr; return</a>
+    </main>
+
+    <!-- The GitHub Actions script replaces only the content between these markers. -->
+    <div class="raw-posts" id="rawPosts">
+        <!-- AUTO_ARCHIVE_START -->
+        <div class="diary-post">
+            <span class="diary-date">2026-09-08</span>
+            <p class="secret-text">The tail woke up first.<br>Hogeshy did not object.</p>
+        </div>
+        <div class="diary-post">
+            <span class="diary-date">2026-09-07</span>
+            <p class="secret-text">The date changed.<br>So what?</p>
+        </div>
+        <div class="diary-post">
+            <span class="diary-date">2026-09-06</span>
+            <p class="secret-text">The rain hasn't stopped since morning.<br>Or maybe it's just leaking from somewhere.</p>
+        </div>
+        <div class="diary-post">
+            <span class="diary-date">2026-09-05</span>
+            <p class="secret-text">The window stayed open all night.<br>Nothing came in.</p>
+        </div>
+        <div class="diary-post">
+            <span class="diary-date">2026-09-04</span>
+            <p class="secret-text">The room was quiet.<br>Something had already eaten.</p>
+        </div>
+        <!-- AUTO_ARCHIVE_END -->
+    </div>
+
+    <script>
+        const postElements = document.querySelectorAll('.raw-posts .diary-post');
+        const dateListEl = document.getElementById('dateList');
+        const viewerDateEl = document.getElementById('viewerDate');
+        const viewerContentEl = document.getElementById('viewerContent');
+
+        function showPost(item, date, text) {
+            document.querySelectorAll('.date-item').forEach((dateItem) => {
+                dateItem.classList.remove('active');
+            });
+            item.classList.add('active');
+            viewerDateEl.textContent = date;
+            viewerContentEl.innerHTML = text;
+            viewerContentEl.classList.remove('is-focused');
+        }
+
+        postElements.forEach((el, index) => {
+            const date = el.querySelector('.diary-date').textContent.trim();
+            const text = el.querySelector('.secret-text').innerHTML;
+            const item = document.createElement('button');
+
+            item.type = 'button';
+            item.className = 'date-item';
+            item.textContent = date;
+            item.addEventListener('click', () => showPost(item, date, text));
+            dateListEl.appendChild(item);
+
+            if (index === 0) {
+                showPost(item, date, text);
+            }
+        });
+
+        // On touch devices, a tap gently reveals the text without requiring dragging.
+        viewerContentEl.addEventListener('click', () => {
+            viewerContentEl.classList.toggle('is-focused');
+        });
+
+        // Preserve the existing analytics event when a visitor selects diary text.
+        document.addEventListener('mouseup', () => {
+            const selection = window.getSelection();
+            if (selection && selection.toString().trim().length > 0) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({ event: 'reveal_secret' });
+            }
+        });
+    </script>
+
+<script>
+(() => {
+  const nav = document.querySelector('.site-nav');
+  const toggle = document.querySelector('.nav-toggle');
+  if (!nav || !toggle) return;
+  const close = () => {
+    nav.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+  toggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  nav.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', close));
+  document.addEventListener('click', event => { if (!nav.contains(event.target)) close(); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+})();
+</script>
+
+</body>
+</html>

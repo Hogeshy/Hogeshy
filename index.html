@@ -349,6 +349,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             letter-spacing: 0.08em;
         }
 
+        .quiet-link {
+            display: inline-block;
+            margin-top: 8px;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            transition: color 0.2s ease;
+        }
+
+        .quiet-link:hover,
+        .quiet-link:focus-visible {
+            color: #fff;
+            outline: none;
+        }
+
         .guestbook {
             border-top: 1px solid #1a1a1a;
             padding-top: 15px;
@@ -449,6 +465,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     opacity: 0.9;
 }
     </style>
+<style>
+/* Hogeshy shared navigation: desktop map, compact menu for phones/tablets. */
+.site-nav {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 960px;
+  margin: 0 auto 28px;
+  padding: 0 4px 18px;
+  border-bottom: 1px solid rgba(150, 150, 150, .18);
+  font-family: 'Courier New', Courier, monospace;
+  text-transform: uppercase;
+}
+.site-brand { color: #aaa; text-decoration: none; font-size: .72rem; letter-spacing: .18em; white-space: nowrap; }
+.nav-links { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px 18px; font-size: .68rem; letter-spacing: .14em; }
+.site-nav a { color: #777; text-decoration: none; transition: color .2s ease; }
+.site-nav a:hover, .site-nav a:focus-visible { color: #fff; outline: none; }
+.nav-toggle { display: none; appearance: none; border: 1px solid #333; background: transparent; color: #aaa; padding: 9px 12px; font: inherit; font-size: .68rem; letter-spacing: .14em; cursor: pointer; }
+.nav-toggle:hover, .nav-toggle:focus-visible { color: #fff; border-color: #777; outline: none; }
+@media (max-width: 1023px) {
+  .site-nav { justify-content: flex-end; }
+  .site-brand { margin-right: auto; }
+  .nav-toggle { display: block; }
+  .nav-links { display: none; position: absolute; top: calc(100% - 10px); right: 4px; min-width: 200px; padding: 10px 14px; border: 1px solid #333; background: rgba(5,5,5,.98); box-shadow: 0 14px 30px rgba(0,0,0,.45); }
+  .site-nav.is-open .nav-links { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .site-nav.is-open .nav-links a { display: block; padding: 11px 2px; border-bottom: 1px solid #1c1c1c; text-align: right; }
+  .site-nav.is-open .nav-links a:last-child { border-bottom: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .site-nav a { transition: none; } }
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -457,13 +506,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <div class="container">
         <nav class="site-nav" aria-label="Primary navigation">
-            <a href="index.html" class="nav-current" aria-current="page">START</a>
-            <a href="thefirsttendays.html">STORY</a>
-            <a href="diary.html">DIARY</a>
-            <a href="wallpapers.html">FREE</a>
-            <a href="gallery.html">GALLERY</a>
-            <a href="https://www.instagram.com/hogeshy_ai/" target="_blank" rel="noopener">INSTAGRAM</a>
-        </nav>
+  <a class="site-brand" href="index.html" aria-label="Hogeshy home">HOGESHY</a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-links">
+    <span aria-hidden="true">☰</span> MENU
+  </button>
+  <div class="nav-links" id="primary-links">
+    <a href="index.html">START</a>
+    <a href="story.html">STORY</a>
+    <a href="diaryarchive.html">DIARY</a>
+    <a href="free.html">FREE</a>
+    <a href="gallery.html">GALLERY</a>
+    <a href="https://www.instagram.com/hogeshy_ai/" target="_blank" rel="noopener">INSTAGRAM</a>
+  </div>
+</nav>
 
         <div class="image-wrapper" id="easter-egg-target" title="...?">
             <img src="Hogeshy.png" alt="Hogeshy">
@@ -479,19 +534,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             A surreal hand-drawn creature that eats nothingness, eats canned cat food, and thinks about nothing.<br>
             Probably happy.
         </p>
-        <p class="links-hint">Explore the visual diary, wallpapers, icons, and future LINE stickers.</p>
+        <p class="links-hint">Begin with the story. The rest is somewhere in the archive.</p>
     </div>
 </header>
        <div class="links">
-    <a href="thefirsttendays.html" class="btn">THE FIRST TWENTY DAYS — START HERE</a>
+    <a href="story.html" class="btn">ENTER THE FIRST TWENTY DAYS</a>
     <span class="start-note">A quiet beginning. Twenty days of nothing, probably.</span>
-    <a href="diary.html" class="btn">DIARY ARCHIVE</a>
-    <a href="wallpapers.html" class="btn">WALLPAPERS — FREE</a>
-    <a href="icons.html" class="btn">ICONS — FREE</a>
-    <a href="gallery.html" class="btn">GALLERY</a>
-    <span class="btn disabled" aria-disabled="true">LINE STICKERS — COMING SOON<br><small class="coming-note">Follow Instagram for the first release.</small></span>
-    <a href="https://www.instagram.com/hogeshy_ai/" class="btn" target="_blank">INSTAGRAM</a>
-    <a href="leaveatrace.html" class="btn" target="_blank" rel="noopener">LEAVE A TRACE</a>
+    <a href="free.html" class="quiet-link">TAKE A WALLPAPER OR ICON</a>
 </div>
 
 <div class="guestbook">
@@ -684,6 +733,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
         });
     </script>
+
+
+<script>
+(() => {
+  const nav = document.querySelector('.site-nav');
+  const toggle = document.querySelector('.nav-toggle');
+  if (!nav || !toggle) return;
+  const close = () => {
+    nav.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+  toggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  nav.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', close));
+  document.addEventListener('click', event => { if (!nav.contains(event.target)) close(); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+})();
+</script>
 
 </body>
 </html>

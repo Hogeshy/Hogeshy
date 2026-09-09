@@ -84,7 +84,7 @@ function generateText(dateString) {
   return lines.join('<br>\n');
 }
 
-const targetPath = path.join(__dirname, 'diary.html');
+const targetPath = path.join(__dirname, 'diaryarchive.html');
 if (!fs.existsSync(targetPath)) {
   console.error(`ERROR: ${targetPath} does not exist.`);
   process.exit(1);

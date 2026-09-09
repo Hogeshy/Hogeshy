@@ -216,13 +216,25 @@ If you have nothing to say, that is also acceptable.</div>
             submitBtn.disabled = true;
 
             fetch(scriptURL, { method: 'POST', body: formData })
-                .then(response => {
+                .then(async response => {
+                    const raw = await response.text();
+                    let data;
+                    try {
+                        data = JSON.parse(raw);
+                    } catch (parseError) {
+                        throw new Error('Invalid response from Apps Script: ' + raw.slice(0, 160));
+                    }
+
+                    if (!response.ok || data.result !== 'success') {
+                        throw new Error(data.message || data.error || 'Apps Script rejected the submission.');
+                    }
+
                     form.style.display = 'none';
                     successMessage.style.display = 'block';
                 })
                 .catch(error => {
-                    console.error('Error!', error.message);
-                    alert('The transmission failed. Please try again.');
+                    console.error('Leave a Trace error:', error);
+                    alert('The transmission failed: ' + error.message);
                     submitBtn.textContent = 'SEND';
                     submitBtn.disabled = false;
                 });

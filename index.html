@@ -425,6 +425,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             transition: filter 0.5s ease;
         }
 
+        .footer-links a:hover,
+        .footer-links a:focus-visible {
+            color: #aaa !important;
+            outline: none;
+        }
+
         .copyright {
             margin-top: 20px;
             font-size: 0.6rem;
@@ -552,10 +558,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </form>
             <div class="log-list" id="log-list">...</div>
             
-            <!-- コピーライトとプライバシーポリシーを横並びにする -->
-            <div style="margin-top: 20px; font-size: 0.6rem; color: #444; letter-spacing: 0.2em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; padding: 0 10px;">
+            <!-- Quiet footer routes: trace and privacy stay available without competing with the main navigation. -->
+            <div class="footer-links" style="margin-top: 20px; font-size: 0.6rem; color: #444; letter-spacing: 0.2em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 0 10px;">
                 <span id="copyright-text">&copy; Hogeshy</span>
-                <a href="privacy.html" style="color: #444; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='#444'">privacy policy</a>
+                <span style="display: inline-flex; gap: 12px; align-items: center;">
+                    <a href="leaveatrace.html" style="color: #444; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='#444'">leave a trace</a>
+                    <a href="privacy.html" style="color: #444; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='#444'">privacy policy</a>
+                </span>
             </div>
         </div>
 

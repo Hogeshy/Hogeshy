@@ -52,33 +52,46 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             white-space: pre-line;
         }
         .story-jump {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
             margin: 0 0 60px;
             padding: 14px 0;
             border-top: 1px solid rgba(150, 150, 150, .12);
             border-bottom: 1px solid rgba(150, 150, 150, .12);
         }
-        .story-jump a {
+        .chapter-tabs, .day-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .day-picker { margin-top: 14px; }
+        .chapter-button, .day-button {
+            appearance: none;
             display: inline-block;
             padding: 9px 12px;
             border: 1px solid #292929;
+            background: transparent;
             color: #666;
-            text-decoration: none;
+            font: inherit;
             font-size: .72rem;
             letter-spacing: .1em;
+            cursor: pointer;
             transition: color .2s ease, border-color .2s ease, background .2s ease;
         }
-        .story-jump a:hover,
-        .story-jump a:focus-visible {
+        .day-button { padding: 7px 10px; font-size: .68rem; }
+        .chapter-button:hover, .chapter-button:focus-visible,
+        .day-button:hover, .day-button:focus-visible,
+        .chapter-button.is-active, .day-button.is-active {
             color: #ddd;
             border-color: #777;
             background: #151515;
             outline: none;
         }
-        html { scroll-behavior: smooth; }
-        .day-card { scroll-margin-top: 28px; }
+        .story-grid { display: block; }
+        .day-card { display: none; scroll-margin-top: 28px; max-width: 620px; margin: 0 auto; }
+        .day-card.is-active { display: flex; }
+        @media (max-width: 600px) {
+            .chapter-button, .day-button { font-size: .64rem; letter-spacing: .06em; }
+            .day-picker { gap: 6px; }
+        }
 
         /* 日記グリッド（PCでは2カラム、スマホでは1カラム） */
         .story-grid {
@@ -184,6 +197,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 @media (prefers-reduced-motion: reduce) { .site-nav a { transition: none; } }
 </style>
+<style>
+/* Final selector priority for the chapter/day switcher. */
+.story-grid { display: block !important; }
+.story-grid .day-card { display: none !important; max-width: 620px; margin: 0 auto; }
+.story-grid .day-card.is-active { display: flex !important; }
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -218,11 +237,14 @@ and thinks about nothing.
 But, probably happy.</p>
         </div>
 
-        <!-- Story内の読み始め位置 -->
-        <nav class="story-jump" aria-label="Story sections">
-            <a href="#day-01">BEGINNING · DAYS 01–10</a>
-            <a href="#day-11">THE NEXT DAYS · 11–20</a>
-        </nav>
+        <!-- Story chapter and day selector -->
+        <section class="story-jump" aria-label="Story sections">
+            <div class="chapter-tabs" role="tablist" aria-label="Story chapters">
+                <button class="chapter-button is-active" type="button" role="tab" aria-selected="true" data-range-start="1" data-range-end="10">BEGINNING · DAYS 01–10</button>
+                <button class="chapter-button" type="button" role="tab" aria-selected="false" data-range-start="11" data-range-end="20">THE NEXT DAYS · 11–20</button>
+            </div>
+            <div class="day-picker" id="dayPicker" aria-label="Choose a day"></div>
+        </section>
 
         <!-- 20日間のストーリーグリッド -->
         <div class="story-grid">
@@ -458,6 +480,56 @@ Maybe tomorrow will be different.
   nav.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', close));
   document.addEventListener('click', event => { if (!nav.contains(event.target)) close(); });
   document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+})();
+</script>
+
+<script>
+(() => {
+  const cards = Array.from(document.querySelectorAll('.day-card'));
+  const chapters = Array.from(document.querySelectorAll('.chapter-button'));
+  const picker = document.getElementById('dayPicker');
+  if (!cards.length || !chapters.length || !picker) return;
+
+  cards.forEach((card, index) => {
+    const day = index + 1;
+    card.dataset.day = String(day);
+    card.removeAttribute('id');
+  });
+
+  const showDay = (day) => {
+    cards.forEach(card => card.classList.toggle('is-active', card.dataset.day === String(day)));
+    picker.querySelectorAll('.day-button').forEach(button => {
+      const active = button.dataset.day === String(day);
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-selected', String(active));
+    });
+  };
+
+  const selectChapter = (chapter) => {
+    const start = Number(chapter.dataset.rangeStart);
+    const end = Number(chapter.dataset.rangeEnd);
+    chapters.forEach(button => {
+      const active = button === chapter;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-selected', String(active));
+    });
+    picker.replaceChildren();
+    for (let day = start; day <= end; day += 1) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'day-button';
+      button.dataset.day = String(day);
+      button.setAttribute('role', 'tab');
+      button.setAttribute('aria-selected', 'false');
+      button.textContent = String(day).padStart(2, '0');
+      button.addEventListener('click', () => showDay(day));
+      picker.appendChild(button);
+    }
+    showDay(start);
+  };
+
+  chapters.forEach(chapter => chapter.addEventListener('click', () => selectChapter(chapter)));
+  selectChapter(chapters[0]);
 })();
 </script>
 

@@ -102,16 +102,28 @@ if (startIndex === -1 || endIndex === -1 || endIndex < startIndex) {
   process.exit(1);
 }
 
-let postsHtml = '\n';
+const archiveBodyStart = startIndex + startMarker.length;
+const archiveBody = html.slice(archiveBodyStart, endIndex);
+const existingDates = new Set(
+  Array.from(archiveBody.matchAll(/<span class="diary-date">(\d{4}-\d{2}-\d{2})<\/span>/g), match => match[1])
+);
+
+// Add only dates that are not already stored. Older diary entries are never deleted.
+let additions = '';
 for (let offset = 0; offset < 5; offset += 1) {
   const date = getTokyoDate(offset);
-  postsHtml += `        <div class="diary-post">\n`;
-  postsHtml += `            <span class="diary-date">${date}</span>\n`;
-  postsHtml += `            <p class="secret-text">${generateText(date)}</p>\n`;
-  postsHtml += `        </div>\n`;
+  if (existingDates.has(date)) continue;
+  additions += `\n        <div class="diary-post">\n`;
+  additions += `            <span class="diary-date">${date}</span>\n`;
+  additions += `            <p class="secret-text">${generateText(date)}</p>\n`;
+  additions += `        </div>\n`;
 }
 
-const insertPos = startIndex + startMarker.length;
-const updatedHtml = html.slice(0, insertPos) + postsHtml + '    ' + html.slice(endIndex);
+if (!additions) {
+  console.log('Diary already contains the latest Tokyo dates. No changes needed.');
+  process.exit(0);
+}
+
+const updatedHtml = html.slice(0, archiveBodyStart) + additions + archiveBody + html.slice(endIndex);
 fs.writeFileSync(targetPath, updatedHtml, 'utf8');
 console.log(`Diary updated successfully: ${targetPath}`);

@@ -41,6 +41,7 @@
         .container {
             width: 100%;
             max-width: 700px;
+            margin: 0 auto;
         }
 
         h1 {
@@ -98,6 +99,57 @@
             color: #fff;
             text-decoration: underline;
             text-underline-offset: 4px;
+        }
+
+        .year-group,
+        .month-group {
+            margin: 0;
+            padding: 0;
+        }
+
+        .year-label,
+        .month-label {
+            width: 100%;
+            appearance: none;
+            border: 0;
+            background: transparent;
+            color: #7d776f;
+            cursor: pointer;
+            font: inherit;
+            letter-spacing: 1px;
+            padding: 3px 0;
+            text-align: left;
+        }
+
+        .year-label {
+            color: #aaa39a;
+            font-size: .9rem;
+            margin-bottom: 5px;
+        }
+
+        .month-label {
+            font-size: .8rem;
+            padding-left: 10px;
+        }
+
+        .year-label:hover,
+        .month-label:hover,
+        .year-label:focus-visible,
+        .month-label:focus-visible {
+            color: var(--bright);
+            outline: none;
+        }
+
+        .month-days {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 2px 0 14px 20px;
+        }
+
+        .year-group.is-collapsed > .year-content,
+        .month-group.is-collapsed > .month-days {
+            display: none;
         }
 
         .diary-viewer {
@@ -243,6 +295,7 @@ Listened to a sound that wasn't there.<br>
 The shadow didn't match the body.<br>
 Nothing changed.</p>
         </div>
+
         <div class="diary-post">
             <span class="diary-date">2026-09-10</span>
             <p class="secret-text">The sky was completely cloudless and painfully bright.<br>
@@ -271,6 +324,13 @@ Sat on the floor until legs went numb.<br>
 The calendar showed yesterday's date again.<br>
 So what?</p>
         </div>
+        <div class="diary-post">
+            <span class="diary-date">2026-09-06</span>
+            <p class="secret-text">A sudden flash of lightning illuminated nothing.<br>
+Listened to a sound that wasn't there.<br>
+The clock hand skipped a beat.<br>
+Again.</p>
+        </div>
     <!-- AUTO_ARCHIVE_END -->
     </div>
 
@@ -279,6 +339,10 @@ So what?</p>
         const dateListEl = document.getElementById('dateList');
         const viewerDateEl = document.getElementById('viewerDate');
         const viewerContentEl = document.getElementById('viewerContent');
+        const posts = Array.from(postElements).map((el) => ({
+            date: el.querySelector('.diary-date').textContent.trim(),
+            text: el.querySelector('.secret-text').innerHTML
+        }));
 
         function showPost(item, date, text) {
             document.querySelectorAll('.date-item').forEach((dateItem) => {
@@ -290,21 +354,68 @@ So what?</p>
             viewerContentEl.classList.remove('is-focused');
         }
 
-        postElements.forEach((el, index) => {
-            const date = el.querySelector('.diary-date').textContent.trim();
-            const text = el.querySelector('.secret-text').innerHTML;
-            const item = document.createElement('button');
+        function createToggle(label, className, expanded, onToggle) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = className;
+            button.textContent = label;
+            button.setAttribute('aria-expanded', String(expanded));
+            button.addEventListener('click', () => {
+                const next = button.getAttribute('aria-expanded') !== 'true';
+                button.setAttribute('aria-expanded', String(next));
+                onToggle(next);
+            });
+            return button;
+        }
 
-            item.type = 'button';
-            item.className = 'date-item';
-            item.textContent = date;
-            item.addEventListener('click', () => showPost(item, date, text));
-            dateListEl.appendChild(item);
-
-            if (index === 0) {
-                showPost(item, date, text);
-            }
+        const groups = new Map();
+        posts.forEach((post) => {
+            const [year, month] = post.date.split('-');
+            if (!groups.has(year)) groups.set(year, new Map());
+            if (!groups.get(year).has(month)) groups.get(year).set(month, []);
+            groups.get(year).get(month).push(post);
         });
+
+        let firstDateItem = null;
+        groups.forEach((months, year) => {
+            const yearGroup = document.createElement('section');
+            yearGroup.className = 'year-group';
+            const yearLabel = createToggle(year, 'year-label', true, (expanded) => {
+                yearContent.style.display = expanded ? '' : 'none';
+                yearGroup.classList.toggle('is-collapsed', !expanded);
+            });
+            yearGroup.appendChild(yearLabel);
+
+            const yearContent = document.createElement('div');
+            yearContent.className = 'year-content';
+            months.forEach((monthPosts, month) => {
+                const monthGroup = document.createElement('section');
+                monthGroup.className = 'month-group';
+                const monthLabel = createToggle(`${year} / ${month}`, 'month-label', true, (expanded) => {
+                    monthDays.style.display = expanded ? '' : 'none';
+                    monthGroup.classList.toggle('is-collapsed', !expanded);
+                });
+                monthGroup.appendChild(monthLabel);
+
+                const monthDays = document.createElement('div');
+                monthDays.className = 'month-days';
+                monthPosts.forEach((post) => {
+                    const item = document.createElement('button');
+                    item.type = 'button';
+                    item.className = 'date-item';
+                    item.textContent = post.date;
+                    item.addEventListener('click', () => showPost(item, post.date, post.text));
+                    monthDays.appendChild(item);
+                    if (!firstDateItem) firstDateItem = { item, post };
+                });
+                monthGroup.appendChild(monthDays);
+                yearContent.appendChild(monthGroup);
+            });
+            yearGroup.appendChild(yearContent);
+            dateListEl.appendChild(yearGroup);
+        });
+
+        if (firstDateItem) showPost(firstDateItem.item, firstDateItem.post.date, firstDateItem.post.text);
 
         // On touch devices, a tap gently reveals the text without requiring dragging.
         viewerContentEl.addEventListener('click', () => {

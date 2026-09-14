@@ -120,18 +120,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         /* インスタ風画像フレーム */
         .day-image-frame {
             width: 100%;
-            aspect-ratio: 4 / 5;
             background: #111;
             border: 1px solid #222;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            display: block;
+            overflow: visible;
         }
         .day-image-frame img {
+            display: block;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
+            object-fit: contain;
             filter: grayscale(20%) contrast(110%);
             transition: filter 0.3s ease;
         }
@@ -140,8 +138,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
         /* 画像がない場合のプレースホルダー文字 */
         .placeholder-text {
-            color: #333;
-            font-size: 0.8rem;
+            display: none;
         }
 
         .day-caption {

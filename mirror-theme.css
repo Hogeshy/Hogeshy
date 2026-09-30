@@ -1,0 +1,31 @@
+/* Hogeshy shared mirror atmosphere: one quiet room across the site. */
+:root {
+  --mirror-void: #071018;
+  --mirror-ink: #d8e4e2;
+  --mirror-muted: #8ca1a7;
+  --mirror-line: rgba(155, 188, 197, .22);
+  --mirror-accent: #a8c4c9;
+}
+html { background: var(--mirror-void); }
+body {
+  background-color: var(--mirror-void) !important;
+  background-image: radial-gradient(circle at 72% 12%, rgba(57, 96, 112, .13), transparent 34%) !important;
+  color: var(--mirror-ink);
+}
+body::selection { background: rgba(168, 196, 201, .3); color: #f2f6f4; }
+.site-nav, .global-nav, .topbar { border-color: var(--mirror-line) !important; }
+.site-nav a, .global-nav a, .brand, .site-brand { color: var(--mirror-muted); }
+.site-nav a:hover, .site-nav a:focus-visible,
+.global-nav a:hover, .global-nav a:focus-visible { color: var(--mirror-ink); }
+h1, h2, h3, .title, .hero h1 { color: var(--mirror-ink); }
+.subtitle, .eyebrow, .kicker, .section-label, .number { color: var(--mirror-accent); }
+a { transition: color .2s ease, border-color .2s ease, background-color .2s ease; }
+.free-card, .shelf, .comic-card, .archive-card, .panel, .diary-subscribe {
+  border-color: var(--mirror-line) !important;
+  background-color: rgba(10, 25, 32, .58) !important;
+}
+.free-card:hover, .shelf:hover, .comic-card:hover, .archive-card:hover {
+  background-color: rgba(65, 108, 122, .15) !important;
+}
+button, input, textarea, select { border-color: var(--mirror-line) !important; background-color: rgba(6, 16, 22, .7) !important; color: var(--mirror-ink); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }

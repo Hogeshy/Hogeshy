@@ -276,41 +276,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             animation: strangeAppear 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards;
         }
 
-        /* 日記セクションのスタイル */
-        .diary-container {
-            margin-bottom: 2px;
-        }
-
-        .diary-post {
-            padding: 10px 0;
-            border: 1px solid #1a1a1a;
-            background: rgba(10, 10, 10, 0.5);
-            text-align: center;
-        }
-
-        .diary-header {
-            font-size: 0.65rem;
-            color: #777;
-            letter-spacing: 0.2em;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-
-        .diary-date {
-            font-size: 0.65rem;
-            color: #555;
-            letter-spacing: 0.15em;
-        }
-
-        .secret-text {
-            font-size: 0.75rem;
-            color: #555; /* Quietly visible without losing the atmosphere. */
-            user-select: text;
-            -webkit-user-select: text;
-            transition: color 0.3s;
-            letter-spacing: 0.1em;
-            margin-top: 4px;
-        }
 
         /* マウスでドラッグして選択した瞬間だけ文字が浮かび上がる */
         .secret-text::selection {
@@ -391,66 +356,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             background: #d9d5cd;
             border-color: #d9d5cd;
             outline: none;
-        }
-
-        .guestbook {
-            border-top: 1px solid #1a1a1a;
-            padding-top: 15px;
-            font-size: 0.7rem;
-            color: #555;
-            opacity: 0;
-            animation: strangeAppear 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.8s forwards;
-        }
-
-        .guestbook form {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-            margin-top: 8px;
-        }
-
-        .guestbook input {
-            background: #0a0a0a;
-            border: 1px solid #222;
-            color: #aaa;
-            padding: 8px;
-            font-family: inherit;
-            font-size: 0.75rem;
-            width: 72%;
-            outline: none;
-            -webkit-user-select: text;
-            user-select: text;
-        }
-
-        .guestbook input:focus {
-            border-color: #555;
-            color: #fff;
-        }
-
-        .guestbook button {
-            background: transparent;
-            border: 1px solid #333;
-            color: #888;
-            padding: 8px 12px;
-            font-family: inherit;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .guestbook button:hover {
-            color: #fff;
-            border-color: #666;
-        }
-
-        .log-list {
-            margin-top: 10px;
-            color: #444;
-            font-size: 0.65rem;
-            min-height: 20px;
-            letter-spacing: 0.1em;
-            transition: filter 0.5s ease;
         }
 
         .footer-links a:hover,
@@ -579,22 +484,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="free.html" class="quiet-link">TAKE A WALLPAPER OR ICON</a><a href="comics.html" class="quiet-link">READ THE COMICS</a>
 </div>
 
-<div class="guestbook">
-            <div style="margin-bottom: 6px; letter-spacing: 0.1em;" id="trace-label">Leave a trace...</div>
-            <form id="trace-form">
-                <input type="text" id="trace-input" placeholder="..." maxlength="20" autocomplete="off">
-                <button type="submit">SEND</button>
-            </form>
-            <div class="log-list" id="log-list">...</div>
-            
-            <!-- Quiet footer routes: trace and privacy stay available without competing with the main navigation. -->
-            <div class="footer-links" style="margin-top: 20px; font-size: 0.6rem; color: #444; letter-spacing: 0.2em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 0 10px;">
-                <span id="copyright-text">&copy; Hogeshy</span>
-                <span style="display: inline-flex; gap: 12px; align-items: center;">
-                    <a href="leaveatrace.html" style="color: #444; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='#444'">leave a trace</a>
-                    <a href="privacy.html" style="color: #444; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='#444'">privacy policy</a>
-                </span>
-            </div>
+
+        <div class="footer-links" style="margin-top: 28px; font-size: 0.6rem; color: #444; letter-spacing: 0.2em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 0 10px;">
+            <span id="copyright-text">&copy; Hogeshy</span>
+            <a href="privacy.html" style="color: #444; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='#444'">privacy policy</a>
         </div>
 
     <script>
@@ -721,54 +614,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 setTimeout(() => {
                     clickCount = 0;
                 }, 6000);
-            }
-        });
-
-        // --- ランダム足跡（ゲストブック） ---
-        const traceForm = document.getElementById('trace-form');
-        const traceInput = document.getElementById('trace-input');
-        const logList = document.getElementById('log-list');
-
-        const normalTraces = [
-            "Midnight echo...", "Nothing here.", "Cold floor.", 
-            "A cat meowed somewhere.", "Just passing through.",
-            "Darkness is quiet.", "Can't sleep.", "Where is this?",
-            "Staring at the screen.", "Void."
-        ];
-
-        const midnightTraces = [
-            "Why are you awake?", "The world has stopped.", 
-            "Something is watching...", "3:14 AM. The deep dark.", 
-            "Don't look behind you.", "Empty room, empty mind.",
-            "The hour of shadows.", "They know you are here."
-        ];
-
-        const activeTraces = isMidnight ? midnightTraces : normalTraces;
-        let currentTrace = activeTraces[Math.floor(Math.random() * activeTraces.length)] ?? activeTraces[0];
-        logList.textContent = `> "${currentTrace}"`;
-
-        traceForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const val = traceInput.value.trim();
-            if (val) {
-                logList.textContent = `> "${val}"`;
-                traceInput.value = "";
-
-                if (isMidnight) {
-                    logList.style.filter = "blur(0px)";
-                    let blurVal = 0;
-                    const fadeOutInterval = setInterval(() => {
-                        blurVal += 0.2;
-                        logList.style.filter = `blur(${blurVal}px)`;
-                        if (blurVal > 4) {
-                            clearInterval(fadeOutInterval);
-                            setTimeout(() => {
-                                logList.textContent = `> "..."`;
-                                logList.style.filter = "blur(0px)";
-                            }, 1500);
-                        }
-                    }, 200);
-                }
             }
         });
     </script>

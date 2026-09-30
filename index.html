@@ -365,6 +365,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             outline: none;
         }
 
+        .origin-link {
+            display: block;
+            width: min(100%, 310px);
+            margin: 8px auto 4px;
+            padding: 12px 16px;
+            border: 1px solid #5a5348;
+            color: #c2b49b;
+            background: linear-gradient(135deg, rgba(194,180,155,.10), rgba(194,180,155,.02));
+            font-size: .72rem;
+            letter-spacing: .16em;
+            text-decoration: none;
+            transition: all .25s ease;
+        }
+
+        .origin-link::before {
+            content: '01 / ';
+            color: #777;
+            letter-spacing: .12em;
+        }
+
+        .origin-link:hover,
+        .origin-link:focus-visible {
+            color: #050505;
+            background: #d9d5cd;
+            border-color: #d9d5cd;
+            outline: none;
+        }
+
         .guestbook {
             border-top: 1px solid #1a1a1a;
             padding-top: 15px;
@@ -547,7 +575,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        <div class="links">
     <a href="story.html" class="btn">ENTER THE STORY</a>
     <span class="start-note">A quiet beginning. Forty days of nothing, probably.</span>
-    <a href="what-is-hogeshy.html" class="quiet-link">WHAT IS HOGESHY?</a><a href="hogeshy-archive.html" class="quiet-link">HOGESHY ARCHIVE</a><a href="untranslated-words.html" class="quiet-link">THE UNTRANSLATED WORDS</a>
+    <a href="what-is-hogeshy.html" class="origin-link">THE ORIGIN OF HOGESHY</a><a href="hogeshy-archive.html" class="quiet-link">HOGESHY ARCHIVE</a><a href="untranslated-words.html" class="quiet-link">THE UNTRANSLATED WORDS</a>
     <a href="free.html" class="quiet-link">TAKE A WALLPAPER OR ICON</a><a href="comics.html" class="quiet-link">READ THE COMICS</a>
 </div>
 

@@ -43,6 +43,14 @@ const shortLineList = [
   "Who knows."
 ];
 
+const quietCareList = [
+  "A small patch of sunlight reached the floor.",
+  "Nothing happened. It was not a bad day.",
+  "The empty can stayed nearby, just in case.",
+  "The tail looked back. Hogeshy stayed where it was.",
+  "For a moment, there was nothing to fix."
+];
+
 function hashDate(dateString, salt) {
   let hash = 2166136261 ^ salt;
   for (const character of dateString) {
@@ -81,6 +89,10 @@ function generateText(dateString) {
     pick(anomalyList, dateString, 3),
     pick(shortLineList, dateString, 4)
   ];
+  // Let a small sign of rest or contentment surface occasionally without explaining it.
+  if (hashDate(dateString, 5) % 3 === 0) {
+    lines.push(pick(quietCareList, dateString, 6));
+  }
   return lines.join('<br>\n');
 }
 

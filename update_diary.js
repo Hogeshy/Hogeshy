@@ -154,10 +154,16 @@ for (let offset = 0; offset < 5; offset += 1) {
 if (!additions) {
   console.log('Diary already contains the latest Tokyo dates.');
   writeRssFeed(html);
+  if (process.env.GITHUB_OUTPUT) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, 'diary_updated=false\n', 'utf8');
+  }
   process.exit(0);
 }
 
-const updatedHtml = html.slice(0, archiveBodyStart) + additions + archiveBody + html.slice(endIndex);
+const updatedHtml = html.slice(0, archiveBodyStart) + additions + archiveBody;
 fs.writeFileSync(targetPath, updatedHtml, 'utf8');
 writeRssFeed(updatedHtml);
+if (process.env.GITHUB_OUTPUT) {
+  fs.appendFileSync(process.env.GITHUB_OUTPUT, 'diary_updated=true\n', 'utf8');
+}
 console.log(`Diary updated successfully: ${targetPath}`);

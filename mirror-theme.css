@@ -29,3 +29,35 @@ a { transition: color .2s ease, border-color .2s ease, background-color .2s ease
 }
 button, input, textarea, select { border-color: var(--mirror-line) !important; background-color: rgba(6, 16, 22, .7) !important; color: var(--mirror-ink); }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* Shared navigation: horizontal on desktop, hamburger on phones and tablets. */
+.site-nav {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto 28px;
+  padding: 0 4px 18px;
+  border-bottom: 1px solid var(--mirror-line) !important;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+}
+.site-brand { color: var(--mirror-ink) !important; text-decoration: none; font-size: .72rem; letter-spacing: .18em; white-space: nowrap; }
+.nav-links { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px 18px; font-size: .66rem; letter-spacing: .13em; }
+.nav-links a { color: var(--mirror-muted) !important; text-decoration: none; }
+.nav-links a:hover, .nav-links a:focus-visible, .nav-links a[aria-current="page"] { color: var(--mirror-ink) !important; }
+.nav-toggle { display: none; appearance: none; border: 1px solid var(--mirror-line); background: rgba(6,16,22,.7); color: var(--mirror-ink); padding: 9px 12px; font: inherit; font-size: .66rem; letter-spacing: .13em; cursor: pointer; }
+.nav-toggle:hover, .nav-toggle:focus-visible { border-color: var(--mirror-accent); outline: none; }
+@media (max-width: 900px) {
+  .site-nav { justify-content: flex-end; }
+  .site-brand { margin-right: auto; }
+  .nav-toggle { display: block; }
+  .nav-links { display: none; position: absolute; top: calc(100% - 10px); right: 4px; min-width: 220px; padding: 9px 14px; border: 1px solid var(--mirror-line); background: rgba(7,16,24,.98); box-shadow: 0 18px 38px rgba(0,0,0,.46); }
+  .site-nav.is-open .nav-links { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .site-nav.is-open .nav-links a { display: block; padding: 11px 2px; border-bottom: 1px solid rgba(155,188,197,.14); text-align: right; }
+  .site-nav.is-open .nav-links a:last-child { border-bottom: 0; }
+}

@@ -118,5 +118,6 @@ Your browser does not support the video element.
 <script>
 (()=>{const nav=document.querySelector('.site-nav'),toggle=document.querySelector('.nav-toggle');if(!nav||!toggle)return;const close=()=>{nav.classList.remove('is-open');toggle.setAttribute('aria-expanded','false')};toggle.addEventListener('click',()=>{const open=nav.classList.toggle('is-open');toggle.setAttribute('aria-expanded',String(open))});nav.querySelectorAll('.nav-links a').forEach(link=>link.addEventListener('click',close));document.addEventListener('click',e=>{if(!nav.contains(e.target))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()})})();
 </script>
+<script src="shared-nav.js"></script>
 </body>
 </html>

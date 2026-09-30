@@ -84,6 +84,38 @@ function generateText(dateString) {
   return lines.join('<br>\n');
 }
 
+function escapeXml(value) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+function buildRssFeed(archiveHtml) {
+  const posts = Array.from(archiveHtml.matchAll(
+    /<div class="diary-post">\s*<span class="diary-date">(\d{4}-\d{2}-\d{2})<\/span>\s*<p class="secret-text">([\s\S]*?)<\/p>\s*<\/div>/g
+  ));
+
+  const items = posts.slice(0, 30).map(([, date, rawBody]) => {
+    const body = rawBody
+      .replace(/<br\s*\/?>(?:\r?\n)?/gi, '\n')
+      .replace(/<[^>]+>/g, '')
+      .trim();
+    const description = body.split('\n').map(line => escapeXml(line)).join('\n');
+    return `    <item>\n      <title>Hogeshy Diary — ${date}</title>\n      <link>https://hogeshy.github.io/Hogeshy/diaryarchive.html</link>\n      <guid isPermaLink="false">hogeshy-diary-${date}</guid>\n      <pubDate>${new Date(`${date}T00:00:00+09:00`).toUTCString()}</pubDate>\n      <description>${description}</description>\n    </item>`;
+  }).join('\n');
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n  <channel>\n    <title>Hogeshy Diary</title>\n    <link>https://hogeshy.github.io/Hogeshy/diaryarchive.html</link>\n    <description>Small records from Hogeshy, a quiet black cat.</description>\n    <language>en</language>\n${items}\n  </channel>\n</rss>\n`;
+}
+
+function writeRssFeed(archiveHtml) {
+  const rssPath = path.join(__dirname, 'diary.xml');
+  fs.writeFileSync(rssPath, buildRssFeed(archiveHtml), 'utf8');
+  console.log(`RSS feed updated: ${rssPath}`);
+}
+
 // Diary Archive is the live archive page. Keep this filename in sync with the site navigation.
 const targetPath = path.join(__dirname, 'diaryarchive.html');
 if (!fs.existsSync(targetPath)) {
@@ -120,10 +152,12 @@ for (let offset = 0; offset < 5; offset += 1) {
 }
 
 if (!additions) {
-  console.log('Diary already contains the latest Tokyo dates. No changes needed.');
+  console.log('Diary already contains the latest Tokyo dates.');
+  writeRssFeed(html);
   process.exit(0);
 }
 
 const updatedHtml = html.slice(0, archiveBodyStart) + additions + archiveBody + html.slice(endIndex);
 fs.writeFileSync(targetPath, updatedHtml, 'utf8');
+writeRssFeed(updatedHtml);
 console.log(`Diary updated successfully: ${targetPath}`);

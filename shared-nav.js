@@ -8,7 +8,6 @@
     ['ORIGIN', 'what-is-hogeshy.html'],
     ['DIARY', 'diaryarchive.html'],
     ['FREE', 'free.html'],
-    ['NOTES', 'newsletter.html'],
     ['GALLERY', 'gallery.html'],
     ['COMICS', 'comics.html'],
     ['SHOP', 'shop.html'],

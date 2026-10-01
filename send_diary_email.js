@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const apiKey = process.env.BREVO_API_KEY;
 const listId = Number(process.env.BREVO_LIST_ID || '2');
-const senderEmail = process.env.BREVO_SENDER_EMAIL || 'info@hogeshy.com';
+const senderEmail = process.env.BREVO_SENDER_EMAIL || 'diary@hogeshy.com';
 const senderName = process.env.BREVO_SENDER_NAME || 'Hogeshy';
 
 if (!apiKey) {

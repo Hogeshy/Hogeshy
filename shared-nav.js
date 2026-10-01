@@ -9,7 +9,6 @@
     ['DIARY', 'diaryarchive.html'],
     ['FREE', 'free.html'],
     ['NOTES', 'newsletter.html'],
-    ['GALLERY', 'gallery.html'],
     ['SHOP', 'shop.html'],
     ['INSTAGRAM', 'https://www.instagram.com/hogeshy_ai/', 'external'],
   ];

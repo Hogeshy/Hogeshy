@@ -30,7 +30,7 @@ jobs:
         env:
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
           BREVO_LIST_ID: '2'
-          BREVO_SENDER_EMAIL: hogeshy.official@gmail.com
+          BREVO_SENDER_EMAIL: info@hogeshy.com
           BREVO_SENDER_NAME: Hogeshy
         run: node send_diary_email.js
 

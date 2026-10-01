@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const apiKey = process.env.BREVO_API_KEY;
 const listId = Number(process.env.BREVO_LIST_ID || '2');
-const senderEmail = process.env.BREVO_SENDER_EMAIL || 'hogeshy.official@gmail.com';
+const senderEmail = process.env.BREVO_SENDER_EMAIL || 'info@hogeshy.com';
 const senderName = process.env.BREVO_SENDER_NAME || 'Hogeshy';
 
 if (!apiKey) {
@@ -63,7 +63,7 @@ async function main() {
       <p style="letter-spacing:.12em;text-transform:uppercase;font-size:12px;color:#687080">Hogeshy Diary</p>
       <h1 style="font-weight:500">A new small record has appeared.</h1>
       <p>The diary was updated on ${date}.</p>
-      <p><a href="https://hogeshy.github.io/Hogeshy/diaryarchive.html">Read the diary</a></p>
+      <p><a href="https://hogeshy.com/diaryarchive.html">Read the diary</a></p>
       <p style="color:#687080;font-size:13px">A quiet record from somewhere near the edge of the day.</p>
     </div>`;
 

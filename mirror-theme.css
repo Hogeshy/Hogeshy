@@ -61,3 +61,18 @@ button, input, textarea, select { border-color: var(--mirror-line) !important; b
   .site-nav.is-open .nav-links a { display: block; padding: 11px 2px; border-bottom: 1px solid rgba(155,188,197,.14); text-align: right; }
   .site-nav.is-open .nav-links a:last-child { border-bottom: 0; }
 }
+
+/* Diary archive contrast: keep the quiet blue-black atmosphere, but preserve readable text. */
+.archive-intro { color: var(--mirror-muted) !important; }
+.date-item { color: var(--mirror-muted) !important; }
+.date-item:hover, .date-item:focus-visible, .date-item.active { color: var(--mirror-ink) !important; }
+.year-label { color: var(--mirror-ink) !important; }
+.month-label { color: var(--mirror-muted) !important; }
+.year-label:hover, .month-label:hover, .year-label:focus-visible, .month-label:focus-visible { color: var(--mirror-ink) !important; }
+.viewer-date { color: var(--mirror-accent) !important; }
+.viewer-content { color: var(--mirror-ink) !important; }
+.viewer-content:hover, .viewer-content:focus, .viewer-content.is-focused { color: #f2f6f4 !important; text-shadow: 0 0 12px rgba(216, 228, 226, .08); }
+.back-link { color: var(--mirror-muted) !important; }
+.back-link:hover, .back-link:focus-visible { color: var(--mirror-ink) !important; }
+.diary-subscribe p { color: var(--mirror-muted) !important; }
+.diary-subscribe strong { color: var(--mirror-accent) !important; }

@@ -562,4 +562,126 @@ Listened to a sound that wasn't there.<br>
 The clock hand skipped a beat.<br>
 Again.</p>
         </div>
-    
+    <!-- AUTO_ARCHIVE_END -->
+    </div>
+
+    <script>
+        const postElements = document.querySelectorAll('.raw-posts .diary-post');
+        const dateListEl = document.getElementById('dateList');
+        const viewerDateEl = document.getElementById('viewerDate');
+        const viewerContentEl = document.getElementById('viewerContent');
+        const posts = Array.from(postElements).map((el) => ({
+            date: el.querySelector('.diary-date').textContent.trim(),
+            text: el.querySelector('.secret-text').innerHTML
+        }));
+
+        function showPost(item, date, text) {
+            document.querySelectorAll('.date-item').forEach((dateItem) => {
+                dateItem.classList.remove('active');
+            });
+            item.classList.add('active');
+            viewerDateEl.textContent = date;
+            viewerContentEl.innerHTML = text;
+            viewerContentEl.classList.remove('is-focused');
+        }
+
+        function createToggle(label, className, expanded, onToggle) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = className;
+            button.textContent = label;
+            button.setAttribute('aria-expanded', String(expanded));
+            button.addEventListener('click', () => {
+                const next = button.getAttribute('aria-expanded') !== 'true';
+                button.setAttribute('aria-expanded', String(next));
+                onToggle(next);
+            });
+            return button;
+        }
+
+        const groups = new Map();
+        posts.forEach((post) => {
+            const [year, month] = post.date.split('-');
+            if (!groups.has(year)) groups.set(year, new Map());
+            if (!groups.get(year).has(month)) groups.get(year).set(month, []);
+            groups.get(year).get(month).push(post);
+        });
+
+        let firstDateItem = null;
+        groups.forEach((months, year) => {
+            const yearGroup = document.createElement('section');
+            yearGroup.className = 'year-group';
+            const yearLabel = createToggle(year, 'year-label', true, (expanded) => {
+                yearContent.style.display = expanded ? '' : 'none';
+                yearGroup.classList.toggle('is-collapsed', !expanded);
+            });
+            yearGroup.appendChild(yearLabel);
+
+            const yearContent = document.createElement('div');
+            yearContent.className = 'year-content';
+            months.forEach((monthPosts, month) => {
+                const monthGroup = document.createElement('section');
+                monthGroup.className = 'month-group';
+                const monthLabel = createToggle(`${year} / ${month}`, 'month-label', true, (expanded) => {
+                    monthDays.style.display = expanded ? '' : 'none';
+                    monthGroup.classList.toggle('is-collapsed', !expanded);
+                });
+                monthGroup.appendChild(monthLabel);
+
+                const monthDays = document.createElement('div');
+                monthDays.className = 'month-days';
+                monthPosts.forEach((post) => {
+                    const item = document.createElement('button');
+                    item.type = 'button';
+                    item.className = 'date-item';
+                    item.textContent = post.date;
+                    item.addEventListener('click', () => showPost(item, post.date, post.text));
+                    monthDays.appendChild(item);
+                    if (!firstDateItem) firstDateItem = { item, post };
+                });
+                monthGroup.appendChild(monthDays);
+                yearContent.appendChild(monthGroup);
+            });
+            yearGroup.appendChild(yearContent);
+            dateListEl.appendChild(yearGroup);
+        });
+
+        if (firstDateItem) showPost(firstDateItem.item, firstDateItem.post.date, firstDateItem.post.text);
+
+        // On touch devices, a tap gently reveals the text without requiring dragging.
+        viewerContentEl.addEventListener('click', () => {
+            viewerContentEl.classList.toggle('is-focused');
+        });
+
+        // Preserve the existing analytics event when a visitor selects diary text.
+        document.addEventListener('mouseup', () => {
+            const selection = window.getSelection();
+            if (selection && selection.toString().trim().length > 0) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({ event: 'reveal_secret' });
+            }
+        });
+    </script>
+
+<script>
+(() => {
+  const nav = document.querySelector('.site-nav');
+  const toggle = document.querySelector('.nav-toggle');
+  if (!nav || !toggle) return;
+  const close = () => {
+    nav.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+  toggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  nav.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', close));
+  document.addEventListener('click', event => { if (!nav.contains(event.target)) close(); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+})();
+</script>
+
+<script src="shared-nav.js"></script>
+</body>
+</html>

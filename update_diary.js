@@ -146,6 +146,13 @@ if (startIndex === -1 || endIndex === -1 || endIndex < startIndex) {
   process.exit(1);
 }
 
+// The archive viewer and closing HTML live after the generated entries.
+// Refuse to update a damaged file instead of publishing a page with only placeholders.
+if (!html.includes('</html>') || !html.includes('const postElements')) {
+  console.error('ERROR: Diary archive viewer markup is missing.');
+  process.exit(1);
+}
+
 const archiveBodyStart = startIndex + startMarker.length;
 const archiveBody = html.slice(archiveBodyStart, endIndex);
 const existingDates = new Set(

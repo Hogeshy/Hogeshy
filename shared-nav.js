@@ -10,7 +10,6 @@
     ['FREE', 'free.html'],
     ['NOTES', 'newsletter.html'],
     ['GALLERY', 'gallery.html'],
-    ['COMICS', 'comics.html'],
     ['SHOP', 'shop.html'],
     ['INSTAGRAM', 'https://www.instagram.com/hogeshy_ai/', 'external'],
   ];

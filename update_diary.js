@@ -179,7 +179,7 @@ if (!additions) {
   process.exit(0);
 }
 
-const updatedHtml = html.slice(0, archiveBodyStart) + additions + archiveBody;
+const updatedHtml = html.slice(0, archiveBodyStart) + additions + archiveBody + html.slice(endIndex);
 fs.writeFileSync(targetPath, updatedHtml, 'utf8');
 writeRssFeed(updatedHtml);
 if (process.env.GITHUB_OUTPUT) {

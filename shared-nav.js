@@ -11,7 +11,6 @@
     ['お知らせ', 'newsletter.html'],
     ['ショップ', 'shop.html'],
     ['Instagram', 'https://www.instagram.com/hogeshy_ai/', 'external'],
-    ['Instagram', 'https://www.instagram.com/hogeshy_ai/', 'external'],
   ];
   const current = location.pathname.split('/').pop() || 'index.html';
   const menu = links.map(([label, href, kind]) => {

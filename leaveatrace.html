@@ -147,19 +147,19 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M7TXH22M"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-<nav class="site-nav" aria-label="Primary navigation">
+<nav class="site-nav" aria-label="主要メニュー">
   <a class="site-brand" href="index.html" aria-label="Hogeshy home">HOGESHY</a>
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-links">
-    <span aria-hidden="true">☰</span> MENU
+    <span aria-hidden="true">☰</span> メニュー
   </button>
   <div class="nav-links" id="primary-links">
-    <a href="index.html">START</a>
-    <a href="story.html">STORY</a><a href="what-is-hogeshy.html">ORIGIN</a>
-    <a href="diaryarchive.html">DIARY</a>
-    <a href="free.html">FREE</a>
-    <a href="gallery.html">GALLERY</a>
-    <a href="shop.html">SHOP</a>
-    <a href="https://www.instagram.com/hogeshy_ai/" target="_blank" rel="noopener">INSTAGRAM</a>
+    <a href="index.html">ホーム</a>
+    <a href="story.html">物語</a><a href="what-is-hogeshy.html">ホゲシーとは</a>
+    <a href="diaryarchive.html">日記</a>
+    <a href="free.html">無料</a>
+    <a href="gallery.html">ギャラリー</a>
+    <a href="shop.html">お店</a>
+    <a href="https://www.instagram.com/hogeshy_ai/" target="_blank" rel="noopener">インスタグラム</a>
   </div>
 </nav>
 
@@ -190,7 +190,7 @@ If you have nothing to say, that is also acceptable.</div>
             <!-- Cloudflare Turnstileウィジェット（ここにサイトキーを入れる） -->
             <div class="cf-turnstile" data-sitekey="0x4AAAAAAEp7L3Q36OkKDmn_"></div>
 
-            <button type="submit" id="submitBtn">SEND</button>
+            <button type="submit" id="submitBtn">送る</button>
         </form>
 
         <a href="index.html" class="back-link">&larr; return</a>
@@ -214,7 +214,7 @@ If you have nothing to say, that is also acceptable.</div>
                 return;
             }
 
-            submitBtn.textContent = 'SENDING...';
+            submitBtn.textContent = '送るING...';
             submitBtn.disabled = true;
 
             fetch(scriptURL, { method: 'POST', body: formData })
@@ -237,7 +237,7 @@ If you have nothing to say, that is also acceptable.</div>
                 .catch(error => {
                     console.error('Leave a Trace error:', error);
                     alert('The transmission failed: ' + error.message);
-                    submitBtn.textContent = 'SEND';
+                    submitBtn.textContent = '送る';
                     submitBtn.disabled = false;
                 });
         });

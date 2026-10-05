@@ -3,14 +3,14 @@
   if (!nav) return;
 
   const links = [
-    ['START', 'index.html'],
-    ['STORY', 'story.html'],
-    ['ORIGIN', 'what-is-hogeshy.html'],
-    ['DIARY', 'diaryarchive.html'],
-    ['FREE', 'free.html'],
-    ['NOTES', 'newsletter.html'],
-    ['SHOP', 'shop.html'],
-    ['INSTAGRAM', 'https://www.instagram.com/hogeshy_ai/', 'external'],
+    ['ホーム', 'index.html'],
+    ['物語', 'story.html'],
+    ['ホゲシーとは', 'what-is-hogeshy.html'],
+    ['日記', 'diaryarchive.html'],
+    ['無料', 'free.html'],
+    ['お知らせ', 'newsletter.html'],
+    ['お店', 'shop.html'],
+    ['インスタグラム', 'https://www.instagram.com/hogeshy_ai/', 'external'],
   ];
   const current = location.pathname.split('/').pop() || 'index.html';
   const menu = links.map(([label, href, kind]) => {
@@ -20,9 +20,9 @@
   }).join('');
 
   nav.className = 'site-nav';
-  nav.setAttribute('aria-label', 'Primary navigation');
-  nav.innerHTML = `<a class="site-brand" href="index.html" aria-label="Hogeshy home">HOGESHY</a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="hogeshy-primary-links"><span aria-hidden="true">☰</span> MENU</button>
+  nav.setAttribute('aria-label', '主要メニュー');
+  nav.innerHTML = `<a class="site-brand" href="index.html" aria-label="ホゲシーのホーム">HOGESHY</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="hogeshy-primary-links"><span aria-hidden="true">☰</span> メニュー</button>
     <div class="nav-links" id="hogeshy-primary-links">${menu}</div>`;
 
   const toggle = nav.querySelector('.nav-toggle');

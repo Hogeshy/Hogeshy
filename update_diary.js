@@ -2,53 +2,53 @@ const fs = require('fs');
 const path = require('path');
 
 const weatherList = [
-  "The sky was completely cloudless and painfully bright.",
-  "A thin, milky cloud covered the entire sky.",
-  "A heavy, flat layer of gray clouds hung low.",
-  "A thick fog swallowed the streetlights completely.",
-  "The rain continued without a clear beginning.",
-  "Steady rain washed away the traces of footsteps.",
-  "Snow fell in absolute silence, absorbing all sound.",
-  "A sudden flash of lightning illuminated nothing."
+  "空は雲ひとつなく、まぶしすぎた。",
+  "薄い雲が空全体を覆っていた。",
+  "重たい灰色の雲が低く垂れていた。",
+  "濃い霧が街灯をすっかり飲み込んでいた。",
+  "雨は、始まりもなく降り続いた。",
+  "静かな雨が足あとを洗い流した。",
+  "雪が、音をすべて吸い込みながら静かに降った。",
+  "突然の雷が、何も照らさなかった。"
 ];
 
 const actionList = [
-  "The tail moved once.",
-  "Stared at the blank wall for an hour.",
-  "Counted the floorboards and lost track.",
-  "Pressed a finger against the glass.",
-  "Listened to a sound that wasn't there.",
-  "Stood by the window, waiting for nothing.",
-  "Rearranged the empty chairs.",
-  "Sat on the floor until legs went numb."
+  "尻尾が一度だけ動いた。",
+  "何もない壁を一時間見ていた。",
+  "床板を数えて、途中でわからなくなった。",
+  "ガラスに指を押しつけた。",
+  "そこにはない音を聞いていた。",
+  "窓辺に立って、何も待たなかった。",
+  "空の椅子を並べ直した。",
+  "足がしびれるまで床に座っていた。"
 ];
 
 const anomalyList = [
-  "No explanation was found.",
-  "The shadow didn't match the body.",
-  "A sound came from inside the wall.",
-  "The clock hand skipped a beat.",
-  "The calendar showed yesterday's date again.",
-  "There was a smell of rain indoors."
+  "説明は見つからなかった。",
+  "影が身体と合っていなかった。",
+  "壁の中から音がした。",
+  "時計の針が一拍飛んだ。",
+  "カレンダーがまた昨日の日付を示していた。",
+  "部屋の中で雨の匂いがした。"
 ];
 
 const shortLineList = [
-  "That was all.",
-  "So what?",
-  "Nothing changed.",
-  "Or maybe not.",
-  "It didn't matter.",
-  "Nobody noticed.",
-  "Again.",
-  "Who knows."
+  "それだけだった。",
+  "それで？",
+  "何も変わらなかった。",
+  "そうではないのかもしれない。",
+  "気にしなかった。",
+  "誰も気づかなかった。",
+  "また。",
+  "さあ、どうだろう。"
 ];
 
 const quietCareList = [
-  "A small patch of sunlight reached the floor.",
-  "Nothing happened. It was not a bad day.",
-  "The empty can stayed nearby, just in case.",
-  "The tail looked back. Hogeshy stayed where it was.",
-  "For a moment, there was nothing to fix."
+  "小さな日だまりが床に届いた。",
+  "何も起きなかった。悪い日ではなかった。",
+  "空の缶は、念のため近くに置いた。",
+  "尻尾が振り返った。ホゲシーはその場にいた。",
+  "少しの間、直すものは何もなかった。"
 ];
 
 function hashDate(dateString, salt) {
@@ -116,10 +116,10 @@ function buildRssFeed(archiveHtml) {
       .replace(/<[^>]+>/g, '')
       .trim();
     const description = body.split('\n').map(line => escapeXml(line)).join('\n');
-    return `    <item>\n      <title>Hogeshy Diary — ${date}</title>\n      <link>https://hogeshy.github.io/Hogeshy/diaryarchive.html</link>\n      <guid isPermaLink="false">hogeshy-diary-${date}</guid>\n      <pubDate>${new Date(`${date}T00:00:00+09:00`).toUTCString()}</pubDate>\n      <description>${description}</description>\n    </item>`;
+    return `    <item>\n      <title>ホゲシーの日記 — ${date}</title>\n      <link>https://hogeshy.github.io/Hogeshy/diaryarchive.html</link>\n      <guid isPermaLink="false">hogeshy-diary-${date}</guid>\n      <pubDate>${new Date(`${date}T00:00:00+09:00`).toUTCString()}</pubDate>\n      <description>${description}</description>\n    </item>`;
   }).join('\n');
 
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n  <channel>\n    <title>Hogeshy Diary</title>\n    <link>https://hogeshy.github.io/Hogeshy/diaryarchive.html</link>\n    <description>Small records from Hogeshy, a quiet black cat.</description>\n    <language>en</language>\n${items}\n  </channel>\n</rss>\n`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n  <channel>\n    <title>ホゲシーの日記</title>\n    <link>https://hogeshy.github.io/Hogeshy/diaryarchive.html</link>\n    <description>静かな黒猫ホゲシーの小さな記録。</description>\n    <language>ja</language>\n${items}\n  </channel>\n</rss>\n`;
 }
 
 function writeRssFeed(archiveHtml) {

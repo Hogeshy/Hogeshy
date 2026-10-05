@@ -5,12 +5,12 @@
   const links = [
     ['ホーム', 'index.html'],
     ['物語', 'story.html'],
-    ['ホゲシーとは', 'what-is-hogeshy.html'],
+    ['Hogeshyとは', 'what-is-hogeshy.html'],
     ['日記', 'diaryarchive.html'],
     ['無料', 'free.html'],
     ['お知らせ', 'newsletter.html'],
-    ['お店', 'shop.html'],
-    ['インスタグラム', 'https://www.instagram.com/hogeshy_ai/', 'external'],
+    ['ショップ', 'shop.html'],
+    ['Instagramu', 'https://www.instagram.com/hogeshy_ai/', 'external'],
   ];
   const current = location.pathname.split('/').pop() || 'index.html';
   const menu = links.map(([label, href, kind]) => {

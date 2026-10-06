@@ -619,8 +619,10 @@
         function showPost(item, date, text) {
             document.querySelectorAll('.date-item').forEach((dateItem) => {
                 dateItem.classList.remove('active');
+                dateItem.style.setProperty('background', 'transparent', 'important');
             });
             item.classList.add('active');
+            item.style.setProperty('background', 'rgba(127,147,101,.12)', 'important');
             viewerDateEl.textContent = date;
             viewerContentEl.innerHTML = text;
             viewerContentEl.classList.remove('is-focused');
@@ -630,6 +632,8 @@
             const button = document.createElement('button');
             button.type = 'button';
             button.className = className;
+            button.style.setProperty('background', 'transparent', 'important');
+            button.style.setProperty('background-color', 'transparent', 'important');
             button.textContent = label;
             button.setAttribute('aria-expanded', String(expanded));
             button.addEventListener('click', () => {
@@ -675,6 +679,8 @@
                     const item = document.createElement('button');
                     item.type = 'button';
                     item.className = 'date-item';
+                    item.style.setProperty('background', 'transparent', 'important');
+                    item.style.setProperty('background-color', 'transparent', 'important');
                     item.textContent = post.date;
                     item.addEventListener('click', () => showPost(item, post.date, post.text));
                     monthDays.appendChild(item);

@@ -62,7 +62,7 @@ async function main() {
     <div style="font-family:Arial,'Hiragino Kaku Gothic ProN',Meiryo,sans-serif;line-height:1.8;color:#18202b;max-width:600px">
       <p style="letter-spacing:.12em;font-size:12px;color:#687080">Hogeshyの日記</p>
       <h1 style="font-weight:500">日記が更新されました。</h1>
-      <p>${date}の記録をお届けします。</p>
+      <p>Hogeshyの日記をお届けします。</p>
       <p><a href="https://hogeshy.com/diaryarchive.html" style="display:inline-block;padding:10px 18px;background:#18202b;color:#fff;text-decoration:none">日記を読む</a></p>
       <p style="color:#687080;font-size:13px">今日も、Hogeshyの小さな記録をお届けします。</p>
       <hr style="border:0;border-top:1px solid #d8dce2;margin:28px 0 18px">

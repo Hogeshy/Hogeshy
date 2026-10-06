@@ -1,13 +1,13 @@
 /* Hogeshy shared mirror atmosphere: one quiet room across the site. */
 :root {
-  --mirror-void: #f1e8d8;
-  --mirror-ink: #292827;
-  --mirror-muted: #716b64;
+  --mirror-void: #efe3d2;
+  --mirror-ink: #3f2e24;
+  --mirror-muted: #745f50;
   --mirror-line: rgba(77, 67, 57, .18);
-  --mirror-accent: #9a6874;
-  --mirror-sage: #7f9d83;
-  --mirror-lavender: #9d91ad;
-  --mirror-paper: #fffdf7;
+  --mirror-accent: #7a5a42;
+  --mirror-sage: #7f9365;
+  --mirror-lavender: #c3953d;
+  --mirror-paper: #fffaf0;
 }
 html { background: var(--mirror-void); }
 body {
@@ -15,8 +15,8 @@ body {
   background-image: none !important;
   color: var(--mirror-ink);
 }
-body::selection { background: rgba(157, 145, 173, .28); color: #292827; }
-.site-nav, .global-nav, .topbar { border-color: rgba(77,67,57,.12) !important; }
+body::selection { background: rgba(157, 145, 173, .28); color: #3f2e24; }
+.site-nav, .global-nav, .topbar { border-color: rgba(92,64,45,.12) !important; }
 .site-nav a, .global-nav a, .brand, .site-brand { color: var(--mirror-muted); }
 .site-nav a:hover, .site-nav a:focus-visible,
 .global-nav a:hover, .global-nav a:focus-visible { color: var(--mirror-ink); }
@@ -31,8 +31,8 @@ a { transition: color .2s ease, border-color .2s ease, background-color .2s ease
 .free-card:hover, .shelf:hover, .comic-card:hover, .archive-card:hover {
   background-color: rgba(112, 131, 126, .14) !important;
 }
-button:hover, input:focus, textarea:focus, select:focus { border-color: rgba(157,145,173,.62) !important; outline-color: rgba(157,145,173,.34); }
-button, input, textarea, select { border-color: var(--mirror-line) !important; background-color: rgba(255,253,247,.82) !important; color: var(--mirror-ink); }
+button:hover, input:focus, textarea:focus, select:focus { border-color: rgba(195,149,61,.62) !important; outline-color: rgba(195,149,61,.34); }
+button, input, textarea, select { border-color: var(--mirror-line) !important; background-color: rgba(255,250,240,.82) !important; color: var(--mirror-ink); }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 
 /* Warm paper overrides for pages that still carry their original inline styles. */
@@ -40,17 +40,17 @@ body { background: var(--mirror-void) !important; color: var(--mirror-ink) !impo
 .note-card, .contact-card, .artist-card, .author-note, .side-section, .closing,
 .archive-invite, .toc a, .links a, .card, .panel, .section-card {
   border-color: var(--mirror-line) !important;
-  background: rgba(255,253,247,.76) !important;
+  background: rgba(255,250,240,.76) !important;
   color: var(--mirror-ink) !important;
 }
 .note-card:hover, .contact-card:hover, .artist-card:hover, .toc a:hover, .links a:hover {
-  background: rgba(127,157,131,.14) !important;
-  border-color: rgba(127,157,131,.5) !important;
+  background: rgba(127,147,101,.14) !important;
+  border-color: rgba(127,147,101,.5) !important;
 }
 .hero h1, .chapter h2, .side-section h2, .closing h2, .contact-card h1, .contact-card h2,
 .artist-card h1, .artist-card h2 { color: var(--mirror-ink) !important; }
 .hero .lead, .chapter p, .author-note p, .side-section p, .closing, .contact-card p,
-.artist-card p { color: #5d5750 !important; }
+.artist-card p { color: #5f493a !important; }
 
 /* Shared navigation: horizontal on desktop, hamburger on phones and tablets. */
 .site-nav {
@@ -64,7 +64,7 @@ body { background: var(--mirror-void) !important; color: var(--mirror-ink) !impo
   max-width: 960px;
   margin: 0 auto 28px;
   padding: 0 4px 18px;
-  border-bottom: 1px solid rgba(77,67,57,.12) !important;
+  border-bottom: 1px solid rgba(92,64,45,.12) !important;
   font-family: 'Courier New', monospace;
   text-transform: uppercase;
 }
@@ -72,15 +72,15 @@ body { background: var(--mirror-void) !important; color: var(--mirror-ink) !impo
 .nav-links { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px 18px; font-size: .66rem; letter-spacing: .13em; }
 .nav-links a { color: var(--mirror-muted) !important; text-decoration: none; }
 .nav-links a:hover, .nav-links a:focus-visible, .nav-links a[aria-current="page"] { color: var(--mirror-ink) !important; }
-.nav-toggle { display: none; appearance: none; border: 1px solid var(--mirror-line); background: rgba(255,253,247,.82); color: var(--mirror-ink); padding: 9px 12px; font: inherit; font-size: .66rem; letter-spacing: .13em; cursor: pointer; }
+.nav-toggle { display: none; appearance: none; border: 1px solid var(--mirror-line); background: rgba(255,250,240,.82); color: var(--mirror-ink); padding: 9px 12px; font: inherit; font-size: .66rem; letter-spacing: .13em; cursor: pointer; }
 .nav-toggle:hover, .nav-toggle:focus-visible { border-color: var(--mirror-accent); outline: none; }
 @media (max-width: 900px) {
   .site-nav { justify-content: flex-end; }
   .site-brand { margin-right: auto; }
   .nav-toggle { display: block; }
-  .nav-links { display: none; position: absolute; top: calc(100% - 10px); right: 4px; min-width: 220px; padding: 9px 14px; border: 1px solid var(--mirror-line); background: rgba(255,253,247,.98); box-shadow: 0 18px 38px rgba(66,53,42,.16); }
+  .nav-links { display: none; position: absolute; top: calc(100% - 10px); right: 4px; min-width: 220px; padding: 9px 14px; border: 1px solid var(--mirror-line); background: rgba(255,250,240,.98); box-shadow: 0 18px 38px rgba(66,53,42,.16); }
   .site-nav.is-open .nav-links { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
-.site-nav.is-open .nav-links a { display: block; padding: 11px 2px; border-bottom: 1px solid rgba(77,67,57,.12); text-align: right; }
+.site-nav.is-open .nav-links a { display: block; padding: 11px 2px; border-bottom: 1px solid rgba(92,64,45,.12); text-align: right; }
   .site-nav.is-open .nav-links a:last-child { border-bottom: 0; }
 }
 
@@ -102,13 +102,13 @@ body { background: var(--mirror-void) !important; color: var(--mirror-ink) !impo
 /* Components from the original dark pages: keep their shapes, not their old colors. */
 .choice, .item, .download, .art-card, .day-card, .notice-card, .note,
 .gallery, .hero-visual, .usage-note, .comic-note, .world a {
-  background: rgba(255,253,247,.76) !important;
+  background: rgba(255,250,240,.76) !important;
   border-color: var(--mirror-line) !important;
   color: var(--mirror-ink) !important;
 }
 .choice h2, .item h2, .art-card h2, .day-title, .title, .hero-copy h1,
 .hero-intro, .intro, .intro-text, .copy, .usage-note, .comic-note { color: var(--mirror-ink) !important; }
 .choice p, .item p, .art-card p, .hero-copy p, .hero-intro, .intro, .intro-text,
-.usage-note, .comic-note, .back, .return-link, .download-btn { color: #5d5750 !important; }
+.usage-note, .comic-note, .back, .return-link, .download-btn { color: #5f493a !important; }
 .download-btn, .email-link, .contact-link, .back-link, .return-link { border-color: var(--mirror-line) !important; color: var(--mirror-accent) !important; background: transparent !important; }
-.download-btn:hover, .email-link:hover, .contact-link:hover, .back-link:hover, .return-link:hover { background: var(--mirror-sage) !important; color: #fffdf7 !important; border-color: var(--mirror-sage) !important; }
+.download-btn:hover, .email-link:hover, .contact-link:hover, .back-link:hover, .return-link:hover { background: var(--mirror-sage) !important; color: #fffaf0 !important; border-color: var(--mirror-sage) !important; }

@@ -201,6 +201,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .story-grid .day-card.is-active { display: flex !important; }
 </style>
 <link rel="stylesheet" href="mirror-theme.css">
+<style>
+/* Story controls: clear hierarchy, larger text, and no white marker-like selection. */
+.prologue { margin-bottom: 58px; }
+.prologue h1 { color: var(--mirror-ink) !important; font-size: clamp(1.6rem, 3vw, 2.3rem); letter-spacing: .08em; }
+.prologue .subtitle { color: var(--mirror-muted) !important; font-size: 1rem; line-height: 1.9; font-style: normal; }
+.story-jump { padding: 22px 0 26px; margin-bottom: 58px; border-color: var(--mirror-line); }
+.story-jump::before { content: '章を選ぶ'; display: block; margin-bottom: 12px; color: var(--mirror-accent); font-size: .82rem; letter-spacing: .12em; font-weight: 700; }
+.chapter-tabs, .day-picker { gap: 10px; }
+.day-picker { margin-top: 18px; }
+.day-picker::before { content: '日を選ぶ'; display: block; flex-basis: 100%; color: var(--mirror-muted); font-size: .82rem; letter-spacing: .1em; }
+.chapter-button, .day-button { padding: 11px 14px; border: 1px solid var(--mirror-line) !important; background: transparent !important; color: var(--mirror-ink) !important; font-size: .9rem; line-height: 1.35; }
+.day-button { min-width: 46px; padding: 10px 12px; }
+.chapter-button:hover, .chapter-button:focus-visible, .day-button:hover, .day-button:focus-visible,
+.chapter-button.is-active, .day-button.is-active { color: var(--mirror-ink) !important; border-color: var(--mirror-sage) !important; background: rgba(127,147,101,.16) !important; outline: 2px solid rgba(127,147,101,.2); outline-offset: 2px; }
+.day-card { max-width: 700px !important; gap: 18px; }
+.day-title { color: var(--mirror-ink) !important; font-size: 1rem; letter-spacing: .08em; }
+.day-image-frame { background: var(--mirror-paper) !important; border-color: var(--mirror-line) !important; }
+.day-caption { color: var(--mirror-muted) !important; font-family: 'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif; font-size: 1rem; line-height: 1.9; }
+.back-link { color: var(--mirror-ink) !important; font-size: .95rem; margin-top: 70px; }
+@media (max-width: 600px) { .chapter-button, .day-button { font-size: .82rem; } .story-jump::before, .day-picker::before { font-size: .9rem; } }
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->

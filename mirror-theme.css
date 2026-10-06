@@ -35,6 +35,16 @@ button:hover, input:focus, textarea:focus, select:focus { border-color: rgba(195
 button, input, textarea, select { border-color: var(--mirror-line) !important; background-color: rgba(255,250,240,.82) !important; color: var(--mirror-ink); }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 
+/* Readability pass: navigation and controls should be easy to notice and tap. */
+body { font-size: 16px; }
+.site-nav { max-width: 1120px; margin-bottom: 34px; padding-bottom: 20px; }
+.site-brand { font-size: .82rem; }
+.nav-links { gap: 10px 22px; font-size: .76rem; letter-spacing: .1em; }
+.nav-toggle { padding: 11px 14px; font-size: .76rem; }
+button, input, textarea, select { font-size: 1rem; }
+.origin-link, .btn, .back, .back-link, .return-link, .contact-link, .email-link { background: transparent !important; }
+.origin-link:hover, .origin-link:focus-visible, .btn:hover, .btn:focus-visible { background: rgba(127,147,101,.16) !important; color: var(--mirror-ink) !important; border-color: var(--mirror-sage) !important; }
+
 /* Warm paper overrides for pages that still carry their original inline styles. */
 body { background: var(--mirror-void) !important; color: var(--mirror-ink) !important; }
 .note-card, .contact-card, .artist-card, .author-note, .side-section, .closing,
@@ -78,9 +88,9 @@ body { background: var(--mirror-void) !important; color: var(--mirror-ink) !impo
   .site-nav { justify-content: flex-end; }
   .site-brand { margin-right: auto; }
   .nav-toggle { display: block; }
-  .nav-links { display: none; position: absolute; top: calc(100% - 10px); right: 4px; min-width: 220px; padding: 9px 14px; border: 1px solid var(--mirror-line); background: rgba(255,250,240,.98); box-shadow: 0 18px 38px rgba(66,53,42,.16); }
+  .nav-links { display: none; position: absolute; top: calc(100% - 10px); right: 4px; min-width: 250px; padding: 10px 16px; border: 1px solid var(--mirror-line); background: rgba(255,250,240,.98); box-shadow: 0 18px 38px rgba(66,53,42,.16); }
   .site-nav.is-open .nav-links { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
-.site-nav.is-open .nav-links a { display: block; padding: 11px 2px; border-bottom: 1px solid rgba(92,64,45,.12); text-align: right; }
+  .site-nav.is-open .nav-links a { display: block; padding: 13px 2px; border-bottom: 1px solid rgba(92,64,45,.12); text-align: right; font-size: .9rem; }
   .site-nav.is-open .nav-links a:last-child { border-bottom: 0; }
 }
 

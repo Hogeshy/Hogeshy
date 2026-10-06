@@ -503,20 +503,20 @@ body { align-items: flex-start; background: #071018; }
 <style>
 /* Quiet room: a place to rest, not a title screen. */
 body { background: #071018 !important; color: #e0e4df; }
-body::before { content: ''; position: fixed; inset: 0; pointer-events: none; background: linear-gradient(115deg, rgba(210,197,160,.05), transparent 34%, rgba(145,176,155,.05) 68%, rgba(184,178,200,.035)); opacity: .95; }
+body::before { display: none; }
 .container { max-width: 1120px; min-height: auto; padding: 34px 60px 46px; grid-template-columns: minmax(320px,.94fr) minmax(380px,1.06fr); column-gap: clamp(56px,9vw,140px); }
-.site-nav { opacity: 1; animation: none; border-bottom-color: rgba(169,190,190,.2); }
-.image-wrapper { width: min(100%, 330px); height: min(58vh, 430px); border-radius: 46% 46% 16% 16%; border: 1px solid rgba(192,204,197,.28); background: linear-gradient(145deg,#172b34,#091116 68%); box-shadow: 0 22px 54px rgba(0,0,0,.42), inset 0 0 0 1px rgba(238,236,218,.06); }
-.image-wrapper::after { background: linear-gradient(120deg, rgba(226,226,207,.1), transparent 28%, transparent 74%, rgba(90,128,132,.1)); }
-.image-wrapper img { opacity: .86; filter: grayscale(22%) contrast(108%) brightness(.94); }
+.site-nav { opacity: 1; animation: none; border-bottom: 0; padding-bottom: 0; }
+.image-wrapper { width: min(100%, 330px); height: min(58vh, 430px); border-radius: 44% 44% 20% 20%; border: 0; background: #e4dccb; box-shadow: 0 24px 52px rgba(0,0,0,.28); }
+.image-wrapper::after { display: none; }
+.image-wrapper img { opacity: .92; filter: grayscale(12%) contrast(105%) brightness(.98); mix-blend-mode: multiply; }
 .site-header { align-self: center; }
 #site-title { color: #e9e8dd; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.7rem, 3.4vw, 3rem); font-weight: 400; letter-spacing: .06em; }
 #site-title rt { color: #b8b2c8; font-family: 'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif; letter-spacing: .12em; }
 .subtitle { color: #e4dccb; font-family: 'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif; font-size: clamp(1.45rem, 3vw, 2.2rem); letter-spacing: .04em; text-transform: none; line-height: 1.55; }
 .flavor-text { margin-top: 34px; max-width: 480px; font-family: 'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif; }
 .flavor-text .description { color: #c3cdca; font-size: 1rem; line-height: 2; letter-spacing: .02em; }
-.mirror-question { margin-top: 28px; padding-left: 16px; border-left: 1px solid rgba(170,188,174,.58); color: #aab8b5; font-size: .84rem; letter-spacing: .04em; line-height: 2; }
-.mirror-question strong { color: #aabcae; font-family: 'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif; font-size: .94rem; letter-spacing: .04em; text-transform: none; }
+.rest-note { margin-top: 28px; padding: 17px 20px; border-radius: 14px; background: rgba(170,188,174,.1); color: #b9c7bf; font-size: .84rem; letter-spacing: .04em; line-height: 2; }
+.rest-note strong { color: #d6d0df; font-family: 'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif; font-size: .94rem; letter-spacing: .04em; text-transform: none; }
 .links { margin-top: 28px; }
 .origin-link { color: #d2d1bf; font-family: 'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif; font-size: .82rem; letter-spacing: .08em; }
 .start-note { color: #859797; font-family: 'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif; letter-spacing: .02em; }
@@ -549,7 +549,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             頑張ることにも、癒やされることにも、ちょっと疲れた猫好きの大人へ。<br>
             ここでは、何もしなくていい時間を過ごせます。
         </p>
-        <p class="mirror-question">今日は、何もしなくていい。<br><strong>あなたには、Hogeshyから何が見えていますか？</strong></p>
+        <p class="rest-note">ここでは、何もしなくていい。<br><strong>Hogeshyと一緒に、少し休んでいってください。</strong></p>
     </div>
 </header>
        <div class="links">

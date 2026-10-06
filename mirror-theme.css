@@ -12,11 +12,11 @@
 html { background: var(--mirror-void); }
 body {
   background-color: var(--mirror-void) !important;
-  background-image: radial-gradient(circle at 72% 12%, rgba(94, 119, 120, .15), transparent 34%), radial-gradient(circle at 12% 82%, rgba(193, 177, 137, .045), transparent 28%) !important;
+  background-image: none !important;
   color: var(--mirror-ink);
 }
 body::selection { background: rgba(168, 196, 201, .3); color: #f2f6f4; }
-.site-nav, .global-nav, .topbar { border-color: var(--mirror-line) !important; }
+.site-nav, .global-nav, .topbar { border-color: transparent !important; }
 .site-nav a, .global-nav a, .brand, .site-brand { color: var(--mirror-muted); }
 .site-nav a:hover, .site-nav a:focus-visible,
 .global-nav a:hover, .global-nav a:focus-visible { color: var(--mirror-ink); }

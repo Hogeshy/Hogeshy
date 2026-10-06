@@ -80,7 +80,7 @@ body { background: var(--mirror-void) !important; color: var(--mirror-ink) !impo
   .nav-toggle { display: block; }
   .nav-links { display: none; position: absolute; top: calc(100% - 10px); right: 4px; min-width: 220px; padding: 9px 14px; border: 1px solid var(--mirror-line); background: rgba(255,253,247,.98); box-shadow: 0 18px 38px rgba(66,53,42,.16); }
   .site-nav.is-open .nav-links { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
-  .site-nav.is-open .nav-links a { display: block; padding: 11px 2px; border-bottom: 1px solid rgba(155,188,197,.14); text-align: right; }
+.site-nav.is-open .nav-links a { display: block; padding: 11px 2px; border-bottom: 1px solid rgba(77,67,57,.12); text-align: right; }
   .site-nav.is-open .nav-links a:last-child { border-bottom: 0; }
 }
 
@@ -93,8 +93,22 @@ body { background: var(--mirror-void) !important; color: var(--mirror-ink) !impo
 .year-label:hover, .month-label:hover, .year-label:focus-visible, .month-label:focus-visible { color: var(--mirror-ink) !important; }
 .viewer-date { color: var(--mirror-accent) !important; }
 .viewer-content { color: var(--mirror-ink) !important; }
-.viewer-content:hover, .viewer-content:focus, .viewer-content.is-focused { color: #f2f6f4 !important; text-shadow: 0 0 12px rgba(216, 228, 226, .08); }
+.viewer-content:hover, .viewer-content:focus, .viewer-content.is-focused { color: var(--mirror-ink) !important; text-shadow: none; }
 .back-link { color: var(--mirror-muted) !important; }
 .back-link:hover, .back-link:focus-visible { color: var(--mirror-ink) !important; }
 .diary-subscribe p { color: var(--mirror-muted) !important; }
 .diary-subscribe strong { color: var(--mirror-accent) !important; }
+
+/* Components from the original dark pages: keep their shapes, not their old colors. */
+.choice, .item, .download, .art-card, .day-card, .notice-card, .note,
+.gallery, .hero-visual, .usage-note, .comic-note, .world a {
+  background: rgba(255,253,247,.76) !important;
+  border-color: var(--mirror-line) !important;
+  color: var(--mirror-ink) !important;
+}
+.choice h2, .item h2, .art-card h2, .day-title, .title, .hero-copy h1,
+.hero-intro, .intro, .intro-text, .copy, .usage-note, .comic-note { color: var(--mirror-ink) !important; }
+.choice p, .item p, .art-card p, .hero-copy p, .hero-intro, .intro, .intro-text,
+.usage-note, .comic-note, .back, .return-link, .download-btn { color: #5d5750 !important; }
+.download-btn, .email-link, .contact-link, .back-link, .return-link { border-color: var(--mirror-line) !important; color: var(--mirror-accent) !important; background: transparent !important; }
+.download-btn:hover, .email-link:hover, .contact-link:hover, .back-link:hover, .return-link:hover { background: var(--mirror-sage) !important; color: #fffdf7 !important; border-color: var(--mirror-sage) !important; }

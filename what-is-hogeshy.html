@@ -45,6 +45,26 @@ body { background: radial-gradient(circle at 70% 18%, #142632 0, #0a1218 28%, #0
 .world a:hover, .world a:focus-visible { background: rgba(77,126,142,.12); }
 </style>
 <link rel="stylesheet" href="mirror-theme.css">
+<style>
+/* This page once carried its own dark theme. Keep it aligned with the shared warm paper theme. */
+body { background: var(--mirror-void) !important; color: var(--mirror-ink) !important; }
+.topbar, .hero { border-color: var(--mirror-line) !important; }
+.brand, .hero h1, .copy p:nth-child(3), .copy p:nth-child(8), .copy p:last-child,
+.world a, .archive-invite h2, .archive-invite a { color: var(--mirror-ink) !important; }
+.top-note, .hero-intro, .copy p, .world span, .archive-invite p { color: var(--mirror-muted) !important; }
+.top-note span, .kicker, .statement-label, .world small { color: var(--mirror-accent) !important; }
+.cat-frame { background: var(--mirror-paper) !important; border: 1px solid var(--mirror-line) !important; box-shadow: 0 18px 42px rgba(66,53,42,.12) !important; }
+.cat-frame::before, .cat-frame::after, .hero::after { display: none !important; }
+.cat-frame img { opacity: 1 !important; filter: none !important; mix-blend-mode: normal !important; }
+.cat-frame .frame-label { color: var(--mirror-muted) !important; }
+.world { border-color: var(--mirror-line) !important; }
+.world a { border-right-color: var(--mirror-line) !important; background: var(--mirror-paper) !important; }
+.world a:hover, .world a:focus-visible { background: rgba(127,147,101,.12) !important; }
+.archive-invite { border-color: var(--mirror-line) !important; background: var(--mirror-paper) !important; }
+.archive-invite small { color: var(--mirror-accent) !important; }
+.archive-invite a { border-color: var(--mirror-line) !important; }
+.archive-invite a:hover, .archive-invite a:focus-visible { background: var(--mirror-sage) !important; color: var(--mirror-paper) !important; }
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->

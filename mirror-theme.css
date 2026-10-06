@@ -5,6 +5,9 @@
   --mirror-muted: #9aa7a8;
   --mirror-line: rgba(169, 190, 190, .2);
   --mirror-accent: #c8c2aa;
+  --mirror-sage: #aabcae;
+  --mirror-lavender: #b8b2c8;
+  --mirror-paper: #e4dccb;
 }
 html { background: var(--mirror-void); }
 body {
@@ -19,6 +22,7 @@ body::selection { background: rgba(168, 196, 201, .3); color: #f2f6f4; }
 .global-nav a:hover, .global-nav a:focus-visible { color: var(--mirror-ink); }
 h1, h2, h3, .title, .hero h1 { color: var(--mirror-ink); }
 .subtitle, .eyebrow, .kicker, .section-label, .number { color: var(--mirror-accent); }
+.quiet-accent, .mirror-question strong { color: var(--mirror-sage); }
 a { transition: color .2s ease, border-color .2s ease, background-color .2s ease; }
 .free-card, .shelf, .comic-card, .archive-card, .panel, .diary-subscribe {
   border-color: var(--mirror-line) !important;
@@ -27,6 +31,7 @@ a { transition: color .2s ease, border-color .2s ease, background-color .2s ease
 .free-card:hover, .shelf:hover, .comic-card:hover, .archive-card:hover {
   background-color: rgba(112, 131, 126, .14) !important;
 }
+button:hover, input:focus, textarea:focus, select:focus { border-color: rgba(184,178,200,.62) !important; outline-color: rgba(184,178,200,.34); }
 button, input, textarea, select { border-color: var(--mirror-line) !important; background-color: rgba(6, 16, 22, .7) !important; color: var(--mirror-ink); }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 

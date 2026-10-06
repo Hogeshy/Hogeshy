@@ -108,6 +108,14 @@ body { background: var(--mirror-void) !important; color: var(--mirror-ink) !impo
 .back-link:hover, .back-link:focus-visible { color: var(--mirror-ink) !important; }
 .diary-subscribe p { color: var(--mirror-muted) !important; }
 .diary-subscribe strong { color: var(--mirror-accent) !important; }
+.date-list .date-item, .date-list .year-label, .date-list .month-label,
+.diary-subscribe, .diary-subscribe a { background: transparent !important; }
+.date-list .date-item { border-left: 2px solid transparent; padding: 4px 8px; }
+.date-list .date-item:hover, .date-list .date-item:focus-visible,
+.date-list .date-item.active { background: rgba(127,147,101,.12) !important; border-left-color: var(--mirror-sage); text-decoration: none; }
+.diary-subscribe { border-color: var(--mirror-line) !important; }
+.diary-subscribe a { color: var(--mirror-ink) !important; border-color: var(--mirror-line) !important; }
+.diary-subscribe a:hover, .diary-subscribe a:focus-visible { background: rgba(127,147,101,.16) !important; color: var(--mirror-ink) !important; border-color: var(--mirror-sage) !important; }
 
 /* Components from the original dark pages: keep their shapes, not their old colors. */
 .choice, .item, .download, .art-card, .day-card, .notice-card, .note,

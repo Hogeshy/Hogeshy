@@ -220,6 +220,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .day-image-frame { background: var(--mirror-paper) !important; border-color: var(--mirror-line) !important; }
 .day-caption { color: var(--mirror-muted) !important; font-family: 'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif; font-size: 1rem; line-height: 1.9; }
 .back-link { color: var(--mirror-ink) !important; font-size: .95rem; margin-top: 70px; }
+.story-grid .day-card { max-width: 760px !important; gap: 0; padding: 0 0 34px; background: transparent !important; }
+.story-grid .day-title { display: flex; align-items: baseline; gap: 12px; margin: 0 0 14px; padding: 0 0 12px; border-bottom: 1px solid var(--mirror-line); color: var(--mirror-accent) !important; font-family: 'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif; font-size: 1rem; letter-spacing: .12em; }
+.story-grid .day-title::before { content: 'DAY'; color: var(--mirror-sage); font-family: 'Courier New', monospace; font-size: .68rem; letter-spacing: .18em; }
+.story-grid .day-image-frame { border: 0 !important; background: transparent !important; box-shadow: 0 12px 28px rgba(63,46,36,.08); }
+.story-grid .day-image-frame img { border-radius: 2px; }
+.story-grid .day-caption { margin-top: 18px; padding: 14px 18px; border-left: 3px solid var(--mirror-sage); border-radius: 0 10px 10px 0; background: rgba(127,147,101,.10) !important; color: var(--mirror-muted) !important; }
 @media (max-width: 600px) { .chapter-button, .day-button { font-size: .82rem; } .story-jump::before, .day-picker::before { font-size: .9rem; } }
 </style>
 </head>

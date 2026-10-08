@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hogeshy-漫画</title>
-  <meta name="description" content="Hogeshyの1枚完結コミック。となりの影、雨の向こう側、箱、糸、あたたかい場所。">
+  <meta name="description" content="Hogeshyの1枚完結コミック。タイトルを選んで、ひとつずつ読めます。">
   <meta name="theme-color" content="#efe3d2">
   <link rel="canonical" href="https://hogeshy.com/comics.html">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Hogeshy-漫画">
-  <meta property="og:description" content="Hogeshyの1枚完結コミック。となりの影、雨の向こう側、箱、糸、あたたかい場所。">
+  <meta property="og:description" content="Hogeshyの1枚完結コミック。タイトルを選んで、ひとつずつ読めます。">
   <meta property="og:url" content="https://hogeshy.com/comics.html">
-  <meta property="og:image" content="https://hogeshy.com/assets/comics/tonari-no-kage.png">
+  <meta property="og:image" content="https://hogeshy.com/assets/comics/tonari-no-kage-home.png">
   <!-- Google Tag Manager -->
   <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M7TXH22M');
@@ -33,7 +33,7 @@
     .site-nav { margin-bottom: 0; }
     .comics-header {
       max-width: 760px;
-      margin: 74px auto 42px;
+      margin: 74px auto 34px;
       text-align: center;
     }
     .eyebrow {
@@ -56,13 +56,57 @@
       font-size: 1rem;
       line-height: 2;
     }
+    .comic-picker {
+      margin: 0 auto 42px;
+      padding: 20px 0 24px;
+      border-top: 1px solid rgba(107, 75, 62, .22);
+      border-bottom: 1px solid rgba(107, 75, 62, .22);
+    }
+    .comic-picker::before {
+      content: '作品を選ぶ';
+      display: block;
+      margin-bottom: 14px;
+      color: #6b8f71;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+    }
+    .comic-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .comic-tab {
+      appearance: none;
+      padding: 11px 15px;
+      border: 1px solid rgba(107, 75, 62, .3);
+      background: transparent;
+      color: #3f2e24;
+      font: inherit;
+      font-size: .9rem;
+      line-height: 1.35;
+      letter-spacing: .06em;
+      cursor: pointer;
+      transition: color .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .comic-tab:hover,
+    .comic-tab:focus-visible,
+    .comic-tab.is-active {
+      color: #3f2e24;
+      border-color: #6b8f71;
+      background: rgba(127,147,101,.16);
+      outline: 2px solid rgba(127,147,101,.2);
+      outline-offset: 2px;
+    }
     .comic-card {
       width: min(760px, 100%);
       margin: 0 auto;
       padding: 22px;
       background: rgba(251, 246, 237, .58);
       border: 1px solid rgba(107, 75, 62, .25);
+      scroll-margin-top: 28px;
     }
+    .comic-card[hidden] { display: none; }
     .comic-card h2 {
       margin: 0 0 18px;
       color: #3f2e24;
@@ -82,7 +126,6 @@
       font-family: Arial, Helvetica, sans-serif;
       font-size: 1.05rem;
       line-height: 2;
-      white-space: normal;
     }
     .comic-note {
       margin: 22px 0 0;
@@ -102,6 +145,7 @@
     @media (max-width: 640px) {
       body { padding: 18px 14px 48px; }
       .comics-header { margin-top: 52px; margin-bottom: 30px; }
+      .comic-tab { font-size: .82rem; padding: 10px 12px; }
       .comic-card { padding: 14px; }
       .comic-caption { font-size: .98rem; }
     }
@@ -117,46 +161,86 @@
     <header class="comics-header">
       <p class="eyebrow">Hogeshyの漫画</p>
       <h1>漫画</h1>
-      <p class="intro">Hogeshyの短い漫画を、少しずつ残していきます。</p>
+      <p class="intro">読みたい作品のタイトルを選んでください。</p>
     </header>
 
-    <article class="comic-card" aria-labelledby="tonari-no-kage-title">
-      <h2 id="tonari-no-kage-title">となりの影</h2>
-      <img class="comic-image" src="assets/comics/tonari-no-kage.png" alt="Hogeshyが自分の影に気づき、そのとなりに座る5コマ漫画">
-      <p class="comic-caption">影が、少し遅れてついてきた。<br><br>Hogeshyは、立ち止まった。<br>影も、立ち止まった。<br>しばらく、見ていた。<br>追い払わなかった。<br><br>ただ、となりに座った。</p>
-      <p class="comic-note">1枚完結コミック</p>
-    </article>
+    <section class="comic-picker" aria-label="漫画作品を選ぶ">
+      <div class="comic-tabs" role="tablist" aria-label="漫画作品">
+        <button class="comic-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="comic-tonari" data-comic="comic-tonari">となりの影</button>
+        <button class="comic-tab" type="button" role="tab" aria-selected="false" aria-controls="comic-rain" data-comic="comic-rain">雨の向こう側</button>
+        <button class="comic-tab" type="button" role="tab" aria-selected="false" aria-controls="comic-box" data-comic="comic-box">箱</button>
+        <button class="comic-tab" type="button" role="tab" aria-selected="false" aria-controls="comic-string" data-comic="comic-string">糸</button>
+        <button class="comic-tab" type="button" role="tab" aria-selected="false" aria-controls="comic-warm" data-comic="comic-warm">あたたかい場所</button>
+      </div>
+    </section>
 
-    <article class="comic-card" aria-labelledby="ame-no-mukougawa-title">
-      <h2 id="ame-no-mukougawa-title">雨の向こう側</h2>
-      <img class="comic-image" src="assets/comics/ame-no-mukougawa.png" alt="雨の降る窓をHogeshyが静かに見つめる5コマ漫画">
-      <p class="comic-caption">雨を見ていた。<br><br>窓の向こうにも、<br>静かな時間があった。<br><br>Hogeshyは、<br>しばらくそこにいた。</p>
-      <p class="comic-note">1枚完結コミック</p>
-    </article>
+    <section class="comic-collection" aria-live="polite">
+      <article class="comic-card" id="comic-tonari" role="tabpanel" aria-labelledby="tab-comic-tonari">
+        <h2>となりの影</h2>
+        <img class="comic-image" src="assets/comics/tonari-no-kage-home.png" alt="Hogeshyが自分の影に気づき、そのとなりに座る5コマ漫画">
+        <p class="comic-caption">影が、少し遅れてついてきた。<br><br>Hogeshyは、立ち止まった。<br>影も、立ち止まった。<br>しばらく、見ていた。<br>追い払わなかった。<br><br>ただ、となりに座った。</p>
+        <p class="comic-note">1枚完結コミック</p>
+      </article>
 
-    <article class="comic-card" aria-labelledby="hako-title">
-      <h2 id="hako-title">箱</h2>
-      <img class="comic-image" src="assets/comics/hako.png" alt="箱の中にさらに箱を見つけたHogeshyの5コマ漫画">
-      <p class="comic-caption">箱を開けた。<br><br>中にも、箱があった。<br><br>Hogeshyは、<br>それ以上は開けなかった。</p>
-      <p class="comic-note">1枚完結コミック</p>
-    </article>
+      <article class="comic-card" id="comic-rain" role="tabpanel" aria-labelledby="tab-comic-rain" hidden>
+        <h2>雨の向こう側</h2>
+        <img class="comic-image" src="assets/comics/ame-no-mukougawa.png" alt="雨の降る窓をHogeshyが静かに見つめる5コマ漫画">
+        <p class="comic-caption">雨を見ていた。<br><br>窓の向こうにも、<br>静かな時間があった。<br><br>Hogeshyは、<br>しばらくそこにいた。</p>
+        <p class="comic-note">1枚完結コミック</p>
+      </article>
 
-    <article class="comic-card" aria-labelledby="ito-title">
-      <h2 id="ito-title">糸</h2>
-      <img class="comic-image" src="assets/comics/ito.png" alt="扉の向こうへ伸びる糸をHogeshyが引っ張る5コマ漫画">
-      <p class="comic-caption">糸を引っ張った。<br><br>向こう側は、動かなかった。<br><br>Hogeshyは、<br>引っ張るのをやめて待った。</p>
-      <p class="comic-note">1枚完結コミック</p>
-    </article>
+      <article class="comic-card" id="comic-box" role="tabpanel" aria-labelledby="tab-comic-box" hidden>
+        <h2>箱</h2>
+        <img class="comic-image" src="assets/comics/hako.png" alt="箱の中にさらに箱を見つけたHogeshyの5コマ漫画">
+        <p class="comic-caption">箱を開けた。<br><br>中にも、箱があった。<br><br>Hogeshyは、<br>それ以上は開けなかった。</p>
+        <p class="comic-note">1枚完結コミック</p>
+      </article>
 
-    <article class="comic-card" aria-labelledby="atatakai-basho-title">
-      <h2 id="atatakai-basho-title">あたたかい場所</h2>
-      <img class="comic-image" src="assets/comics/atatakai-basho.png" alt="あたたかい光の中でHogeshyが休む5コマ漫画">
-      <p class="comic-caption">あたたかい場所を見つけた。<br><br>少しずつ、光が動いていった。<br><br>Hogeshyも、<br>少しだけ動いた。<br><br>何もしないまま。</p>
-      <p class="comic-note">1枚完結コミック</p>
-    </article>
+      <article class="comic-card" id="comic-string" role="tabpanel" aria-labelledby="tab-comic-string" hidden>
+        <h2>糸</h2>
+        <img class="comic-image" src="assets/comics/ito.png" alt="扉の向こうへ伸びる糸をHogeshyが引っ張る5コマ漫画">
+        <p class="comic-caption">糸を引っ張った。<br><br>向こう側は、動かなかった。<br><br>Hogeshyは、<br>引っ張るのをやめて待った。</p>
+        <p class="comic-note">1枚完結コミック</p>
+      </article>
+
+      <article class="comic-card" id="comic-warm" role="tabpanel" aria-labelledby="tab-comic-warm" hidden>
+        <h2>あたたかい場所</h2>
+        <img class="comic-image" src="assets/comics/atatakai-basho.png" alt="あたたかい光の中でHogeshyが休む5コマ漫画">
+        <p class="comic-caption">あたたかい場所を見つけた。<br><br>少しずつ、光が動いていった。<br><br>Hogeshyも、<br>少しだけ動いた。<br><br>何もしないまま。</p>
+        <p class="comic-note">1枚完結コミック</p>
+      </article>
+    </section>
 
     <p style="text-align:center;"><a class="back" href="free.html">← 無料へ戻る</a></p>
   </main>
   <script src="shared-nav.js"></script>
+  <script>
+    (() => {
+      const tabs = [...document.querySelectorAll('.comic-tab')];
+      const cards = [...document.querySelectorAll('.comic-card')];
+      const showComic = (id, updateHash = true) => {
+        tabs.forEach((tab) => {
+          const active = tab.dataset.comic === id;
+          tab.classList.toggle('is-active', active);
+          tab.setAttribute('aria-selected', String(active));
+          tab.setAttribute('tabindex', active ? '0' : '-1');
+        });
+        cards.forEach((card) => { card.hidden = card.id !== id; });
+        if (updateHash) history.replaceState(null, '', `#${id}`);
+      };
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => showComic(tab.dataset.comic));
+        tab.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+          event.preventDefault();
+          const next = (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+          tabs[next].focus();
+          showComic(tabs[next].dataset.comic);
+        });
+      });
+      const requested = window.location.hash.slice(1);
+      showComic(tabs.some((tab) => tab.dataset.comic === requested) ? requested : 'comic-tonari', false);
+    })();
+  </script>
 </body>
 </html>

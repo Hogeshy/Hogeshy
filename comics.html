@@ -19,6 +19,28 @@
   <!-- End Google Tag Manager -->
   <link rel="stylesheet" href="mirror-theme.css">
   <style>
+    /* 漫画ページでは、カーソルを合わせてもカードやタイトルを光らせない。 */
+    .comic-card:hover {
+      background-color: rgba(251, 246, 237, .58) !important;
+      box-shadow: none !important;
+    }
+    .comic-tab:not(.is-active):hover {
+      border-color: rgba(107, 75, 62, .3) !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      color: #3f2e24 !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    .comic-tab.is-active:hover {
+      border-color: #6b8f71 !important;
+      background: rgba(127,147,101,.16) !important;
+      color: #3f2e24 !important;
+      outline: 2px solid rgba(127,147,101,.2) !important;
+      box-shadow: none !important;
+    }
+  </style>
+  <style>
     :root { color-scheme: light; }
     * { box-sizing: border-box; }
     body {

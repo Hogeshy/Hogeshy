@@ -11,6 +11,7 @@
     ['お知らせ', 'newsletter.html'],
     ['ショップ', 'shop.html'],
     ['作者', 'artist.html'],
+    ['実績', 'portfolio.html'],
     ['お問い合わせ', 'contact.html'],
     ['Instagram', 'https://www.instagram.com/hogeshy_ai/', 'external'],
   ];

@@ -75,6 +75,38 @@
       font-size: .82rem;
       line-height: 1.8;
     }
+    .requirements {
+      margin: 30px 0 0;
+      padding: 24px 0 0;
+      border-top: 1px solid rgba(107, 75, 62, .22);
+    }
+    .requirements h3 {
+      margin: 0 0 18px;
+      color: #6b8f71;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+    }
+    .requirements-list {
+      display: grid;
+      gap: 14px;
+      margin: 0;
+    }
+    .requirements-list div {
+      display: grid;
+      grid-template-columns: 7.5em minmax(0, 1fr);
+      gap: 14px;
+    }
+    .requirements-list dt {
+      color: #6b4b3e;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+    .requirements-list dd {
+      margin: 0;
+      font-size: .9rem;
+      line-height: 1.8;
+    }
     .details {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -127,6 +159,7 @@
       .page-header { margin-top: 52px; margin-bottom: 34px; }
       .lead { font-size: .94rem; }
       .details { grid-template-columns: 1fr; gap: 18px; }
+      .requirements-list div { grid-template-columns: 1fr; gap: 3px; }
     }
   </style>
 </head>
@@ -144,6 +177,32 @@
       <h2>夏期講習 SNS広告バナー</h2>
       <img class="work-image" src="assets/portfolio-summer-course-banner.png" alt="ウィズクリエイション進学塾の夏期講習SNS広告バナー">
       <p class="work-caption">1080×1080px｜InstagramなどのSNS広告を想定</p>
+
+      <section class="requirements" aria-labelledby="requirements-title">
+        <h3 id="requirements-title">課題の要件定義</h3>
+        <dl class="requirements-list">
+          <div>
+            <dt>制作物</dt>
+            <dd>受験を控える中学生・高校生を対象にした、夏期講習のSNS広告バナー</dd>
+          </div>
+          <div>
+            <dt>掲載媒体</dt>
+            <dd>InstagramなどのSNS広告</dd>
+          </div>
+          <div>
+            <dt>画像サイズ</dt>
+            <dd>正方形 1080×1080px</dd>
+          </div>
+          <div>
+            <dt>重視すること</dt>
+            <dd>情報があふれるSNSの中で目に留まり、必要な情報が一目で伝わること</dd>
+          </div>
+          <div>
+            <dt>掲載必須要素</dt>
+            <dd>「過去問対策、得点力アップの決め手は夏講」<br>「夏期講習」<br>開催日程（2025年8月1日〜8月20日）<br>「ウィズクリエイション進学塾」</dd>
+          </div>
+        </dl>
+      </section>
 
       <dl class="details">
         <div>

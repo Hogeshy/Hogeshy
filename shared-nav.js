@@ -5,7 +5,7 @@
   const links = [
     ['ホーム', 'index.html'],
     ['Hogeshyとは', 'what-is-hogeshy.html'],
-    ['Hogeshyを見る', 'hogeshy-view.html'],
+    ['無料コンテンツ', 'free.html'],
     ['お知らせ', 'newsletter.html'],
     ['ショップ', 'shop.html'],
     ['作者', 'artist.html'],

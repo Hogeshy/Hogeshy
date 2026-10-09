@@ -49,6 +49,40 @@
       font-size: 1rem;
       line-height: 2;
     }
+    .work-picker {
+      width: min(760px, 100%);
+      margin: 0 auto 28px;
+      padding: 18px 0 22px;
+      border-top: 1px solid rgba(107, 75, 62, .22);
+      border-bottom: 1px solid rgba(107, 75, 62, .22);
+    }
+    .work-picker::before {
+      content: '案件を選ぶ';
+      display: block;
+      margin-bottom: 12px;
+      color: #6b8f71;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+    }
+    .work-tabs { display: flex; flex-wrap: wrap; gap: 10px; }
+    .work-tab {
+      appearance: none;
+      padding: 10px 14px;
+      border: 1px solid rgba(107, 75, 62, .3);
+      background: transparent;
+      color: #3f2e24;
+      font: inherit;
+      font-size: .86rem;
+      line-height: 1.35;
+      cursor: pointer;
+    }
+    .work-tab:focus-visible, .work-tab.is-active {
+      border-color: #6b8f71;
+      background: rgba(127,147,101,.16);
+      outline: 2px solid rgba(127,147,101,.2);
+      outline-offset: 2px;
+    }
     .work {
       width: min(760px, 100%);
       margin: 0 auto;
@@ -56,6 +90,7 @@
       background: rgba(251, 246, 237, .68);
       border: 1px solid rgba(107, 75, 62, .24);
     }
+    .work[hidden] { display: none; }
     .work h2 {
       margin: 0 0 22px;
       color: #3f2e24;
@@ -160,6 +195,7 @@
       .lead { font-size: .94rem; }
       .details { grid-template-columns: 1fr; gap: 18px; }
       .requirements-list div { grid-template-columns: 1fr; gap: 3px; }
+      .work-tab { font-size: .8rem; padding: 9px 11px; }
     }
   </style>
 </head>
@@ -173,8 +209,15 @@
       <p class="lead">AIを活用した自主制作を掲載しています。<br>課題の目的や、見る人に伝わる見せ方を考えながら制作しています。</p>
     </header>
 
-    <article class="work">
-      <h2>夏期講習 SNS広告バナー</h2>
+    <section class="work-picker" aria-label="制作案件を選ぶ">
+      <div class="work-tabs" role="tablist" aria-label="制作案件">
+        <button class="work-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="work-summer" data-work="work-summer">夏期講習バナー</button>
+        <button class="work-tab" type="button" role="tab" aria-selected="false" aria-controls="work-coffee" data-work="work-coffee">コーヒー定期便バナー</button>
+      </div>
+    </section>
+
+    <article class="work" id="work-summer" role="tabpanel" aria-labelledby="tab-work-summer">
+      <h2 id="tab-work-summer">夏期講習 SNS広告バナー</h2>
       <img class="work-image" src="assets/portfolio-summer-course-banner.png" alt="ウィズクリエイション進学塾の夏期講習SNS広告バナー">
       <p class="work-caption">1080×1080px｜InstagramなどのSNS広告を想定</p>
 
@@ -227,8 +270,86 @@
       <p class="source">この作品は、<a href="https://webtan.tech/summer-course-banner-students/" target="_blank" rel="noopener">Web鍛の模擬課題</a>をもとに制作しています。</p>
     </article>
 
+    <article class="work" id="work-coffee" role="tabpanel" aria-labelledby="tab-work-coffee" hidden>
+      <h2 id="tab-work-coffee">コーヒー定期便 SNS広告バナー</h2>
+      <img class="work-image" src="assets/portfolio-kuru-coffee.png" alt="KURU coffeeのコーヒー定期便SNS広告バナー">
+      <p class="work-caption">1080×1080px｜Instagram広告を想定</p>
+
+      <section class="requirements" aria-labelledby="coffee-requirements-title">
+        <h3 id="coffee-requirements-title">課題の要件定義</h3>
+        <dl class="requirements-list">
+          <div>
+            <dt>制作物</dt>
+            <dd>コーヒーの定期便を紹介する広告画像</dd>
+          </div>
+          <div>
+            <dt>掲載媒体</dt>
+            <dd>Instagram</dd>
+          </div>
+          <div>
+            <dt>画像サイズ</dt>
+            <dd>正方形 1080×1080px</dd>
+          </div>
+          <div>
+            <dt>伝える内容</dt>
+            <dd>毎月お届け コーヒー定期便／月額1,980円（税込）／初回だけ1,000円／ご注文はこちら</dd>
+          </div>
+        </dl>
+      </section>
+
+      <dl class="details">
+        <div>
+          <dt>制作区分</dt>
+          <dd>Web鍛の模擬課題をもとにした自主制作</dd>
+        </div>
+        <div>
+          <dt>想定ターゲット</dt>
+          <dd>コーヒーの定期便を検討している新規顧客</dd>
+        </div>
+        <div>
+          <dt>制作目的</dt>
+          <dd>商品だけでなく、自宅で楽しめる時間や体験を伝える</dd>
+        </div>
+        <div>
+          <dt>使用ツール</dt>
+          <dd>画像生成AI、画像編集ツール</dd>
+        </div>
+      </dl>
+
+      <p class="description">既存客以外にも定期便を検討してもらえるよう、「毎月届くコーヒー」だけでなく「おうちでカフェ気分」という利用後のベネフィットを入れました。コーヒーを飲む場面と想定したお客様の声を組み合わせ、商品の安心感と日常の中の少し特別な時間を伝えています。上部の商品、中部の利用イメージ、下部の価格と注文ボタンへ視線が流れるZ型の構成を意識しました。</p>
+      <p class="source">お客様の声は、広告構成を検討するために設定した想定例です。この作品は、<a href="https://webtan.tech/coffee-subscription/" target="_blank" rel="noopener">Web鍛の模擬課題</a>をもとに制作しています。</p>
+    </article>
+
     <p class="back-wrap"><a class="back" href="artist.html">← 作者ページへ戻る</a></p>
   </main>
   <script src="shared-nav.js"></script>
+  <script>
+    (() => {
+      const tabs = [...document.querySelectorAll('.work-tab')];
+      const cards = [...document.querySelectorAll('.work')];
+      const showWork = (id, updateHash = true) => {
+        tabs.forEach((tab) => {
+          const active = tab.dataset.work === id;
+          tab.classList.toggle('is-active', active);
+          tab.setAttribute('aria-selected', String(active));
+          tab.setAttribute('tabindex', active ? '0' : '-1');
+        });
+        cards.forEach((card) => { card.hidden = card.id !== id; });
+        if (updateHash) history.replaceState(null, '', `#${id}`);
+      };
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => showWork(tab.dataset.work));
+        tab.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+          event.preventDefault();
+          const next = (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+          tabs[next].focus();
+          showWork(tabs[next].dataset.work);
+        });
+      });
+      const requested = window.location.hash.slice(1);
+      showWork(tabs.some((tab) => tab.dataset.work === requested) ? requested : 'work-summer', false);
+    })();
+  </script>
 </body>
 </html>

@@ -6,7 +6,7 @@
     ['ホーム', 'index.html'],
     ['Hogeshyとは', 'what-is-hogeshy.html'],
     ['無料コンテンツ', 'free.html'],
-    ['お知らせ', 'newsletter.html'],
+    ['メルマガ', 'newsletter.html'],
     ['ショップ', 'shop.html'],
     ['作者', 'artist.html'],
     ['実績', 'portfolio.html'],

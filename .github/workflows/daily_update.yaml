@@ -25,14 +25,7 @@ jobs:
         id: diary
         run: node update_diary.js
 
-      - name: Notify diary subscribers
-        if: steps.diary.outputs.diary_updated == 'true'
-        env:
-          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
-          BREVO_LIST_ID: '2'
-          BREVO_SENDER_EMAIL: diary@hogeshy.com
-          BREVO_SENDER_NAME: Hogeshy
-        run: node send_diary_email.js
+      # メール配信はオレンジメールから手動で行うため、ここでは日記更新だけを実行します。
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5

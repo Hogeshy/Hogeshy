@@ -18,7 +18,7 @@
     const external = kind === 'external' ? ' target="_blank" rel="noopener"' : '';
     const active = href === current ? ' aria-current="page"' : '';
     return `<a href="${href}"${external}${active}>${label}</a>`;
-  }).join('');
+  }).join('') + `<a class="language-link" href="en/${current}">English</a>`;
 
   nav.className = 'site-nav';
   nav.setAttribute('aria-label', '主要メニュー');

@@ -27,6 +27,13 @@
     <div class="nav-links" id="hogeshy-primary-links">${menu}</div>`;
 
   const translateButton = nav.querySelector('.translate-button');
+  const translationKey = 'hogeshy-language';
+  const isEnglish = () => window.localStorage && localStorage.getItem(translationKey) === 'en';
+  const setButtonLabel = () => {
+    const active = isEnglish();
+    translateButton.textContent = active ? '日本語に戻す' : 'English（自動翻訳）';
+    translateButton.setAttribute('aria-label', active ? '日本語に戻す' : 'ページを英語に自動翻訳');
+  };
   const loadTranslator = () => {
     if (window.google && window.google.translate) return Promise.resolve();
     window.googleTranslateElementInit = () => {
@@ -38,7 +45,7 @@
     document.head.appendChild(script);
     return new Promise((resolve) => setTimeout(resolve, 900));
   };
-  const translateToEnglish = async () => {
+  const applyLanguage = async (language) => {
     if (!document.getElementById('google_translate_element')) {
       const holder = document.createElement('div');
       holder.id = 'google_translate_element';
@@ -49,12 +56,27 @@
     setTimeout(() => {
       const select = document.querySelector('.goog-te-combo');
       if (select) {
-        select.value = 'en';
+        select.value = language;
         select.dispatchEvent(new Event('change'));
       }
     }, 700);
   };
-  translateButton.addEventListener('click', translateToEnglish);
+  const translateToEnglish = async () => {
+    localStorage.setItem(translationKey, 'en');
+    setButtonLabel();
+    await applyLanguage('en');
+  };
+  const restoreJapanese = async () => {
+    localStorage.removeItem(translationKey);
+    setButtonLabel();
+    await applyLanguage('ja');
+  };
+  translateButton.addEventListener('click', () => {
+    if (isEnglish()) restoreJapanese();
+    else translateToEnglish();
+  });
+  setButtonLabel();
+  if (isEnglish()) translateToEnglish();
 
   const toggle = nav.querySelector('.nav-toggle');
   const close = () => {

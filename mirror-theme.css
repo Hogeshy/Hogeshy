@@ -96,6 +96,32 @@ body { background: var(--mirror-void) !important; color: var(--mirror-ink) !impo
   .site-nav.is-open .nav-links a:last-child { border-bottom: 0; }
 }
 
+/* Shared breadcrumb: a small, quiet orientation cue below the main navigation. */
+.site-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  width: min(960px, 100%);
+  margin: -10px auto 0;
+  padding: 0 4px;
+  color: var(--mirror-muted);
+  font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+  font-size: .75rem;
+  line-height: 1.7;
+}
+.site-breadcrumb a {
+  color: var(--mirror-muted) !important;
+  text-decoration: none;
+}
+.site-breadcrumb a:hover,
+.site-breadcrumb a:focus-visible,
+.site-breadcrumb [aria-current="page"] { color: var(--mirror-ink) !important; }
+.site-breadcrumb-separator { color: var(--mirror-accent); }
+@media (max-width: 600px) {
+  .site-breadcrumb { margin-top: -7px; font-size: .7rem; }
+}
+
 /* Diary archive contrast: keep the quiet blue-black atmosphere, but preserve readable text. */
 .archive-intro { color: var(--mirror-muted) !important; }
 .date-item { color: var(--mirror-muted) !important; }

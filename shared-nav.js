@@ -26,6 +26,53 @@
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="hogeshy-primary-links"><span aria-hidden="true">☰</span> メニュー</button>
     <div class="nav-links" id="hogeshy-primary-links">${menu}</div>`;
 
+  const breadcrumbMap = {
+    'what-is-hogeshy.html': ['Hogeshyとは'],
+    'free.html': ['無料コンテンツ'],
+    'story.html': ['無料コンテンツ', '物語'],
+    'diaryarchive.html': ['無料コンテンツ', '日記'],
+    'wallpapers.html': ['無料コンテンツ', '壁紙'],
+    'sp_wallpapers.html': ['無料コンテンツ', '壁紙', 'スマホ壁紙'],
+    'pc_wallpapers.html': ['無料コンテンツ', '壁紙', 'パソコン壁紙'],
+    'icons.html': ['無料コンテンツ', 'アイコン'],
+    'comics.html': ['無料コンテンツ', '漫画'],
+    'art-history.html': ['無料コンテンツ', 'Hogeshy × アート'],
+    'newsletter.html': ['メルマガ'],
+    'shop.html': ['ショップ'],
+    'artist.html': ['作者'],
+    'portfolio.html': ['実績'],
+    'contact.html': ['お問い合わせ'],
+    'privacy.html': ['プライバシーポリシー'],
+    'newsletter-complete.html': ['メルマガ', '登録完了'],
+  };
+  const breadcrumbItems = breadcrumbMap[current];
+  if (breadcrumbItems && !document.querySelector('.site-breadcrumb')) {
+    const linksByLabel = new Map([
+      ['無料コンテンツ', 'free.html'],
+      ['メルマガ', 'newsletter.html'],
+      ['ショップ', 'shop.html'],
+      ['作者', 'artist.html'],
+      ['実績', 'portfolio.html'],
+      ['お問い合わせ', 'contact.html'],
+      ['物語', 'story.html'],
+      ['日記', 'diaryarchive.html'],
+      ['壁紙', 'wallpapers.html'],
+      ['アイコン', 'icons.html'],
+      ['漫画', 'comics.html'],
+      ['Hogeshy × アート', 'art-history.html'],
+      ['スマホ壁紙', 'sp_wallpapers.html'],
+      ['パソコン壁紙', 'pc_wallpapers.html'],
+    ]);
+    const items = ['ホーム', ...breadcrumbItems];
+    const markup = items.map((label, index) => {
+      const isCurrent = index === items.length - 1;
+      if (isCurrent) return `<span aria-current="page">${label}</span>`;
+      const href = index === 0 ? 'index.html' : linksByLabel.get(label);
+      return `<a href="${href}">${label}</a>`;
+    }).join('<span class="site-breadcrumb-separator" aria-hidden="true">/</span>');
+    nav.insertAdjacentHTML('afterend', `<nav class="site-breadcrumb" aria-label="パンくずリスト">${markup}</nav>`);
+  }
+
   const translateButton = nav.querySelector('.translate-button');
   const translationKey = 'hogeshy-language';
   const isEnglish = () => window.localStorage && localStorage.getItem(translationKey) === 'en';

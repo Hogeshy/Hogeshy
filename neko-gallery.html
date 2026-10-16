@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<title>Hogeshy-猫を見つけた日</title>
+<meta name="description" content="ノラネコや猫カフェで出会った猫から生まれた、Hogeshyの小さな記録。">
+<meta name="theme-color" content="#efe3d2">
+<link rel="canonical" href="https://hogeshy.com/neko-gallery.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hogeshy-猫を見つけた日">
+<meta property="og:description" content="ノラネコや猫カフェで出会った猫から生まれた、Hogeshyの小さな記録。">
+<meta property="og:url" content="https://hogeshy.com/neko-gallery.html">
+<meta property="og:image" content="https://hogeshy.com/assets/neko-gallery-01.png">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M7TXH22M');</script>
+<!-- End Google Tag Manager -->
+<link rel="stylesheet" href="mirror-theme.css?v=20261014-breadcrumb">
+<style>
+:root{color-scheme:light}
+body{margin:0;min-height:100vh;padding:40px 20px;background:#efe3d2;color:#3f2e24;font-family:'Courier New',monospace}
+.page{max-width:900px;margin:0 auto}
+.gallery-header{padding:58px 0 34px;border-bottom:1px solid rgba(92,64,45,.2)}
+.eyebrow{margin:0 0 14px;color:#8b765e;font-size:.72rem;letter-spacing:.16em}
+h1{margin:0;color:#3f2e24;font-family:Georgia,serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:normal;letter-spacing:.03em}
+.lead{max-width:600px;margin:24px 0 0;color:#604d3e;font-size:.9rem;line-height:2;letter-spacing:.04em}
+.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin:34px 0 0}
+.gallery-item{margin:0;padding:10px;border:1px solid rgba(92,64,45,.2);background:rgba(255,250,240,.62)}
+.gallery-item button{display:block;width:100%;padding:0;border:0;background:transparent;cursor:zoom-in}
+.gallery-item img{display:block;width:100%;height:auto;aspect-ratio:1122/1402;object-fit:cover}
+.gallery-item button:focus-visible{outline:2px solid #8b765e;outline-offset:4px}
+.back{display:inline-block;margin-top:34px;color:#745f50;text-decoration:none;font-size:.74rem;letter-spacing:.1em}
+.back:hover,.back:focus-visible{color:#3f2e24}
+.lightbox[hidden]{display:none}
+.lightbox{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:24px;background:rgba(47,35,27,.84)}
+.lightbox-inner{position:relative;max-width:min(92vw,760px);max-height:92vh}
+.lightbox img{display:block;max-width:100%;max-height:92vh;width:auto;height:auto;box-shadow:0 12px 36px rgba(0,0,0,.3)}
+.lightbox-close{position:absolute;top:-42px;right:0;border:1px solid rgba(255,250,240,.65);background:transparent;color:#fff;padding:6px 10px;font:inherit;cursor:pointer}
+@media(max-width:640px){body{padding:24px 16px}.gallery-header{padding:42px 0 28px}.gallery{grid-template-columns:1fr;gap:18px}.lead{font-size:.82rem}}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M7TXH22M" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<main class="page">
+  <nav class="site-nav" aria-label="主要メニュー"></nav>
+  <header class="gallery-header">
+    <p class="eyebrow">Hogeshyの記録</p>
+    <h1>猫を見つけた日</h1>
+    <p class="lead">ノラネコや猫カフェで出会った猫。<br><br>その姿や、そこにあった時間を写真に残し、Hogeshyにして描いています。<br><br>猫を見つけた日から生まれた、小さな記録です。</p>
+  </header>
+  <section class="gallery" aria-label="猫を見つけた日の記録">
+    <figure class="gallery-item">
+      <button type="button" class="gallery-open" aria-label="猫を見つけた日の記録を大きく見る" data-image="assets/neko-gallery-01.png">
+        <img src="assets/neko-gallery-01.png" alt="建物の向こうからこちらを見るHogeshy" loading="eager">
+      </button>
+    </figure>
+  </section>
+  <a class="back" href="free.html">← 無料コンテンツへ戻る</a>
+</main>
+<div class="lightbox" hidden role="dialog" aria-modal="true" aria-label="画像を拡大表示">
+  <div class="lightbox-inner">
+    <button type="button" class="lightbox-close" aria-label="閉じる">閉じる</button>
+    <img class="lightbox-image" src="" alt="">
+  </div>
+</div>
+<script>
+(() => {
+  const box = document.querySelector('.lightbox');
+  const image = document.querySelector('.lightbox-image');
+  const close = () => { box.hidden = true; image.src = ''; document.body.style.overflow = ''; };
+  document.querySelectorAll('.gallery-open').forEach(button => button.addEventListener('click', () => {
+    image.src = button.dataset.image;
+    image.alt = button.querySelector('img').alt;
+    box.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }));
+  document.querySelector('.lightbox-close').addEventListener('click', close);
+  box.addEventListener('click', event => { if (event.target === box) close(); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && !box.hidden) close(); });
+})();
+</script>
+<script src="shared-nav.js?v=20261012-translate-persist"></script>
+</body>
+</html>

@@ -6,6 +6,16 @@
     <description>静かな黒猫ホゲシーの小さな記録。</description>
     <language>ja</language>
     <item>
+      <title>ホゲシーの日記 — 2026-11-22</title>
+      <link>https://hogeshy.github.io/Hogeshy/diaryarchive.html</link>
+      <guid isPermaLink="false">hogeshy-diary-2026-11-22</guid>
+      <pubDate>Sat, 21 Nov 2026 15:00:00 GMT</pubDate>
+      <description>雪が、音をすべて吸い込みながら静かに降った。
+窓辺に立って、何も待たなかった。
+説明は見つからなかった。
+そうではないのかもしれない。</description>
+    </item>
+    <item>
       <title>ホゲシーの日記 — 2026-11-21</title>
       <link>https://hogeshy.github.io/Hogeshy/diaryarchive.html</link>
       <guid isPermaLink="false">hogeshy-diary-2026-11-21</guid>
@@ -302,17 +312,6 @@
 空の椅子を並べ直した。
 影が身体と合っていなかった。
 それだけだった。</description>
-    </item>
-    <item>
-      <title>ホゲシーの日記 — 2026-10-23</title>
-      <link>https://hogeshy.github.io/Hogeshy/diaryarchive.html</link>
-      <guid isPermaLink="false">hogeshy-diary-2026-10-23</guid>
-      <pubDate>Thu, 22 Oct 2026 15:00:00 GMT</pubDate>
-      <description>雨は、始まりもなく降り続いた。
-足がしびれるまで床に座っていた。
-壁の中から音がした。
-誰も気づかなかった。
-空の缶は、念のため近くに置いた。</description>
     </item>
   </channel>
 </rss>
